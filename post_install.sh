@@ -13,8 +13,12 @@ install_artifacts_starship() {
 
 
 install_artfifacts_dotfiles() {
-    git clone "${DOTFILES_GIT}" "$HOME/.dotfiles"
-    distrobox enter util -- bash -c "cd $HOME/.dotfiles && stow ."
+    [ ! -d "$HOME/.dotfile" ] && git clone "${DOTFILES_GIT}" "$HOME/.dotfiles"
+    bash -c "cd $HOME/.dotfiles && git pull" 
+
+    # Kind of dirty
+    distrobox enter util -- bash -c "cd $HOME/.dotfiles && /usr/bin/stow --adopt"
+    git reset --hard HEAD
 }
 
 
@@ -71,7 +75,8 @@ install_artifacts_fonts() {
 	    VictorMono
     )
 
-    version='2.2.2'
+    #version='2.2.2'
+    version='3.2.1'
     fonts_dir="${HOME}/.local/share/fonts"
 
     if [[ ! -d "$fonts_dir" ]]; then
