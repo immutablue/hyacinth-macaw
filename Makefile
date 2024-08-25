@@ -4,10 +4,10 @@ REGISTRY :=
 ifndef $(REGISTRY)
 	# Example: registry.gitlab.com/<your-name>
 	# Example: quay.io/<your-name>
-	REGISTRY := change-me
+	REGISTRY := registry.gitlab.com/immutablue
 endif
 # Example: <your-project-name>'
-IMAGE_BASE_TAG := change-me
+IMAGE_BASE_TAG := hyacinth-macaw
 
 # This forms something similar to:
 # registry.gitlab.com/<your-name>/<your-project>
@@ -80,25 +80,38 @@ flatpak_refs/flatpaks: packages.yaml
 
 
 # TODO: Be implemented correctly
-iso: flatpak_refs/flatpaks
+iso: #flatpak_refs/flatpaks
 	mkdir -p ./iso
 	sudo podman run \
 		--name immutablue-build \
 		--rm \
 		--privileged \
 		--volume ./iso:/build-container-installer/build \
-		--volume ./flatpak_refs:/build-container-installer/flatpak_refs \
 		ghcr.io/jasonn3/build-container-installer:latest \
 		VERSION=$(VERSION) \
 		IMAGE_NAME=$(IMAGE_BASE_TAG) \
 		IMAGE_TAG=$(TAG) \
 		IMAGE_REPO=$(REGISTRY) \
 		IMAGE_SIGNED=false \
-		FLATPAK_REMOTE_NAME=flathub \
-		FLATPAK_REMOTE_URL=https://flathub.org/repo/flathub.flatpakrepo \
-		FLATPAK_REMOTE_REFS_DIR=/build-container-installer/flatpak_refs \
 		VARIANT=Silverblue \
-		ISO_NAME="build/immutablue-$(TAG).iso"
+		ISO_NAME="build/immutablue-hyacinth-macaw-$(TAG).iso"
+	# sudo podman run \
+	# 	--name immutablue-build \
+	# 	--rm \
+	# 	--privileged \
+	# 	--volume ./iso:/build-container-installer/build \
+	# 	--volume ./flatpak_refs:/build-container-installer/flatpak_refs \
+	# 	ghcr.io/jasonn3/build-container-installer:latest \
+	# 	VERSION=$(VERSION) \
+	# 	IMAGE_NAME=$(IMAGE_BASE_TAG) \
+	# 	IMAGE_TAG=$(TAG) \
+	# 	IMAGE_REPO=$(REGISTRY) \
+	# 	IMAGE_SIGNED=false \
+	# 	FLATPAK_REMOTE_NAME=flathub \
+	# 	FLATPAK_REMOTE_URL=https://flathub.org/repo/flathub.flatpakrepo \
+	# 	FLATPAK_REMOTE_REFS_DIR=/build-container-installer/flatpak_refs \
+	# 	VARIANT=Silverblue \
+	# 	ISO_NAME="build/immutablue-$(TAG).iso"
 
 
 # You probably don't want to push this anywhere
