@@ -74,8 +74,7 @@ install_artifacts_fonts() {
 	    VictorMono
     )
 
-    version='2.2.2'
-    #version='3.2.1'
+    version='3.2.1'
     fonts_dir="${HOME}/.local/share/fonts"
 
     if [[ ! -d "$fonts_dir" ]]; then
@@ -87,7 +86,7 @@ install_artifacts_fonts() {
         download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v${version}/${zip_file}"
         echo "Downloading $download_url"
         curl -Lo "/tmp/${zip_file}" "$download_url"
-        unzip "$zip_file" -d "$fonts_dir" -x "*.txt/*" -x "*.md/*" -o
+        unzip "/tmp/$zip_file" -d "$fonts_dir/${font}" -x "*.txt/*" -x "*.md/*" -o
         rm "/tmp/${zip_file}"
     done
 
