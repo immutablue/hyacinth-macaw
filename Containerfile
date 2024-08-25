@@ -3,7 +3,7 @@ ARG FEDORA_VERSION=40
 FROM registry.gitlab.com/immutablue/immutablue:${FEDORA_VERSION}
 ARG FEDORA_VERSION=40
 ARG INSTALL_DIR=/etc/immutablue/
-ARG NAME=change-me
+ARG NAME=hyacinth-macaw
 
 COPY ./packages/packages.custom-*.yaml ${INSTALL_DIR}
 

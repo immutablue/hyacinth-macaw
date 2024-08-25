@@ -99,13 +99,11 @@ artifacts_prework() {
 
 install_all_artifacts() {
     artifacts_prework
-    install_artifacts_starship &
-    install_artfifacts_dotfiles &
-    install_artifacts_fonts &
-    wait
+    install_artifacts_starship
+    install_artfifacts_dotfiles
+    install_artifacts_fonts
 }
 
 
-
-
+install_all_artifacts
 
