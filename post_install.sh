@@ -97,8 +97,22 @@ install_artifacts_fonts() {
         zip_file="${font}.zip"
         download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v${version}/${zip_file}"
         echo "Downloading $download_url"
-        curl -Lo "/tmp/${zip_file}" "$download_url"
-        unzip "/tmp/$zip_file" -d "$fonts_dir/${font}" -x "*.txt/*" -x "*.md/*" -o
+        curl -Lo "/tmp/${zip_file}" "$download_url" &
+    done
+    wait
+
+
+    for font in "${fonts[@]}"; do
+        zip_file="${font}.zip"
+        echo "unzipping ${zip_file}"
+        unzip "/tmp/${zip_file}" -d "$fonts_dir/${font}" -x "*.txt/*" -x "*.md/*" -o &
+    done
+    wait
+
+
+    for font in "${fonts[@]}"; do
+        zip_file="${font}.zip"
+        echo "removing ${zip_file}"
         rm "/tmp/${zip_file}"
     done
 
