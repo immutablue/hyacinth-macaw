@@ -4,6 +4,18 @@
 
 DOTFILES_GIT="git@gitlab.com:zachpodbielniak/Dotfiles.git"
 
+
+prepare_gitlab_ssh_keys() {
+    got_keys=$(grep -P "gitlab\.com" ~/.ssh/known_hosts)
+    [ "" == "${got_keys}" ] && ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+}
+
+
+prepare_artifacts() {
+    mkdir -p "$HOME/bin/scripts"
+}
+
+
 install_artifacts_starship() {
 	mkdir -p "$HOME/bin/starship"
 	curl -Lo /tmp/install_starship.sh https://starship.rs/install.sh
@@ -96,17 +108,19 @@ install_artifacts_fonts() {
 }
 
 
-artifacts_prework() {
-    mkdir -p "$HOME/bin/scripts"
+prepare() {
+    prepare_gitlab_ssh_keys
+    artifacts_prework
 }
 
+
 install_all_artifacts() {
-    artifacts_prework
     install_artifacts_starship
     install_artfifacts_dotfiles
     install_artifacts_fonts
 }
 
 
+prepare
 install_all_artifacts
 
