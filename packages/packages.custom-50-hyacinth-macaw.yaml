@@ -34,21 +34,14 @@ immutablue:
   file_rm:
   # - /path/to/some/file
 
-  # RPM Packages to be installed
-
   # Runtimes for Flatpaks
   # (Can query with `flatpak list --app --columns=application,runtime`)
   # Really only needed if you plan to build an iso
   flatpaks_runtime:
-  # - org.gnome.Platform/x86_64/46 
-  # - org.freedesktop.Platform/x86_64/23.08 
   
   
   # Flatpaks to be installed
-  # Check https://flathub.org
   flatpaks:
-  # - com.discordapp.Discord 
-  # - us.zoom.Zoom
   - com.bitwarden.desktop
   - com.calibre_ebook.calibre
   - com.discordapp.Discord
@@ -85,8 +78,7 @@ distrobox:
   image: registry.fedoraproject.org/fedora:40
   pkg_inst_cmd: dnf install -y
   pkg_updt_cmd: dnf update -y
-  extra_commands: |
-    [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" > /etc/dnf/dnf.conf';
+  extra_commands:
   packages:
   - which
   - calc 
@@ -97,7 +89,6 @@ distrobox:
   - glances 
   - pandoc 
   - stow
-  - git
   npm_packages:
   pip_packages: 
   bin_export: 
@@ -131,8 +122,7 @@ distrobox:
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
     sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
     sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm && \
-    sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
-    [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" > /etc/dnf/dnf.conf';
+    sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm;
 
 
   packages:
@@ -206,7 +196,7 @@ distrobox:
   extra_commands: |
     curl -Lo /tmp/$(basename https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm) https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm; \
     sudo dnf install -y /tmp/*.rpm; \
-    [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" > /etc/dnf/dnf.conf';
+    [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf';
   packages:
   npm_packages:
   pip_packages: 
