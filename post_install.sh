@@ -74,8 +74,8 @@ install_artifacts_fonts() {
 	    VictorMono
     )
 
-    #version='2.2.2'
-    version='3.2.1'
+    version='2.2.2'
+    #version='3.2.1'
     fonts_dir="${HOME}/.local/share/fonts"
 
     if [[ ! -d "$fonts_dir" ]]; then

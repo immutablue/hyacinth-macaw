@@ -26,6 +26,7 @@ immutablue:
 
   # RPM packages you want to remove from the image
   rpm_rm:
+  - gnome-console
 
   # Build files that need to be removed. If the build is filing about some
   # ephemeral file that exists, put the path here so it get removed in 
@@ -75,19 +76,16 @@ immutablue:
   - me.timschneeberger.GalaxyBudsClient
 
 
-
   #Flatpaks to be uninstalled 
   flatpaks_rm:
-  # - org.chromium.Chromium
-
-
+  # - org.chromium.chromium 
 
 distrobox:
 - name: util
   image: registry.fedoraproject.org/fedora:40
   pkg_inst_cmd: dnf install -y
   pkg_updt_cmd: dnf update -y
-  extra_commands:
+  extra_commands: |
     [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" > /etc/dnf/dnf.conf';
   packages:
   - which
