@@ -99,6 +99,7 @@ distrobox:
   - glances 
   - pandoc 
   - stow
+  - git
   npm_packages:
   pip_packages: 
   bin_export: 
@@ -120,7 +121,6 @@ distrobox:
   - bpftrace 
   - nvim 
   - rg
-  - git
       
 - name: dev
   image: registry.fedoraproject.org/fedora:40
