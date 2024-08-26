@@ -2,7 +2,7 @@
 # Run any post_install stuff you want here. 
 # This is ran at the end of `immutablue install` and `immutablue update
 
-DOTFILES_GIT="git@gitlab.com:zachpodbielniak/Dotfiles.git"
+DOTFILES_GIT="git@gitlab.com:zachpodbielniak/dotfiles.git"
 
 
 prepare_gitlab_ssh_keys() {
