@@ -183,7 +183,7 @@ app_settings_ptyxis() {
 
     for setting in ${!uuid_kv[@]}
     do 
-        gsettings set "${profile_key}/${uuid}/" "${setting}" "${settings_kv[$setting]}"
+        gsettings set "${profile_key}/${uuid}/" "${setting}" "${uuid_kv[$setting]}"
     done
     
 }
@@ -223,6 +223,7 @@ app_settings_theme() {
     mkdir -p "${background_install_dir}"
     cp /etc/immutablue-build-hyacinth-macaw/artifacts/pictures/background.jpg "${background_install_dir}/background.jpg"
     gsettings set org.gnome.desktop.background picture-uri "${background_file}"
+    gsettings set org.gnome.desktop.background picture-uri-dark "${background_file}"
 
     # Clone
     mkdir -p $HOME/.tmp 
