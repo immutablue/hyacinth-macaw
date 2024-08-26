@@ -1,0 +1,50 @@
+stages:
+  - build
+
+variables:
+  FEDORA_VERSION: 40
+  BUILD_IMAGE: quay.io/fedora/fedora:40
+  DOCKER_PRIVILEGED: "true"
+  DOCKER_DRIVER: "overlay"
+
+
+build-stable:
+  stage: build
+  image: $BUILD_IMAGE
+  rules:
+    - if: $DAILY == null && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - dnf install make buildah fuse-overlayfs -y
+    - buildah login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - make VERSION=$FEDORA_VERSION TAG=$FEDORA_VERSION all
+
+build-daily:
+  stage: build
+  image: $BUILD_IMAGE
+  rules:
+    - if: $DAILY
+  script:
+    - dnf install make buildah fuse-overlayfs -y
+    - buildah login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - make VERSION=$FEDORA_VERSION TAG="$FEDORA_VERSION-$(date +'%Y%m%d')" SET_AS_LATEST=1 all
+
+build-feature:
+  stage: build
+  image: $BUILD_IMAGE
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+  script:
+    - dnf install make buildah fuse-overlayfs -y
+    - make VERSION=$FEDORA_VERSION TAG="$FEDORA_VERSION-$CI_COMMIT_SHORT_SHA" build
+
+
+build-iso:
+  stage: build 
+  image: $BUILD_IMAGE 
+  rules:
+    - if: $WEEKLY && $ISO
+  script:
+    - dnf install make podman fuse-overlayfs yq s3cmd -y
+    - make VERSION=$FEDORA_VERSION TAG=$FEDORA_VERSION iso
+    - make VERSION=$FEDORA_VERSION TAG=$FEDORA_VERSION S3_ACCESS_KEY=$S3_ACCESS_KEY S3_SECRET_KEY=$S3_SECRET_KEY push_iso
+
