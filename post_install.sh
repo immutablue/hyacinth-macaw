@@ -1,6 +1,6 @@
 #!/bin/bash 
-# Run any post_install stuff you want here. 
-# This is ran at the end of `immutablue install` and `immutablue update
+# This is ran at the end of `immutablue install` and `immutablue update`
+
 
 EXPECTED_INSTALL_DIR="/etc/immutablue-build-hyacinth-macaw"
 DOTFILES_GIT="git@gitlab.com:zachpodbielniak/dotfiles.git"
