@@ -220,7 +220,7 @@ app_settings_theme() {
     local background_file="file://${background_install_dir}/background.jpg"
 
     # set background 
-    mkdir -p "$HOME/.local/share/backgrounds"
+    mkdir -p "${background_install_dir}"
     cp /etc/immutablue-build-hyacinth-macaw/artifacts/pictures/background.jpg "${background_install_dir}/background.jpg"
     gsettings set org.gnome.desktop.background picture-uri "${background_file}"
 
