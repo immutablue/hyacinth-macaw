@@ -252,6 +252,10 @@ app_settings_theme() {
     flatpak --user override --filesystem=xdg-config/gtk-3.0:ro
     flatpak --user override --filesystem=xdg-config/gtk-4.0:ro
     flatpak --user override "--env=GTK_THEME=$gtk_theme" 
+    
+    sudo flatpak override --filesystem=xdg-config/gtk-3.0:ro
+    sudo flatpak override --filesystem=xdg-config/gtk-4.0:ro
+    sudo flatpak override "--env=GTK_THEME=$gtk_theme" 
 
 
     # Remove it -- we want a fresh clone every time
