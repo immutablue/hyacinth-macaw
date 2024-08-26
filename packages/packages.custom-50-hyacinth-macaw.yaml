@@ -52,6 +52,7 @@ immutablue:
   
   # Flatpaks to be installed
   flatpaks:
+  - org.gnome.Platform//46
   - com.bitwarden.desktop
   - com.calibre_ebook.calibre
   - com.discordapp.Discord
