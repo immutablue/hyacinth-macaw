@@ -2,6 +2,7 @@
 # Run any post_install stuff you want here. 
 # This is ran at the end of `immutablue install` and `immutablue update
 
+EXPECTED_INSTALL_DIR="/etc/immutablue-build-hyacinth-macaw"
 DOTFILES_GIT="git@gitlab.com:zachpodbielniak/dotfiles.git"
 THEME_GIT="https://github.com/vinceliuice/WhiteSur-gtk-theme.git"
 
@@ -221,7 +222,7 @@ app_settings_theme() {
 
     # set background 
     mkdir -p "${background_install_dir}"
-    cp /etc/immutablue-build-hyacinth-macaw/artifacts/pictures/background.jpg "${background_install_dir}/background.jpg"
+    cp ${EXPECTED_INSTALL_DIR}/artifacts/pictures/background.jpg "${background_install_dir}/background.jpg"
     gsettings set org.gnome.desktop.background picture-uri "${background_file}"
     gsettings set org.gnome.desktop.background picture-uri-dark "${background_file}"
 
@@ -231,7 +232,10 @@ app_settings_theme() {
 
     # Install theme
     distrobox enter util -- bash -c "cd ${theme_dir} && ./install.sh"
-
+    
+    # Override activities.svg file (top left corner)
+    cp "${EXPECTED_INSTALL_DIR}/artifacts/pictures/activities.svg" "$HOME/.themes/${gtk_theme}/gnome-shell/assets/activity.svg"
+    cp "${EXPECTED_INSTALL_DIR}/artifacts/pictures/activities.svg" "$HOME/.themes/${gtk_theme}/gnome-shell/assets/activity-white.svg"
 
     # Set in bash profile
     is_in_profile=$(grep GTK_THEME $HOME/.bash_profile)
@@ -292,7 +296,7 @@ zenity --question --text="Have you installed ssh key and sudoers options?" 2>/de
 if [ $? -ne 0 ]
 then 
     echo "Please add the ssh key, and make sudoers tweaks then re-run this script"
-    echo "/etc/immutablue-build-hyacinth-macaw/post_install.sh"
+    echo "${EXPECTED_INSTALL_DIR}/post_install.sh"
 fi
 
 prepare
