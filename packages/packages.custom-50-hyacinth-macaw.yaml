@@ -91,7 +91,9 @@ distrobox:
   pkg_updt_cmd: dnf update -y
   extra_commands:
   packages:
+  # Both needed for GTK theme stuff
   - sassc
+  - glib2-devel
   npm_packages:
   pip_packages: 
   bin_export: 

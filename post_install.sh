@@ -252,10 +252,14 @@ app_settings_theme() {
     # Flatpak settings 
     flatpak --user override --filesystem=xdg-config/gtk-3.0:ro
     flatpak --user override --filesystem=xdg-config/gtk-4.0:ro
+    flatpak --user override --filesystem="$HOME/.themes"
+    flatpak --user override --filesystem="$HOME/.icons"
     flatpak --user override "--env=GTK_THEME=$gtk_theme" 
     
     sudo flatpak override --filesystem=xdg-config/gtk-3.0:ro
     sudo flatpak override --filesystem=xdg-config/gtk-4.0:ro
+    sudo bash -c "flatpak override --filesystem=\"$HOME/.themes\""
+    sudo bash -c "flatpak override --filesystem=\"$HOME/.icons\""
     sudo flatpak override "--env=GTK_THEME=$gtk_theme" 
 
 
