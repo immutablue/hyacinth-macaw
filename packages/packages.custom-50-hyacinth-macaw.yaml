@@ -17,6 +17,13 @@ immutablue:
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
   rpm:
+  - lxc
+  - lxc-templates
+  - gdb
+  - strace
+  - ltrace
+  - bpftrace
+  - arm-image-installer
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
@@ -74,45 +81,22 @@ immutablue:
   # - org.chromium.chromium 
 
 distrobox:
-- name: util
-  image: registry.fedoraproject.org/fedora:40
-  pkg_inst_cmd: dnf install -y
-  pkg_updt_cmd: dnf update -y
-  extra_commands:
-  packages:
-  - which
-  - calc 
-  - htop
-  - ncdu 
-  - neofetch
-  - ranger 
-  - glances 
-  - pandoc 
-  - stow
-  npm_packages:
-  pip_packages: 
-  bin_export: 
-  - calc 
-  - htop
-  - ncdu 
-  - neofetch
-  - ranger 
-  - glances 
-  - pandoc 
-  - stow
-  app_export: 
-  bin_symlink:
-  - podman 
-  - buildah 
-  - distrobox 
-  - strace 
-  - ltrace 
-  - bpftrace 
-  - nvim 
-  - rg
-      
+# Create upstream
+# - name: util
+#   image:
+#   pkg_inst_cmd: dnf install -y
+#   pkg_updt_cmd: dnf update -y
+#   extra_commands:
+#   packages:
+#   npm_packages:
+#   pip_packages: 
+#   bin_export: 
+#   app_export: 
+#   bin_symlink:
+ 
+  # Created upstream -- But adding my tweaks
 - name: dev
-  image: registry.fedoraproject.org/fedora:40
+  image:
   pkg_inst_cmd: dnf install -y
   pkg_updt_cmd: dnf update -y
 
@@ -124,13 +108,10 @@ distrobox:
     sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm && \
     sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm;
 
-
+  # Added packages from upstream
   packages:
   - which
   - gdb 
-  - python3-pip
-  - neovim 
-  - nodejs 
   - R 
   - clang 
   - clang-tools-extra 
@@ -140,7 +121,6 @@ distrobox:
   - nautilus-devel 
   - nautilus-extensions 
   - gtk4-devel 
-  - tig
   - fira-code-fonts 
   - bash-completion 
   - kubernetes-client 
@@ -161,9 +141,7 @@ distrobox:
   - tree-sitter==0.21.3
   - autotools-language-server
   bin_export: 
-  - code 
   - bear 
-  - tig 
   - kubectl
   - helm 
   - hass-cli 
@@ -175,7 +153,6 @@ distrobox:
   - R 
   - Rscript
   app_export: 
-  - code
   bin_symlink:
   - podman 
   - buildah 
