@@ -96,6 +96,7 @@ distrobox:
   # Both needed for GTK theme stuff
   - sassc
   - glib2-devel
+  - gnome-tweaks
   npm_packages:
   pip_packages: 
   bin_export: 

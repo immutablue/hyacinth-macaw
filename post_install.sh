@@ -281,7 +281,7 @@ install_artifacts_extensions() {
         "https://extensions.gnome.org/extension-data/unblanksun.wxggmail.com.v31.shell-extension.zip"
     )
 
-    for extension in $extensions_download
+    for extension in ${extensions_download[@]}
     do 
         local base_filename=$(basename "${extension}")
         curl -Lo "/tmp/${base_filename}" "${extension}"
@@ -312,12 +312,12 @@ app_settings_enable_extensions() {
     )
 
     
-    for extension in $extensions_enable
+    for extension in ${extensions_enable[@]}
     do 
         gnome-extensions enable "${extension}"
     done
     
-    for extension in $extensions_disable
+    for extension in ${extensions_disable[@]}
     do 
         gnome-extensions disable "${extension}"
     done
@@ -346,11 +346,14 @@ app_settings() {
 }
 
 
-zenity --question --text="Have you installed ssh key and sudoers options?" 2>/dev/null
-if [ $? -ne 0 ]
-then 
-    echo "Please add the ssh key, and make sudoers tweaks then re-run this script"
-    echo "${EXPECTED_INSTALL_DIR}/post_install.sh"
+if [ -f "$HOME/.ssh/id_rsa.pub "]
+then
+    zenity --question --text="Have you installed ssh key and sudoers options?" 2>/dev/null
+    if [ $? -ne 0 ]
+    then 
+        echo "Please add the ssh key, and make sudoers tweaks then re-run this script"
+        echo "${EXPECTED_INSTALL_DIR}/post_install.sh"
+    fi
 fi
 
 prepare
