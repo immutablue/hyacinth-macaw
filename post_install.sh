@@ -3,6 +3,7 @@
 # This is ran at the end of `immutablue install` and `immutablue update
 
 DOTFILES_GIT="git@gitlab.com:zachpodbielniak/dotfiles.git"
+THEME_GIT="https://github.com/vinceliuice/WhiteSur-gtk-theme.git"
 
 
 prepare_gitlab_ssh_keys() {
@@ -187,6 +188,65 @@ app_settings_ptyxis() {
     
 }
 
+app_settings_shell() {
+    # shell favorite apps
+    gsettings \
+        set \
+        org.gnome.shell \
+        favorite-apps \
+        "['io.gitlab.librewolf-community.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Evolution.desktop', 'org.signal.Signal.desktop']"
+
+    # shell clocks
+    gsettings \
+        set \
+        org.gnome.shell.world-clocks \
+        locations \
+        "[<(uint32 2, <('Denver', 'KBKF', true, [(0.69307024596694822, -1.8283729951886007)], [(0.69357907925707463, -1.8323287315783685)])>)>, <(uint32 2, <('Linz', 'LOWL', true, [(0.84183047006083411, 0.24754585975676488)], [(0.84299402871326112, 0.24958208303518914)])>)>, <(uint32 2, <('Sydney', 'YSSY', true, [(-0.59253928105207498, 2.6386469349889961)], [(-0.59137572239964786, 2.6392287230418559)])>)>]"
+
+    # shell weather
+    gsettings set org.gnome.shell.weather automatic-location "true"
+    gsettings \
+        set \
+        org.gnome.shell.weather \
+        locations \
+        "[<(uint32 2, <('Lambertville', 'KDUH', true, [(0.7284277019125025, -1.4600600377711768)], [(0.72895215589943418, -1.459583807231478)])>)>]"
+
+}
+
+app_settings_theme() {
+    local gtk_theme="WhiteSur-Dark"
+    local theme_dir="$HOME/.tmp/theme"
+
+    # Clone
+    mkdir -p $HOME/.tmp 
+    git clone "${THEME_GIT}" --depth=1 "${theme_dir}"
+
+    # Install theme
+    distrobox enter util -- bash -c "cd ${theme_dir} && ./install.sh"
+
+
+    # Set in bash profile
+    is_in_profile=$(grep GTK_THEME $HOME/.bash_profile)
+    if [ "" == "$is_in_profile" ]
+    then 
+        echo "export GTK_THEME=$gtk_theme" >> $HOME/.bash_profile
+    fi
+
+    # do the settings (same the `gnome-tweaks` would set)
+    gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
+
+    # set buttons to left 
+    gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:appmenu"
+
+    # Flatpak settings 
+    flatpak override --filesystem=xdg-config/gtk-3.0:ro
+    flatpak override --filesystem=xdg-config/gtk-4.0:ro
+    flatpak override "--env=GTK_THEME=$gtk_theme" 
+
+    # Remove it -- we want a fresh clone every time
+    rm -rf "${theme_dir}"
+}
+
 
 
 prepare() {
@@ -203,6 +263,8 @@ install_all_artifacts() {
 
 app_settings() {
     app_settings_ptyxis
+    app_settings_shell
+    app_settings_theme
 }
 
 

@@ -24,6 +24,9 @@ immutablue:
   - ltrace
   - bpftrace
   - arm-image-installer
+  - gnome-shell-extension-appindicator
+  - gnome-shell-extension-dash-to-dock
+  - gnome-shell-extension-gsconnect
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
@@ -81,18 +84,19 @@ immutablue:
   # - org.chromium.chromium 
 
 distrobox:
-# Create upstream
-# - name: util
-#   image:
-#   pkg_inst_cmd: dnf install -y
-#   pkg_updt_cmd: dnf update -y
-#   extra_commands:
-#   packages:
-#   npm_packages:
-#   pip_packages: 
-#   bin_export: 
-#   app_export: 
-#   bin_symlink:
+  # Create upstream -- Adding tweaks
+- name: util
+  image:
+  pkg_inst_cmd: dnf install -y
+  pkg_updt_cmd: dnf update -y
+  extra_commands:
+  packages:
+  - sassc
+  npm_packages:
+  pip_packages: 
+  bin_export: 
+  app_export: 
+  bin_symlink:
  
   # Created upstream -- But adding my tweaks
 - name: dev
