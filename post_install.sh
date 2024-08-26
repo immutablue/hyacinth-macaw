@@ -272,6 +272,58 @@ app_settings_theme() {
 }
 
 
+install_artifacts_extensions() {
+    declare -a extensions_download=(
+        "https://github.com/Schneegans/Desktop-Cube/releases/download/v26/desktop-cube@schneegans.github.com.zip"
+        "https://extensions.gnome.org/extension-data/search-lighticedman.github.com.v27.shell-extension.zip"
+        "https://extensions.gnome.org/extension-data/tailscale-statusmaxgallup.github.com.v33.shell-extension.zip"
+        "https://github.com/Leleat/Tiling-Assistant/releases/download/v48/tiling-assistant@leleat-on-github.shell-extension.zip"
+        "https://extensions.gnome.org/extension-data/unblanksun.wxggmail.com.v31.shell-extension.zip"
+    )
+
+    for extension in $extensions_download
+    do 
+        local base_filename=$(basename "${extension}")
+        curl -Lo "/tmp/${base_filename}" "${extension}"
+        gnome-extensions install --force "/tmp/${base_filename}"
+    done
+}
+
+
+
+app_settings_enable_extensions() {
+    declare -a extensions_enable=(
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "dash-to-dock@micxgx.gmail.com"
+        "gsconnect@andyholmes.github.io"
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
+        "desktop-cube@schneegans.github.com"
+        "search-light@icedman.github.com"
+        "tailscale-status@maxgallup.github.com"
+        "tiling-assistant@leleat-on-github"
+        "unblank@sun.wxg@gmail.com"
+    )
+
+    declare -a extensions_disable=(
+        "background-logo@fedorahosted.org"
+        "launch-new-instance@gnome-shell-extensions.gcampax.github.com"
+        "places-menu@gnome-shell-extensions.gcampax.github.com"
+        "window-list@gnome-shell-extensions.gcampax.github.com"
+    )
+
+    
+    for extension in $extensions_enable
+    do 
+        gnome-extensions enable "${extension}"
+    done
+    
+    for extension in $extensions_disable
+    do 
+        gnome-extensions disable "${extension}"
+    done
+}
+
+
 
 prepare() {
     prepare_gitlab_ssh_keys
@@ -283,12 +335,14 @@ install_all_artifacts() {
     install_artifacts_starship
     install_artfifacts_dotfiles
     install_artifacts_fonts
+    install_artifacts_extensions
 }
 
 app_settings() {
     app_settings_ptyxis
     app_settings_shell
     app_settings_theme
+    app_settings_enable_extensions
 }
 
 

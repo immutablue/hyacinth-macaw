@@ -27,6 +27,7 @@ immutablue:
   - gnome-shell-extension-appindicator
   - gnome-shell-extension-dash-to-dock
   - gnome-shell-extension-gsconnect
+  - gnome-shell-extension-user-theme
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
