@@ -288,6 +288,13 @@ app_settings() {
 }
 
 
+zenity --question --text="Have you installed ssh key and sudoers options?" 2>/dev/null
+if [ $? -ne 0 ]
+then 
+    echo "Please add the ssh key, and make sudoers tweaks then re-run this script"
+    echo "/etc/immutablue-build-hyacinth-macaw/post_install.sh"
+fi
+
 prepare
 install_all_artifacts
 app_settings
