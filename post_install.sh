@@ -126,7 +126,7 @@ install_artifacts_fonts() {
 app_settings_ptyxis() {
     local main_key="org.gnome.Ptyxis"
     local profile_key="org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles"
-    local uuid=$(gsettings get "${main_key}" default-profile-uuid)
+    local uuid=$(gsettings get "${main_key}" default-profile-uuid | sed "s/'//g")
 
     # If I have multiple profile uuids in the future.
     #local uuid_arr=$(gsettings get "${main_key}" profile-uuids)
@@ -183,7 +183,7 @@ app_settings_ptyxis() {
 
     for setting in ${!uuid_kv[@]}
     do 
-        settings set "${profile_key}/${uuid}/" "${setting}" "${settings_kv[$setting]}"
+        gsettings set "${profile_key}/${uuid}/" "${setting}" "${settings_kv[$setting]}"
     done
     
 }
@@ -216,6 +216,13 @@ app_settings_shell() {
 app_settings_theme() {
     local gtk_theme="WhiteSur-Dark"
     local theme_dir="$HOME/.tmp/theme"
+    local background_install_dir="$HOME/.local/share/backgrounds"
+    local background_file="file://${background_install_dir}/background.jpg"
+
+    # set background 
+    mkdir -p "$HOME/.local/share/backgrounds"
+    cp /etc/immutablue-build-hyacinth-macaw/artifacts/pictures/background.jpg "${background_install_dir}/background.jpg"
+    gsettings set org.gnome.desktop.background picture-uri "${background_file}"
 
     # Clone
     mkdir -p $HOME/.tmp 
@@ -238,10 +245,14 @@ app_settings_theme() {
     # set buttons to left 
     gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:appmenu"
 
+    # set dark mode 
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
     # Flatpak settings 
-    flatpak override --filesystem=xdg-config/gtk-3.0:ro
-    flatpak override --filesystem=xdg-config/gtk-4.0:ro
-    flatpak override "--env=GTK_THEME=$gtk_theme" 
+    flatpak --user override --filesystem=xdg-config/gtk-3.0:ro
+    flatpak --user override --filesystem=xdg-config/gtk-4.0:ro
+    flatpak --user override "--env=GTK_THEME=$gtk_theme" 
+
 
     # Remove it -- we want a fresh clone every time
     rm -rf "${theme_dir}"
