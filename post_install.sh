@@ -284,7 +284,7 @@ install_artifacts_extensions() {
     for extension in ${extensions_download[@]}
     do 
         local base_filename=$(basename "${extension}")
-        curl -Lo "/tmp/${base_filename}" "${extension}"
+        curl -Lo "/tmp/$base_filename}" "${extension}"
         gnome-extensions install --force "/tmp/${base_filename}"
     done
 }
@@ -324,6 +324,11 @@ app_settings_enable_extensions() {
 }
 
 
+app_settings_set_default_apps() {
+    gsettings set org.gnome.desktop.default-applications.terminal exec "ptyxis"
+}
+
+
 
 prepare() {
     prepare_gitlab_ssh_keys
@@ -343,6 +348,7 @@ app_settings() {
     app_settings_shell
     app_settings_theme
     app_settings_enable_extensions
+    app_settings_set_default_apps
 }
 
 
