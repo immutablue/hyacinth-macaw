@@ -32,8 +32,8 @@ immutablue:
   # Urls to RPMs to download (they are curled)
   # so provide the url
   rpm_url:
-  - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-40.noarch.rpm 
-  - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-40.noarch.rpm
+  #- https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-40.noarch.rpm 
+  #- https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-40.noarch.rpm
 
   # RPM packages you want to remove from the image
   rpm_rm:
