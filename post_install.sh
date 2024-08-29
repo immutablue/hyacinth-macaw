@@ -352,7 +352,7 @@ app_settings() {
 }
 
 
-if [ -f "$HOME/.ssh/id_rsa.pub" ]
+if [ ! -f "$HOME/.ssh/id_rsa.pub" ]
 then
     zenity --question --text="Have you installed ssh key and sudoers options?" 2>/dev/null
     if [ $? -ne 0 ]
