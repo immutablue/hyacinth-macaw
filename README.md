@@ -9,8 +9,10 @@ A forkable repo that you can use to create a custom build of [Immutablue](https:
 - Have a look at `packages/packages.custom-50-example.yaml` and `packages/template.packages.custom-00-template.yaml`. Copy the latter to a new file, or make tweaks to the formal.
     - The syntax overall should be straight forward, there are comments that are should describe things and what they do.
     - If there are questions open an issue.
-- Add anything you want into `post_install.sh` for your customization. Such as pulling in your dotfiles for your user, cloning repos, etc.
-- Run `make build` and follow rebasing below
+- Add anything you want into `post_install.sh` for your customization. Such as pulling in your dotfiles for your user, cloning repos, etc. For an example of what could be done, check out how this is done in [Hyacinth Macaw](https://gitlab.com/immutablue/hyacinth-macaw/-/blob/master/post_install.sh?ref_type=heads). There really is endless possibilities of what you can do.
+    - When writing your `post_install.sh` it is best to write it in a way that it can handle being ran multiple times in a row without negative effects (its ran on every update).
+- Run `make all` and follow rebasing below
+    - If you are using nvidia, you can make use of `Immutablue Cyan` by simply passing `NVIDIA=1` in your `make` command: `make NVIDIA=1 build`
 
 
 ## Rebasing
@@ -32,5 +34,5 @@ A forkable repo that you can use to create a custom build of [Immutablue](https:
 ```
 git remote add upstream https://gitlab.com/immutablue/immutablue-custom.git
 git fetch upstream 
-git rebase upstream/master
+git <merge_or_rebase> upstream/master
 ```

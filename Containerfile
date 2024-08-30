@@ -1,6 +1,7 @@
 # Base off of Immutablue
 ARG FEDORA_VERSION=40
-FROM registry.gitlab.com/immutablue/immutablue:${FEDORA_VERSION}
+ARG IMMUTABLUE_BASE=immutablue
+FROM registry.gitlab.com/immutablue/${IMMUTABLUE_BASE}:${FEDORA_VERSION}
 ARG FEDORA_VERSION=40
 ARG INSTALL_DIR=/etc/immutablue/
 ARG NAME=hyacinth-macaw

@@ -9,10 +9,25 @@ endif
 # Example: <your-project-name>'
 IMAGE_BASE_TAG := hyacinth-macaw
 
+# Is this an nvidia build? Its best to just 
+# pass this as an arg to `make` instead of setting here:
+# - Ex: make NVIDIA=1 all 
+ifndef $(NVIDIA)
+	NVIDIA := 0
+endif
+
 # This forms something similar to:
 # registry.gitlab.com/<your-name>/<your-project>
 # and represents where the image will be pushed to
-IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
+# If Nvidia is in use, it will append '-nvidia' to the end
+
+ifneq ($(NVIDIA), 1)
+	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
+	IMMUTABLUE_BASE := immutablue
+else 
+	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)-nvidia
+	IMMUTABLUE_BASE := immutablue-cyan
+endif
 
 # Current version to be based off of
 # Change this after major releases
@@ -57,9 +72,24 @@ update: install_or_update
 # No need to change
 build:
 ifeq ($(SET_AS_LATEST), 1)
-	buildah build --ignorefile ./.containerignore --no-cache -t $(IMAGE):latest -t $(IMAGE):$(TAG) -f ./Containerfile --build-arg=FEDORA_VERSION=$(VERSION)
+	buildah \
+		build \
+		--ignorefile ./.containerignore \
+		--no-cache \
+		-t $(IMAGE):latest \
+		-t $(IMAGE):$(TAG) \
+		-f ./Containerfile \
+		--build-arg=IMMUTABLUE_BASE=$(IMMUTABLUE_BASE) \
+		--build-arg=FEDORA_VERSION=$(VERSION)
 else
-	buildah build --ignorefile ./.containerignore --no-cache -t $(IMAGE):$(TAG) -f ./Containerfile --build-arg=FEDORA_VERSION=$(VERSION)
+	buildah \
+		build \
+		--ignorefile ./.containerignore \
+		--no-cache \
+		-t $(IMAGE):$(TAG) \
+		-f ./Containerfile \
+		--build-arg=IMMUTABLUE_BASE=$(IMMUTABLUE_BASE) \
+		--build-arg=FEDORA_VERSION=$(VERSION)
 endif
 		
 
