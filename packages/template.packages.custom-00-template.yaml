@@ -23,3 +23,6 @@ distrobox:
   bin_export: 
   app_export: 
   bin_symlink:
+brew:
+  install:
+  uninstall:

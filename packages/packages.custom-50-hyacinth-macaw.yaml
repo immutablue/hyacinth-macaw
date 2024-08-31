@@ -193,3 +193,8 @@ distrobox:
   app_export: 
   bin_symlink:
 
+brew:
+  install:
+  uninstall:
+
+
