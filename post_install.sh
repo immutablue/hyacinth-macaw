@@ -284,7 +284,7 @@ install_artifacts_extensions() {
     for extension in ${extensions_download[@]}
     do 
         local base_filename=$(basename "${extension}")
-        curl -Lo "/tmp/$base_filename}" "${extension}"
+        curl -Lo "/tmp/${base_filename}" "${extension}"
         gnome-extensions install --force "/tmp/${base_filename}"
     done
 }
