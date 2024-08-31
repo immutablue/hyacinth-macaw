@@ -2,7 +2,7 @@
 # This is ran at the end of `immutablue install` and `immutablue update`
 
 
-EXPECTED_INSTALL_DIR="/etc/immutablue-build-hyacinth-macaw"
+EXPECTED_INSTALL_DIR="/usr/local/immutablue-build-hyacinth-macaw"
 DOTFILES_GIT="git@gitlab.com:zachpodbielniak/dotfiles.git"
 THEME_GIT="https://github.com/vinceliuice/WhiteSur-gtk-theme.git"
 
