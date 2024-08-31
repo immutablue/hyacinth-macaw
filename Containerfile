@@ -3,12 +3,12 @@ ARG FEDORA_VERSION=40
 ARG IMMUTABLUE_BASE=immutablue
 FROM registry.gitlab.com/immutablue/${IMMUTABLUE_BASE}:${FEDORA_VERSION}
 ARG FEDORA_VERSION=40
-ARG INSTALL_DIR=/etc/immutablue/
+ARG INSTALL_DIR=/usr/local/immutablue
 ARG NAME=hyacinth-macaw
 
-COPY ./packages/packages.custom-*.yaml ${INSTALL_DIR}
+COPY ./packages/packages.custom-*.yaml ${INSTALL_DIR}/
 
-WORKDIR /etc/immutablue-build-${NAME}
+WORKDIR ${INSTALL_DIR}-build-${NAME}
 COPY . .
 
 
