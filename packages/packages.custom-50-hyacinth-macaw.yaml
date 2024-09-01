@@ -223,6 +223,7 @@ brew:
   - clipboard
   - glab 
   - stow
+  - freerdp
   uninstall:
 
 
