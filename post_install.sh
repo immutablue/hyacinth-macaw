@@ -124,6 +124,24 @@ install_artifacts_fonts() {
 }
 
 
+app_settings_systemd() {
+    # Include systemd services in dotfiles
+    systemctl --user daemon-reload
+
+    declare -a enabled_services=(
+        ephem-alpine
+        ephem-arch
+        ephem-fedora
+        ephem-rhel
+        ephem-ubi
+        ephem-ubuntu
+        mount-drives
+        mpd-start
+    )
+
+    for service in ${enabled_services[@]}; do systemctl --user enable --now ${service}; done
+}
+
 app_settings_ptyxis() {
     local main_key="org.gnome.Ptyxis"
     local profile_key="org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles"
@@ -346,6 +364,7 @@ install_all_artifacts() {
 }
 
 app_settings() {
+    app_settings_systemd
     app_settings_ptyxis
     app_settings_shell
     app_settings_theme
