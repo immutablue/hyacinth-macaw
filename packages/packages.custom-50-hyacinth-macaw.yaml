@@ -193,6 +193,28 @@ distrobox:
   app_export: 
   bin_symlink:
 
+- name: mpd 
+  image: registry.fedoraproject.org/fedora:40 
+  root: false 
+  additional_flags:
+  pkg_inst_cmd: dnf install -y
+  pkg_updt_cmd: dnf update -y
+  extra_commands: |
+    sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm && \
+    [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf';
+  packages:
+  - which
+  - mpd 
+  - ncmpcpp
+  npm_packages:
+  pip_packages:
+  bin_export:
+  - mpd 
+  - ncmpcpp
+  app_export:
+  bin_symlink:
+  
+
 brew:
   install:
   uninstall:
