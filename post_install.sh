@@ -37,55 +37,55 @@ install_artfifacts_dotfiles() {
 
 install_artifacts_fonts() {
     declare -a fonts=(
-	    Agave
-	    AnonymousPro
-	    Arimo
-	    AurulentSansMono
-	    BigBlueTerminal
-	    BitstreamVeraSansMono
-	    CascaidaCode
-	    CodeNewRoman
-	    Cousine
-	    DaddyTimeMono
-	    DejaVuSansMono
-	    DroidSansMono
-	    FantasqueSansMono
-	    FiraCode
-	    FiraMono
-	    Go-Mono
-	    Gohu
+	    # Agave
+	    # AnonymousPro
+	    # Arimo
+	    # AurulentSansMono
+	    # BigBlueTerminal
+	    # BitstreamVeraSansMono
+	    # CascaidaCode
+	    # CodeNewRoman
+	    # Cousine
+	    # DaddyTimeMono
+	    # DejaVuSansMono
+	    # DroidSansMono
+	    # FantasqueSansMono
+	    # FiraCode
+	    # FiraMono
+	    # Go-Mono
+	    # Gohu
 	    Hack
-	    Hasklig
-	    HeavyData
-	    Hermit
-	    iA-Writer
-	    IBMPlexMono
-	    Inconsolate
-	    InconsolataGo
-	    InconsolataLGC
-	    Iosevka
-	    JetBrainsMono
-	    Lekton
-	    LiberationMono
-	    Lilex
-	    Meslo
-	    Monofur
-	    Mononoki
-	    Monoid
-	    MPlus
-	    NerdFontsSymbolsOnly
-	    Noto
-	    OpenDyslexic
-	    Overpass
-	    ProFont
-	    ProggyClean
-	    RobotoMono
-	    ShareTechMono
-	    Terminus
-	    Tinos
-	    Ubuntu
-	    UbuntuMono
-	    VictorMono
+	    # Hasklig
+	    # HeavyData
+	    # Hermit
+	    # iA-Writer
+	    # IBMPlexMono
+	    # Inconsolate
+	    # InconsolataGo
+	    # InconsolataLGC
+	    # Iosevka
+	    # JetBrainsMono
+	    # Lekton
+	    # LiberationMono
+	    # Lilex
+	    # Meslo
+	    # Monofur
+	    # Mononoki
+	    # Monoid
+	    # MPlus
+	    # NerdFontsSymbolsOnly
+	    # Noto
+	    # OpenDyslexic
+	    # Overpass
+	    # ProFont
+	    # ProggyClean
+	    # RobotoMono
+	    # ShareTechMono
+	    # Terminus
+	    # Tinos
+	    # Ubuntu
+	    # UbuntuMono
+	    # VictorMono
     )
 
     version='3.2.1'
@@ -279,6 +279,7 @@ install_artifacts_extensions() {
         "https://extensions.gnome.org/extension-data/tailscale-statusmaxgallup.github.com.v33.shell-extension.zip"
         "https://github.com/Leleat/Tiling-Assistant/releases/download/v48/tiling-assistant@leleat-on-github.shell-extension.zip"
         "https://extensions.gnome.org/extension-data/unblanksun.wxggmail.com.v31.shell-extension.zip"
+        "https://extensions.gnome.org/extension-data/rounded-window-cornersfxgn.v3.shell-extension.zip"
     )
 
     for extension in ${extensions_download[@]}
@@ -302,6 +303,7 @@ app_settings_enable_extensions() {
         "tailscale-status@maxgallup.github.com"
         "tiling-assistant@leleat-on-github"
         "unblank@sun.wxg@gmail.com"
+        "rounded-window-corners@fxgn"
     )
 
     declare -a extensions_disable=(
