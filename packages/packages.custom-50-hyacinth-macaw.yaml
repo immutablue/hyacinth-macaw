@@ -219,6 +219,7 @@ brew:
   - clipboard
   - croc
   - ddgr
+  - entr
   - freerdp
   - glab 
   - helm
