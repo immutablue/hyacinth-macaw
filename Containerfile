@@ -6,6 +6,8 @@ ARG FEDORA_VERSION=40
 ARG INSTALL_DIR=/usr/immutablue
 ARG NAME=hyacinth-macaw
 
+# COPY in Overrides
+COPY ./artifacts/overrides/ /
 COPY ./packages/packages.custom-*.yaml ${INSTALL_DIR}/
 
 WORKDIR ${INSTALL_DIR}-build-${NAME}
