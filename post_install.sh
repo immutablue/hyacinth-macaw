@@ -140,7 +140,19 @@ app_settings_systemd() {
     )
 
     for service in ${enabled_services[@]}; do systemctl --user enable --now ${service}; done
+
+
+    # Disable tracker3 (uses a lot of battery and CPU power)
+    systemctl --user mask \
+    	tracker-extract-3.service \
+    	tracker-miner-fs-3.service \
+    	tracker-miner-rss-3.service \
+    	tracker-writeback-3.service \
+    	tracker-xdg-portal-3.service \
+    	tracker-miner-fs-control-3.service
+
 }
+
 
 app_settings_ptyxis() {
     local main_key="org.gnome.Ptyxis"
