@@ -100,8 +100,6 @@ distrobox:
   - sassc
   - glib2-devel
   - gnome-tweaks
-  # Needed for post_install.sh in case brew isn't setup yet
-  - stow
   npm_packages:
   pip_packages: 
   bin_export: 

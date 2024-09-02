@@ -31,7 +31,7 @@ install_artfifacts_dotfiles() {
     bash -c "cd $HOME/.dotfiles && git pull" 
 
     # Kind of dirty
-    distrobox enter util -- bash -c "cd $HOME/.dotfiles && /usr/bin/stow --adopt . && git reset --hard HEAD && git submodule update --init --recursive"
+    bash -c "cd $HOME/.dotfiles && stow --adopt . && git reset --hard HEAD && git submodule update --init --recursive"
 }
 
 
