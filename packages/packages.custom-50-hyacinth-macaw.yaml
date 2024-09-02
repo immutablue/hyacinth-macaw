@@ -158,9 +158,6 @@ distrobox:
   - smd
   bin_export: 
   - bear 
-  - kubectl
-  - helm 
-  - hass-cli 
   - autotools-language-server 
   - bash-language-server
   - docker-langserver 
@@ -223,12 +220,25 @@ distrobox:
 
 brew:
   install:
+  - bat
   - btop 
   - clipboard
-  - glab 
+  - croc
+  - ddgr
   - freerdp
+  - glab 
+  - helm
+  - hexyl
+  - homeassistant-cli
+  - insect
+  - kubernetes-client
+  - localtunnel
+  - onefetch
+  - progress
+  - streamlink
   - stow
   - wiki
+  - yt-dlp
   uninstall:
 
 
