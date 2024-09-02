@@ -50,8 +50,8 @@ install_artifacts_fonts() {
 	    # DejaVuSansMono
 	    # DroidSansMono
 	    # FantasqueSansMono
-	    # FiraCode
-	    # FiraMono
+	    FiraCode
+	    FiraMono
 	    # Go-Mono
 	    # Gohu
 	    Hack
