@@ -20,6 +20,7 @@ distrobox:
   packages:
   npm_packages:
   pip_packages: 
+  cargo_packages:
   bin_export: 
   app_export: 
   bin_symlink:
