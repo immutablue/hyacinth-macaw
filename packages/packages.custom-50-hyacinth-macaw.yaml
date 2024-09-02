@@ -229,6 +229,7 @@ brew:
   - glab 
   - helm
   - hexyl
+  - himalaya
   - homeassistant-cli
   - insect
   - kubernetes-client
