@@ -204,11 +204,13 @@ distrobox:
     [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf';
   packages:
   - which
+  - mpc
   - mpd 
   - ncmpcpp
   npm_packages:
   pip_packages:
   bin_export:
+  - mpc
   - mpd 
   - ncmpcpp
   app_export:
