@@ -128,23 +128,18 @@ distrobox:
   - R 
   - clang 
   - clang-tools-extra 
-  - bear
   - code 
   - json-glib-devel 
   - nautilus-devel 
   - nautilus-extensions 
   - gtk4-devel 
   - fira-code-fonts 
-  - bash-completion 
-  - kubernetes-client 
-  - helm 
   - ffmpeg 
   - bpftool 
   - libbpf 
   - libbpf-devel 
   - libbpf-tools 
   - bcc-tools 
-  - home-assistant-cli
   npm_packages:
   - bash-language-server
   - dockerfile-language-server-nodejs
@@ -156,8 +151,8 @@ distrobox:
   cargo_packages:
   # https://github.com/guilhermeprokisch/smd
   - smd
+  - wthrr
   bin_export: 
-  - bear 
   - autotools-language-server 
   - bash-language-server
   - docker-langserver 
@@ -173,8 +168,6 @@ distrobox:
   - strace 
   - ltrace 
   - bpftrace 
-  - nvim 
-  - rg
 
 - name: vpn 
   image: registry.fedoraproject.org/fedora:40
@@ -221,6 +214,7 @@ distrobox:
 brew:
   install:
   - bat
+  - bear
   - btop 
   - clipboard
   - croc
