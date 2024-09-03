@@ -229,7 +229,7 @@ brew:
   - himalaya
   - homeassistant-cli
   - insect
-  - kubernetes-client
+  - kubernetes-cli
   - localtunnel
   - onefetch
   - progress
