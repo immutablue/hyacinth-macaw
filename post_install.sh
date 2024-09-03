@@ -129,6 +129,8 @@ app_settings_systemd() {
     systemctl --user daemon-reload
 
     declare -a enabled_services=(
+        dbox-start-dev
+        dbox-start-util
         ephem-alpine
         ephem-arch
         ephem-fedora
