@@ -244,6 +244,8 @@ app_settings_shell() {
         locations \
         "[<(uint32 2, <('Lambertville', 'KDUH', true, [(0.7284277019125025, -1.4600600377711768)], [(0.72895215589943418, -1.459583807231478)])>)>]"
 
+    # Wayland fractional sharing
+    gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']" 
 }
 
 app_settings_theme() {
