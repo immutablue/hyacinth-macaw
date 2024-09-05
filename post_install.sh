@@ -7,7 +7,7 @@ DOTFILES_GIT="git@gitlab.com:zachpodbielniak/dotfiles.git"
 THEME_GIT="https://github.com/vinceliuice/WhiteSur-gtk-theme.git"
 
 # Assume brew is not setup yet
-export PATH="$HOME/../linuxbrew/.linuxbrew/bin"
+export PATH="$HOME/../linuxbrew/.linuxbrew/bin:$PATH"
 
 prepare_gitlab_ssh_keys() {
     got_keys=$(grep -P "gitlab\.com" ~/.ssh/known_hosts)
