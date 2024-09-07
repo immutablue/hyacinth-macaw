@@ -308,6 +308,17 @@ app_settings_theme() {
 
     # Remove it -- we want a fresh clone every time
     rm -rf "${theme_dir}"
+
+    # bat theme 
+    # https://github.com/catppuccin/bat
+    mkdir -p "$(bat --config-dir)/themes"
+
+    wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Latte.tmTheme
+    wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Frappe.tmTheme
+    wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme
+    wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
+
+    bat cache --build
 }
 
 
