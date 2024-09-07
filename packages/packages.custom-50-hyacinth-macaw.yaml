@@ -30,6 +30,7 @@ immutablue:
   - gnome-shell-extension-user-theme
   - tlp
   - hyprland
+  - wireguard-tools
   - stow
   - neovim
   - htop 
