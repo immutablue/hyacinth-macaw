@@ -13,8 +13,6 @@ immutablue:
   repo_urls:
   # - name: tailscale.repo 
   #   url: https://pkgs.tailscale.com/stable/fedora/tailscale.repo
-  - name: solopasha-hyprland-fedora-40.repo
-    url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-40/solopasha-hyprland-fedora-40.repo
 
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
@@ -32,6 +30,7 @@ immutablue:
   - gnome-shell-extension-user-theme
   - tlp
   - hyprland
+  - stow
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
@@ -41,7 +40,6 @@ immutablue:
 
   # RPM packages you want to remove from the image
   rpm_rm:
-  - gnome-terminal
 
   # Build files that need to be removed. If the build is filing about some
   # ephemeral file that exists, put the path here so it get removed in 
@@ -60,23 +58,9 @@ immutablue:
   - org.gnome.Platform//46
   - com.bitwarden.desktop
   - com.calibre_ebook.calibre
-  - com.discordapp.Discord
   - com.gitfiend.GitFiend
-  - com.makemkv.MakeMKV
-  - com.redis.RedisInsight
-  - com.slack.Slack
-  - com.usebottles.bottles
-  - com.valvesoftware.Steam
-  - com.yubico.yubioath
-  - org.clementine_player.Clementine
-  - org.flameshot.Flameshot
-  - org.onlyoffice.desktopeditors
   - org.pulseaudio.pavucontrol
-  - org.signal.Signal
-  - org.jdownloader.JDownloader
-  - com.github.debauchee.barrier
   - re.sonny.Junction
-  - re.rizin.cutter
   - org.onionshare.OnionShare
   - org.wireshark.Wireshark
   - org.kiwix.desktop
@@ -171,23 +155,23 @@ distrobox:
   - ltrace 
   - bpftrace 
 
-- name: vpn 
-  image: registry.fedoraproject.org/fedora:40
-  root: true
-  additional_flags:
-  - --privileged
-  pkg_inst_cmd: dnf install -y
-  pkg_updt_cmd: dnf update -y
-  extra_commands: |
-    curl -Lo /tmp/$(basename https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm) https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm; \
-    sudo dnf install -y /tmp/*.rpm; \
-    [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf';
-  packages:
-  npm_packages:
-  pip_packages: 
-  bin_export: 
-  app_export: 
-  bin_symlink:
+# - name: vpn 
+#   image: registry.fedoraproject.org/fedora:40
+#   root: true
+#   additional_flags:
+#   - --privileged
+#   pkg_inst_cmd: dnf install -y
+#   pkg_updt_cmd: dnf update -y
+#   extra_commands: |
+#     curl -Lo /tmp/$(basename https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm) https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm; \
+#     sudo dnf install -y /tmp/*.rpm; \
+#     [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf';
+#   packages:
+#   npm_packages:
+#   pip_packages: 
+#   bin_export: 
+#   app_export: 
+#   bin_symlink:
 
 - name: mpd 
   image: registry.fedoraproject.org/fedora:40 
@@ -215,28 +199,28 @@ distrobox:
 
 brew:
   install:
-  - bat
-  - bear
-  - btop 
-  - clipboard
-  - croc
-  - ddgr
-  - entr
-  - freerdp
-  - glab 
-  - helm
-  - hexyl
-  - himalaya
-  - homeassistant-cli
-  - insect
-  - kubernetes-cli
-  - localtunnel
-  - onefetch
-  - progress
-  - streamlink
-  - stow
-  - wiki
-  - yt-dlp
+  # - bat
+  # - bear
+  # - btop 
+  # - clipboard
+  # - croc
+  # - ddgr
+  # - entr
+  # - freerdp
+  # - glab 
+  # - helm
+  # - hexyl
+  # - himalaya
+  # - homeassistant-cli
+  # - insect
+  # - kubernetes-cli
+  # - localtunnel
+  # - onefetch
+  # - progress
+  # - streamlink
+  # - stow
+  # - wiki
+  # - yt-dlp
   uninstall:
 
 
