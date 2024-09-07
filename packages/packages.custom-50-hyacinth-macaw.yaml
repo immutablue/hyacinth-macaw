@@ -33,7 +33,11 @@ immutablue:
   - stow
   - neovim
   - htop 
+  - tmux 
+  - kubernetes-client
+  - helm
   - fastfetch
+  - box64-asahi
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
