@@ -16,17 +16,26 @@ ifndef $(NVIDIA)
 	NVIDIA := 0
 endif
 
+# This is based on asahi? This is only 
+# relevant for m-series macs!
+ifndef $(ASAHI)
+	ASAHI := 0
+endif
+
 # This forms something similar to:
 # registry.gitlab.com/<your-name>/<your-project>
 # and represents where the image will be pushed to
 # If Nvidia is in use, it will append '-nvidia' to the end
 
-ifneq ($(NVIDIA), 1)
-	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
-	IMMUTABLUE_BASE := immutablue
-else 
+ifeq ($(NVIDIA),1)
 	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)-nvidia
 	IMMUTABLUE_BASE := immutablue-cyan
+else ifeq ($(ASAHI),1)
+	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)-asahi
+	IMMUTABLUE_BASE := immutablue-asahi
+else 
+	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
+	IMMUTABLUE_BASE := immutablue
 endif
 
 # Current version to be based off of
