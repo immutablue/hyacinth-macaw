@@ -31,6 +31,9 @@ immutablue:
   - tlp
   - hyprland
   - stow
+  - nvim
+  - htop 
+  - fastfetch
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
