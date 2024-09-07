@@ -38,6 +38,7 @@ immutablue:
   - helm
   - fastfetch
   - box64-asahi
+  - asahi-platform-metapackage-firefox
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
