@@ -30,10 +30,26 @@ immutablue:
   - gnome-shell-extension-user-theme
   - tlp
   - hyprland
+  - wireguard-tools
   - stow
   - neovim
   - htop 
+  - tmux 
+  - kubernetes-client
+  - helm
   - fastfetch
+  - box64-asahi
+  - asahi-platform-metapackage-firefox
+  - calc
+  - coreutils
+  - moreutils
+  - fzf 
+  - glances
+  - ncdu
+  - ranger
+  - ripgrep 
+  - tig
+  - zenity
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
