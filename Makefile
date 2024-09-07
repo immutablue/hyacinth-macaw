@@ -8,6 +8,7 @@ ifndef $(REGISTRY)
 endif
 # Example: <your-project-name>'
 IMAGE_BASE_TAG := hyacinth-macaw
+IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
 # Is this an nvidia build? Its best to just 
 # pass this as an arg to `make` instead of setting here:
@@ -28,15 +29,13 @@ endif
 # If Nvidia is in use, it will append '-nvidia' to the end
 
 ifeq ($(NVIDIA),1)
-	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)-nvidia
 	IMMUTABLUE_BASE := immutablue-cyan
 else ifeq ($(ASAHI),1)
-	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)-asahi
 	IMMUTABLUE_BASE := immutablue-asahi
 else 
-	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 	IMMUTABLUE_BASE := immutablue
 endif
+
 
 # Current version to be based off of
 # Change this after major releases
@@ -50,6 +49,12 @@ endif
 # Can override in make
 ifndef $(TAG)
 	TAG = $(CURRENT)
+endif
+
+ifeq ($(NVIDIA),1)
+	TAG := $(TAG)-nvidia
+else ifeq($(ASAHI),1)
+	TAG := $(TAG)-asahi 
 endif
 
 # If you want to set this as latest as well
