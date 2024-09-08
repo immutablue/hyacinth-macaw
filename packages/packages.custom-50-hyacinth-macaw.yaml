@@ -48,6 +48,7 @@ immutablue:
   - ripgrep 
   - tig
   - zenity
+  - ruby
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
