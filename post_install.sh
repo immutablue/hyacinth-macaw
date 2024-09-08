@@ -232,7 +232,7 @@ app_settings_shell() {
         set \
         org.gnome.shell \
         favorite-apps \
-        "['io.gitlab.librewolf-community.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Evolution.desktop', 'org.signal.Signal.desktop']"
+        "['io.gitlab.librewolf-community.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Evolution.desktop', 'org.signal.Signal.desktop']"
 
     # shell clocks
     gsettings \
@@ -377,7 +377,8 @@ app_settings_enable_extensions() {
 
 
 app_settings_set_default_apps() {
-    gsettings set org.gnome.desktop.default-applications.terminal exec "ptyxis"
+    gsettings set org.gnome.desktop.default-applications.terminal exec "gnome-terminal"
+    gsettings set org.gnome.desktop.default-applications.terminal exec-arg "--"
 }
 
 
