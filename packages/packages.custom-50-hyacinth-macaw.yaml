@@ -38,8 +38,6 @@ immutablue:
   - kubernetes-client
   - helm
   - fastfetch
-  - box64-asahi
-  - asahi-platform-metapackage-firefox
   - calc
   - coreutils
   - moreutils
