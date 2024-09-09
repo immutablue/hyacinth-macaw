@@ -50,7 +50,7 @@ clone_projects:
     done
 
 
-clone_source:
+clone_public:
     #!/bin/bash
     set -euxo pipefail
 
