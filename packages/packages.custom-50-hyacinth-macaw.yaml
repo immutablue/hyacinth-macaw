@@ -13,6 +13,9 @@ immutablue:
   repo_urls:
   # - name: tailscale.repo 
   #   url: https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+  - name: hyprland.repo 
+    url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-40/solopasha-hyprland-fedora-40.repo
+
 
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
@@ -30,6 +33,8 @@ immutablue:
   - gnome-shell-extension-user-theme
   - tlp
   - hyprland
+  - hyprland-plugins 
+  - hyprlock
   - wireguard-tools
   - stow
   - neovim
