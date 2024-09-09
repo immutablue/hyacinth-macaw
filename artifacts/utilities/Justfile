@@ -21,6 +21,20 @@ update_dotfiles:
     stow .
 
 
+on_login: update_dotfiles update_repos
+    #!/bin/bash
+    set -euxo pipefail
+
+    echo "logging on"
+
+
+on_logout:
+    #/bin/bash
+    set -euxo pipefail
+
+    echo "logging out"
+
+
 clone_projects:
     #!/bin/bash
     set -euxo pipefail
@@ -72,7 +86,29 @@ clone_public:
 
     for repo in ${repos[@]}
     do 
-        git clone $repo 
+        git clone $repo
     done
 
+
+update_repos:
+    #!/bin/bash 
+    set -euxo pipefail 
+
+    ping -c1 one.one.one.one
+
+    declare -a main_dirs=(
+        "$HOME/Source/Projects"
+        "$HOME/Source/Public"
+    )
+
+    for main_dir in ${main_dirs[@]}
+    do 
+        cd "$main_dir"
+        for proj in "./"*
+        do 
+            cd "$proj"
+            git pull
+            cd ..
+        done
+    done
 

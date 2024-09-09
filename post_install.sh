@@ -144,6 +144,7 @@ app_settings_systemd() {
         ephem-ubuntu
         mount-drives
         mpd-start
+        on-login
     )
 
     for service in ${enabled_services[@]}; do systemctl --user enable --now ${service}; done
