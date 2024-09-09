@@ -1,0 +1,13 @@
+#!/bin/bash 
+
+# Install dir for hyacinth-macaw
+INSTALL_DIR="/usr/immutablue-build-hyacinth-macaw"
+cd "$INSTALL_DIR/artifacts/utilities"
+
+if [ $# -lt 1 ]
+then 
+    exec just --choose
+fi 
+
+exec just $@
+
