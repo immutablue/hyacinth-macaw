@@ -1,0 +1,11 @@
+list:
+    hyacinth-macaw --list
+
+
+choose:
+    hyacinth-macaw --choose
+
+
+run_post_install:
+    bash -x /usr/immutablue-build-hyacinth-macaw/post_install.sh
+
