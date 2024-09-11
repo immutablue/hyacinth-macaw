@@ -112,3 +112,18 @@ update_repos:
         done
     done
 
+
+asahi_update:
+    #!/bin/bash 
+    set -euxo pipefail 
+    
+    cd "$HOME/Source/Projects/immutablue/
+    make asahi_build 
+
+    cd "$HOME/Source/Projects/immutablue-asahi"
+    make asahi_build 
+    podman push registry.gitlab.com/immutablue/immutablue-asahi:40 
+
+    cd "$HOME/Source/Projects/hyacinth-macaw"
+    make ASAHI=1 all
+
