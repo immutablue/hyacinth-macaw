@@ -55,6 +55,7 @@ immutablue:
   - tig
   - zenity
   - ruby
+  - pass
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
