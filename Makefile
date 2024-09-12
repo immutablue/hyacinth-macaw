@@ -28,13 +28,10 @@ endif
 # If Nvidia is in use, it will append '-nvidia' to the end
 
 ifeq ($(NVIDIA),1)
-	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)-nvidia
 	IMMUTABLUE_BASE := immutablue-cyan
 else ifeq ($(ASAHI),1)
-	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)-asahi
 	IMMUTABLUE_BASE := immutablue-asahi
 else 
-	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 	IMMUTABLUE_BASE := immutablue
 endif
 
@@ -50,6 +47,12 @@ endif
 # Can override in make
 ifndef $(TAG)
 	TAG = $(CURRENT)
+endif
+
+ifeq ($(NVIDIA),1)
+	TAG := $(TAG)-nvidia
+else ifeq($(ASAHI),1)
+	TAG := $(TAG)-asahi
 endif
 
 # If you want to set this as latest as well
