@@ -34,6 +34,7 @@ else ifeq ($(ASAHI),1)
 else 
 	IMMUTABLUE_BASE := immutablue
 endif
+IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
 # Current version to be based off of
 # Change this after major releases
@@ -51,7 +52,7 @@ endif
 
 ifeq ($(NVIDIA),1)
 	TAG := $(TAG)-nvidia
-else ifeq($(ASAHI),1)
+else ifeq ($(ASAHI),1)
 	TAG := $(TAG)-asahi
 endif
 
