@@ -127,12 +127,15 @@ asahi_update:
     set -euxo pipefail 
     
     cd "$HOME/Source/Projects/immutablue/
+    git pull
     make asahi_build 
 
     cd "$HOME/Source/Projects/immutablue-asahi"
+    git pull
     make asahi_build 
     podman push registry.gitlab.com/immutablue/immutablue-asahi:40 
 
     cd "$HOME/Source/Projects/hyacinth-macaw"
+    git pull
     make ASAHI=1 all
 
