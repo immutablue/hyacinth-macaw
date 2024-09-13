@@ -35,6 +35,7 @@ else ifeq ($(ASAHI),1)
 else 
 	IMMUTABLUE_BASE := immutablue
 endif
+IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
 
 # Current version to be based off of
@@ -53,8 +54,8 @@ endif
 
 ifeq ($(NVIDIA),1)
 	TAG := $(TAG)-nvidia
-else ifeq($(ASAHI),1)
-	TAG := $(TAG)-asahi 
+else ifeq ($(ASAHI),1)
+	TAG := $(TAG)-asahi
 endif
 
 # If you want to set this as latest as well
