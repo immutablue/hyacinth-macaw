@@ -6,6 +6,15 @@ choose:
     #!/bin/bash
     hyacinth-macaw --choose
 
+upgrade:
+    #!/bin/bash 
+    sudo rpm-ostree upgrade
+
+
+upgrade_and_reboot: upgrade 
+    #!/bin/bash 
+    sudo reboot
+
 
 run_post_install:
     #!/bin/bash
