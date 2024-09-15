@@ -107,13 +107,21 @@ endif
 		
 
 # No need to change
+IMAGE_COMPRESSION_FORMAT := zstd:chunked
+IMAGE_COMPRESSION_LEVEL := 12
 push:
 ifeq ($(SET_AS_LATEST), 1)
-	buildah push $(IMAGE):$(TAG)
-	buildah push $(IMAGE):latest
-else
-	buildah push $(IMAGE):$(TAG)
+	buildah \
+		push \
+		--compression-format $(IMAGE_COMPRESSION_FORMAT) \
+		--compression-level $(IMAGE_COMPRESSION_LEVEL) \
+		$(IMAGE):latest
 endif
+	buildah \
+		push \
+		--compression-format $(IMAGE_COMPRESSION_FORMAT) \
+		--compression-level $(IMAGE_COMPRESSION_LEVEL) \
+		$(IMAGE):$(TAG)
 
 
 # TODO: Be implemented correctly

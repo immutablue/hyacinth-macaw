@@ -3,27 +3,55 @@
 # - Example: cp template.packages.custom-00-example.yaml packages.customer-10-mystuff.yaml
 immutablue:
   repo_urls:
+  repo_urls_aarch64:
+  repo_urls_x86_64:
   rpm:
+  rpm_aarch64:
+  rpm_x86_64:
+  rpm_url:
+  rpm_url_aarch64:
+  rpm_url_x86_64:
   rpm_rm:
+  rpm_rm_aarch64:
+  rpm_rm_x86_64:
   file_rm:
+  file_rm_aarch64:
+  file_rm_x86_64:
   flatpaks_runtime:
   flatpaks:
+  flatpaks_aarch64:
+  flatpaks_x86_64:
   flatpaks_rm:
+  flatpaks_rm_aarch64:
+  flatpaks_rm_x86_64:
 distrobox:
 - name:
   image: 
-  root: false
+  root: 
   additional_flags:
+  additional_flags_aarch64:
+  additional_flags_x86_64:
   pkg_inst_cmd:
-  pkg_updt_cmd:
+  pkg_updt_cmd: 
   extra_commands:
   packages:
+  packages_aarch64: 
+  packages_x86_64:
   npm_packages:
-  pip_packages: 
+  npm_packages_aarch64:
+  npm_packages_x86_64:
+  pip_packages:
+  pip_packages_aarch64:
+  pip_packages_x86_64:
   cargo_packages:
+  cargo_packages_aarch64:
+  cargo_packages_x86_64:
   bin_export: 
+  bin_export_aarch64:
+  bin_export_x86_64:
   app_export: 
+  app_export_aarch64:
+  app_export_x86_64:
   bin_symlink:
-brew:
-  install:
-  uninstall:
+  bin_symlink_aarch:
+  bin_symlink_x86_64:
