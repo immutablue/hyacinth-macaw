@@ -27,6 +27,7 @@ update_dotfiles:
 
     cd "$HOME/.dotfiles"
     git pull
+    git submodule update
     stow .
 
 
@@ -65,10 +66,11 @@ clone_projects:
 
     for repo in ${repos[@]}
     do 
-        git clone $repo 
         git_dir=(${repo//\// })
+        if [ ! -d "${git_dir[1]:0:-4}" ]; then git clone $repo; fi
         cd "${git_dir[1]:0:-4}"
         git fetch --all
+        git pull
         cd ..
     done
 
@@ -116,7 +118,7 @@ update_repos:
         for proj in "./"*
         do 
             cd "$proj"
-            git pull
+            if [ -d ".git" ]; then git pull; fi
             cd ..
         done
     done
@@ -126,7 +128,7 @@ asahi_update:
     #!/bin/bash 
     set -euxo pipefail 
     
-    cd "$HOME/Source/Projects/immutablue/
+    cd "$HOME/Source/Projects/immutablue/"
     git pull
     make asahi_build 
 
