@@ -233,6 +233,7 @@ brew:
   - localtunnel
   - onefetch
   - progress
+  - sshs
   - streamlink
   - stow
   - wiki
