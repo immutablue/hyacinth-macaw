@@ -8,6 +8,7 @@ ifndef $(REGISTRY)
 endif
 # Example: <your-project-name>'
 IMAGE_BASE_TAG := hyacinth-macaw
+IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
 # Is this an nvidia build? Its best to just 
 # pass this as an arg to `make` instead of setting here:
@@ -35,6 +36,7 @@ else
 	IMMUTABLUE_BASE := immutablue
 endif
 IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
+
 
 # Current version to be based off of
 # Change this after major releases
