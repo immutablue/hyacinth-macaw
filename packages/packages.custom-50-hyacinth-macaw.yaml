@@ -18,6 +18,10 @@ immutablue:
   - name: ublue-os-staging.repo
     url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-40/ublue-os-staging-fedora-40.repo
 
+  repo_urls_aarch64:
+  - name: rust-epel.repo 
+    url: https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-9/cyqsimon-el-rust-pkgs-epel-9.repo
+
 
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
@@ -62,6 +66,7 @@ immutablue:
   - zenity
   - ruby
   - pass
+  - dysk
 
 
   # Urls to RPMs to download (they are curled)
