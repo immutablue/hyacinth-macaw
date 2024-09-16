@@ -326,8 +326,8 @@ app_settings_theme() {
 install_artifacts_extensions() {
     declare -a extensions_download=(
         "https://github.com/Schneegans/Desktop-Cube/releases/download/v26/desktop-cube@schneegans.github.com.zip"
-        "https://extensions.gnome.org/extension-data/search-lighticedman.github.com.v27.shell-extension.zip"
-        "https://extensions.gnome.org/extension-data/tailscale-statusmaxgallup.github.com.v33.shell-extension.zip"
+        # "https://extensions.gnome.org/extension-data/search-lighticedman.github.com.v27.shell-extension.zip"
+        # "https://extensions.gnome.org/extension-data/tailscale-statusmaxgallup.github.com.v33.shell-extension.zip"
         "https://github.com/Leleat/Tiling-Assistant/releases/download/v48/tiling-assistant@leleat-on-github.shell-extension.zip"
         "https://extensions.gnome.org/extension-data/unblanksun.wxggmail.com.v31.shell-extension.zip"
         "https://extensions.gnome.org/extension-data/rounded-window-cornersfxgn.v3.shell-extension.zip"
