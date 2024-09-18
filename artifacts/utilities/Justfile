@@ -116,7 +116,7 @@ update_repos:
         for proj in "./"*
         do 
             cd "$proj"
-            git pull
+            if [ -d ".git" ]; then git pull || true; fi
             cd ..
         done
     done
