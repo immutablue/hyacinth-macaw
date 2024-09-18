@@ -126,12 +126,11 @@ asahi_update:
     #!/bin/bash 
     set -euxo pipefail 
     
-    cd "$HOME/Source/Projects/immutablue/
-    make asahi_build 
+    cd "$HOME/Source/Projects/immutablue/"
+    make TAG=40-aarch64 PLATFORM=linux/arm64 all
 
     cd "$HOME/Source/Projects/immutablue-asahi"
-    make asahi_build 
-    podman push registry.gitlab.com/immutablue/immutablue-asahi:40 
+    make VERSION=40-aarch64 all
 
     cd "$HOME/Source/Projects/hyacinth-macaw"
     make ASAHI=1 all
