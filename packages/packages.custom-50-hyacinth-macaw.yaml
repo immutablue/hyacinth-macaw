@@ -163,6 +163,7 @@ distrobox:
   - libbpf-devel 
   - libbpf-tools 
   - bcc-tools 
+  - ShellCheck
   npm_packages:
   - bash-language-server
   - dockerfile-language-server-nodejs
@@ -183,6 +184,7 @@ distrobox:
   - clangd 
   - R 
   - Rscript
+  - shellcheck
   app_export: 
   bin_symlink:
   - podman 

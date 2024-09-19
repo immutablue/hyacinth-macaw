@@ -1,5 +1,5 @@
 #!/bin/bash 
-
+set -euo pipefail
 # Install dir for hyacinth-macaw
 INSTALL_DIR="/usr/immutablue-build-hyacinth-macaw"
 cd "$INSTALL_DIR/artifacts/utilities"
@@ -14,5 +14,5 @@ then
     exec just --choose
 fi 
 
-exec just $@
+exec just "$@"
 

@@ -70,7 +70,7 @@ FULL_TAG := $(IMAGE):$(TAG)
 
 # No need to change
 .PHONY: all all_upgrade install update install_or_update \
-	build push iso upgrade rebase clean
+	build push iso upgrade rebase clean check
 
 
 # No need to change
@@ -84,8 +84,14 @@ install: install_or_update
 update: install_or_update
 
 
+check:
+	shellcheck \
+		-e SC2181 \
+		./post_install.sh \
+		./artifacts/overrides/usr/bin/hyacinth-macaw
+
 # No need to change
-build:
+build: check
 ifeq ($(SET_AS_LATEST), 1)
 	buildah \
 		build \
@@ -195,6 +201,5 @@ rebase:
 clean:
 	rm -rf ./iso
 	rm -rf ./flatpak_refs
-
 
 

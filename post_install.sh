@@ -7,7 +7,7 @@ DOTFILES_GIT="git@gitlab.com:zachpodbielniak/dotfiles.git"
 THEME_GIT="https://github.com/vinceliuice/WhiteSur-gtk-theme.git"
 
 # Assume brew is not setup yet
-if [ "$(uname -m)" == "x86_64 "]
+if [ "$(uname -m)" == "x86_64" ]
 then
     export PATH="$HOME/../linuxbrew/.linuxbrew/bin:$PATH"
 fi
@@ -147,7 +147,7 @@ app_settings_systemd() {
         on-login
     )
 
-    for service in ${enabled_services[@]}; do systemctl --user enable --now ${service}; done
+    for service in "${enabled_services[@]}"; do systemctl --user enable --now "${service}"; done
 
 
     # Disable tracker3 (uses a lot of battery and CPU power)
@@ -165,7 +165,9 @@ app_settings_systemd() {
 app_settings_ptyxis() {
     local main_key="org.gnome.Ptyxis"
     local profile_key="org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles"
-    local uuid=$(gsettings get "${main_key}" default-profile-uuid | sed "s/'//g")
+    local uuid=""
+
+    uuid=$(gsettings get "${main_key}" default-profile-uuid | sed "s/'//g")
 
     # If I have multiple profile uuids in the future.
     #local uuid_arr=$(gsettings get "${main_key}" profile-uuids)
@@ -215,12 +217,12 @@ app_settings_ptyxis() {
         [use-proxy]="true"
     )
 
-    for setting in ${!settings_kv[@]}
+    for setting in "${!settings_kv[@]}"
     do 
         gsettings set "${main_key}" "${setting}" "${settings_kv[$setting]}"
     done
 
-    for setting in ${!uuid_kv[@]}
+    for setting in "${!uuid_kv[@]}"
     do 
         gsettings set "${profile_key}/${uuid}/" "${setting}" "${uuid_kv[$setting]}"
     done
@@ -267,7 +269,7 @@ app_settings_theme() {
     gsettings set org.gnome.desktop.background picture-uri-dark "${background_file}"
 
     # Clone
-    mkdir -p $HOME/.tmp 
+    mkdir -p "${HOME}/.tmp"
     git clone "${THEME_GIT}" --depth=1 "${theme_dir}"
 
     # Install theme
@@ -278,10 +280,10 @@ app_settings_theme() {
     cp "${EXPECTED_INSTALL_DIR}/artifacts/pictures/activities.svg" "$HOME/.themes/${gtk_theme}/gnome-shell/assets/activity-white.svg"
 
     # Set in bash profile
-    is_in_profile=$(grep GTK_THEME $HOME/.bash_profile)
+    is_in_profile=$(grep GTK_THEME "${HOME}/.bash_profile")
     if [ "" == "$is_in_profile" ]
     then 
-        echo "export GTK_THEME=$gtk_theme" >> $HOME/.bash_profile
+        echo "export GTK_THEME=$gtk_theme" >> "${HOME}/.bash_profile"
     fi
 
     # do the settings (same the `gnome-tweaks` would set)
@@ -333,9 +335,10 @@ install_artifacts_extensions() {
         "https://extensions.gnome.org/extension-data/rounded-window-cornersfxgn.v3.shell-extension.zip"
     )
 
-    for extension in ${extensions_download[@]}
+    for extension in "${extensions_download[@]}"
     do 
-        local base_filename=$(basename "${extension}")
+        local base_filename=""
+        base_filename=$(basename "${extension}")
         curl -Lo "/tmp/${base_filename}" "${extension}"
         gnome-extensions install --force "/tmp/${base_filename}"
     done
@@ -365,12 +368,12 @@ app_settings_enable_extensions() {
     )
 
     
-    for extension in ${extensions_enable[@]}
+    for extension in "${extensions_enable[@]}"
     do 
         gnome-extensions enable "${extension}"
     done
     
-    for extension in ${extensions_disable[@]}
+    for extension in "${extensions_disable[@]}"
     do 
         gnome-extensions disable "${extension}"
     done
