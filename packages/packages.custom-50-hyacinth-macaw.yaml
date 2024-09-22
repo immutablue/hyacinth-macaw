@@ -68,6 +68,7 @@ immutablue:
   - ruby
   - pass
   - dysk
+  - newsboat
 
 
   # Urls to RPMs to download (they are curled)
@@ -260,6 +261,7 @@ brew:
   - insect
   - kubernetes-cli
   - localtunnel
+  - newsboat
   - onefetch
   - progress
   - sshs
