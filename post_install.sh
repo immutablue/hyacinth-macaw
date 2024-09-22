@@ -160,6 +160,17 @@ install_bins() {
 }
 
 
+install_cowsay() {
+    mkdir -p "${HOME}/.tmp"
+    pushd "${PWD}" || return 
+    cd "${HOME}/.tmp" || return 
+    git clone https://github.com/paulkaefer/cowsay-files
+    distrobox enter util -- bash -c "sudo cp ./cowsay-files/cows/*.cow /usr/share/cowsay/cows/"
+    rm -rf ./cowsay-files
+    popd 
+}
+
+
 app_settings_systemd() {
     # Include systemd services in dotfiles
     systemctl --user daemon-reload
@@ -431,6 +442,7 @@ install_all_artifacts() {
     install_artifacts_fonts
     install_artifacts_extensions
     install_bins
+    install_cowsay
 }
 
 app_settings() {
