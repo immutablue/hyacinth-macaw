@@ -164,6 +164,9 @@ distrobox:
   - libbpf-tools 
   - bcc-tools 
   - ShellCheck
+  # youtube-tui reqirements: mpv and sixel
+  - mpv-devel
+  - libsixel
   npm_packages:
   - bash-language-server
   - dockerfile-language-server-nodejs
@@ -176,6 +179,7 @@ distrobox:
   # https://github.com/guilhermeprokisch/smd
   - smd
   - wthrr
+  - youtube-tui
   bin_export: 
   - autotools-language-server 
   - bash-language-server
@@ -185,6 +189,7 @@ distrobox:
   - R 
   - Rscript
   - shellcheck
+  - youtube-tui
   app_export: 
   bin_symlink:
   - podman 
