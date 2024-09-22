@@ -43,7 +43,7 @@ immutablue:
   - hyprland
   - hyprland-plugins 
   - hyprlock
-  - hyprpapr
+  - hyprpaper
   - wireguard-tools
 
   rpm_aarch64:
