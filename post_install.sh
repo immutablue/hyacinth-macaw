@@ -128,6 +128,37 @@ install_artifacts_fonts() {
     fc-cache -fv
 }
 
+install_bins() {
+    local temp="${HOME/.tmp}"
+    local bin="${HOME/bin}"
+
+    mkdir -p "${temp}"
+    mkdir -p "${bin}"
+
+    # On x86_64 we get these from brew
+    if [ "$(uname -m)" == "aarch64" ]
+    then 
+        # Install bat 
+        curl -Lo "$HOME/.tmp/bat.tar.gz" https://github.com/sharkdp/bat/releases/download/v0.24.0/bat-v0.24.0-aarch64-unknown-linux-gnu.tar.gz 
+        pushd "${PWD}" || return
+        cd "{$temp}" || return
+        tar -xzf bat.tar.gz 
+        cp ./bat*/bat "${bin}/"
+        rm -rf "./*"
+        popd || return
+
+        # Instlall glab 
+        curl -Lo "${temp}/glab.tar.gz" https://gitlab.com/gitlab-org/cli/-/releases/v1.46.1/downloads/glab_1.46.1_Linux_arm64.tar.gz
+        pushd "${PWD}" || return 
+        cd "${temp}" || return 
+        tar -xzf glab.tar.gz 
+        cp ./bin/glab "${bin}/"
+        rm -rf "./*"
+        popd || return 
+
+    fi
+}
+
 
 app_settings_systemd() {
     # Include systemd services in dotfiles
@@ -399,6 +430,7 @@ install_all_artifacts() {
     install_artfifacts_dotfiles
     install_artifacts_fonts
     install_artifacts_extensions
+    install_bins
 }
 
 app_settings() {
