@@ -125,12 +125,16 @@ distrobox:
   - glib2-devel
   - gnome-tweaks
   - xfreerdp
+  - figlet 
+  - cowsay
   package_aarch64:
   - home-assistant-cli
   npm_packages:
   pip_packages: 
   cargo_packages:
   bin_export: 
+  - figlet 
+  - cowsay
   bin_export_aarch64:
   - hass-cli
   app_export: 
