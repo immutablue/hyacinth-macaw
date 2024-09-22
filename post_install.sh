@@ -136,6 +136,7 @@ app_settings_systemd() {
     declare -a enabled_services=(
         dbox-start-dev
         dbox-start-util
+        dconf-load
         ephem-alpine
         ephem-arch
         ephem-fedora
