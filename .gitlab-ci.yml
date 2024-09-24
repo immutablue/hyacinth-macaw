@@ -5,7 +5,7 @@ variables:
   FEDORA_VERSION: 40
   BUILD_IMAGE: quay.io/fedora/fedora:40
   DOCKER_PRIVILEGED: "true"
-  DOCKER_DRIVER: "overlay"
+  DOCKER_DRIVER: "overlay2"
   SLEEP_TIME: 10
 
 
