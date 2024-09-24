@@ -17,7 +17,7 @@ build-stable-amd64:
   rules:
   - if: $DAILY == null && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script: |
-    until dnf install -y make buildah fuse-overlayfs; do sleep $SLEEP_TIME; done
+    until dnf install -y make buildah fuse-overlayfs ShellCheck; do sleep $SLEEP_TIME; done
     until buildah login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"; do sleep $SLEEP_TIME; done
     until make VERSION=$FEDORA_VERSION TAG=$FEDORA_VERSION all; do sleep $SLEEP_TIME; done
 
