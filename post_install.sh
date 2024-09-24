@@ -167,7 +167,7 @@ install_cowsay() {
     git clone https://github.com/paulkaefer/cowsay-files
     distrobox enter util -- bash -c "sudo cp ./cowsay-files/cows/*.cow /usr/share/cowsay/cows/"
     rm -rf ./cowsay-files
-    popd 
+    popd || return
 }
 
 
