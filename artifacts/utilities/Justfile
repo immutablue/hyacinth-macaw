@@ -25,18 +25,18 @@ update_dotfiles:
     #!/bin/bash
     set -euxo pipefail
 
-    until ping -c1 one.one.one.one; sleep 10; done
+    until ping -c1 one.one.one.one; do sleep 10; done
 
     cd "$HOME/.dotfiles"
     git pull
-    stow .
+    just stow
 
 
 update_notes:
     #!/bin/bash
     set -euxo pipefail 
 
-    until ping -c1 one.one.one.one; sleep 10; done
+    until ping -c1 one.one.one.one; do sleep 10; done
 
     cd "$HOME/Documents/notes"
     git pull || true
@@ -116,7 +116,7 @@ update_repos:
     #!/bin/bash 
     set -euxo pipefail 
 
-    until ping -c1 one.one.one.one; sleep 10; done
+    until ping -c1 one.one.one.one; do sleep 10; done
 
     declare -a main_dirs=(
         "$HOME/Source/Projects"
