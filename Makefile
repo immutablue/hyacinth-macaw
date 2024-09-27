@@ -132,6 +132,10 @@ endif
 		$(IMAGE):$(TAG)
 
 
+retag:
+	buildah tag $(IMAGE):$(TAG) $(IMAGE):$(RETAG) 
+
+
 # TODO: Be implemented correctly
 flatpak_refs/flatpaks: packages.yaml
 	mkdir -p ./flatpak_refs

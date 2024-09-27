@@ -55,3 +55,6 @@ distrobox:
   bin_symlink:
   bin_symlink_aarch:
   bin_symlink_x86_64:
+brew: 
+  install:
+  uninstall:
