@@ -13,8 +13,8 @@ immutablue:
   repo_urls:
   # - name: tailscale.repo 
   #   url: https://pkgs.tailscale.com/stable/fedora/tailscale.repo
-  - name: hyprland.repo 
-    url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-41/solopasha-hyprland-fedora-41.repo
+  # - name: hyprland.repo 
+  #   url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-41/solopasha-hyprland-fedora-41.repo
   - name: ublue-os-staging.repo
     url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-41/ublue-os-staging-fedora-41.repo
   - name: docker-ce.repo 
@@ -30,7 +30,7 @@ immutablue:
   rpm:
   - lxc
   - lxc-templates
-  - gdb
+  # - gdb
   - strace
   - ltrace
   - bpftrace
@@ -38,13 +38,13 @@ immutablue:
   - gnome-shell-extension-appindicator
   - gnome-shell-extension-dash-to-dock
   - gnome-shell-extension-gsconnect
-  - gnome-shell-extension-user-theme
+  # - gnome-shell-extension-user-theme
   - gnome-shell-extension-search-light 
   - tlp
-  - hyprland
-  - hyprland-plugins 
-  - hyprlock
-  - hyprpaper
+  # - hyprland
+  # - hyprland-plugins 
+  # - hyprlock
+  # - hyprpaper
   - wireguard-tools
   - docker-ce
 
