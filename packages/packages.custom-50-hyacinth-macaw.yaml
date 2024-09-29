@@ -14,9 +14,9 @@ immutablue:
   # - name: tailscale.repo 
   #   url: https://pkgs.tailscale.com/stable/fedora/tailscale.repo
   - name: hyprland.repo 
-    url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-40/solopasha-hyprland-fedora-40.repo
+    url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-41/solopasha-hyprland-fedora-41.repo
   - name: ublue-os-staging.repo
-    url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-40/ublue-os-staging-fedora-40.repo
+    url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-41/ublue-os-staging-fedora-41.repo
   - name: docker-ce.repo 
     url: https://download.docker.com/linux/fedora/docker-ce.repo
 
@@ -76,8 +76,8 @@ immutablue:
   # Urls to RPMs to download (they are curled)
   # so provide the url
   rpm_url:
-  #- https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-40.noarch.rpm 
-  #- https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-40.noarch.rpm
+  #- https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-41.noarch.rpm 
+  #- https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-41.noarch.rpm
 
   # RPM packages you want to remove from the image
   rpm_rm:
@@ -213,7 +213,7 @@ distrobox:
   - bpftrace 
 
 # - name: vpn 
-#   image: registry.fedoraproject.org/fedora:40
+#   image: registry.fedoraproject.org/fedora:41
 #   root: true
 #   additional_flags:
 #   - --privileged
@@ -231,7 +231,7 @@ distrobox:
 #   bin_symlink:
 
 - name: mpd 
-  image: registry.fedoraproject.org/fedora:40 
+  image: registry.fedoraproject.org/fedora:41 
   root: false 
   additional_flags:
   pkg_inst_cmd: dnf install -y

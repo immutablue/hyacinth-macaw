@@ -134,10 +134,10 @@ asahi_update:
     set -euxo pipefail 
     
     cd "$HOME/Source/Projects/immutablue/"
-    make TAG=40-aarch64 PLATFORM=linux/arm64 all
+    make TAG=41-aarch64 PLATFORM=linux/arm64 all
 
     cd "$HOME/Source/Projects/immutablue-asahi"
-    make VERSION=40-aarch64 all
+    make VERSION=41-aarch64 all
 
     cd "$HOME/Source/Projects/hyacinth-macaw"
     make ASAHI=1 all

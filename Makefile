@@ -40,7 +40,7 @@ IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
 # Current version to be based off of
 # Change this after major releases
-CURRENT := 40
+CURRENT := 41
 
 # Can override in make
 ifndef $(VERSION)
