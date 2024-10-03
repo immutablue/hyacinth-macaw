@@ -10,12 +10,6 @@ endif
 IMAGE_BASE_TAG := hyacinth-macaw
 IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
-# Is this an nvidia build? Its best to just 
-# pass this as an arg to `make` instead of setting here:
-# - Ex: make NVIDIA=1 all 
-ifndef $(NVIDIA)
-	NVIDIA := 0
-endif
 
 # This is based on asahi? This is only 
 # relevant for m-series macs!
@@ -26,15 +20,6 @@ endif
 # This forms something similar to:
 # registry.gitlab.com/<your-name>/<your-project>
 # and represents where the image will be pushed to
-# If Nvidia is in use, it will append '-nvidia' to the end
-
-ifeq ($(NVIDIA),1)
-	IMMUTABLUE_BASE := immutablue-cyan
-else ifeq ($(ASAHI),1)
-	IMMUTABLUE_BASE := immutablue-asahi
-else 
-	IMMUTABLUE_BASE := immutablue
-endif
 IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
 
@@ -52,10 +37,26 @@ ifndef $(TAG)
 	TAG = $(CURRENT)
 endif
 
+
+# Change which image is the parent image
 ifeq ($(NVIDIA),1)
+	IMMUTABLUE_BASE := immutablue-cyan
 	TAG := $(TAG)-nvidia
 else ifeq ($(ASAHI),1)
+	IMMUTABLUE_BASE := immutablue-asahi
 	TAG := $(TAG)-asahi
+else ifeq ($(NUCLEUS),1)
+	IMMUTABLUE_BASE := immutablue-nucleus 
+	TAG := $(TAG)-nucleus 
+else ifeq ($(KUBERBLUE),1)
+	IMMUTABLUE_BASE := kuberblue
+	TAG := $(TAG)-kuberblue
+else ifeq ($(KUBERBLUE_NUCLEUS),1)
+	IMMUTABLUE_BASE := kuberblue
+	TAG := $(TAG)-kuberblue-nucleus
+	VERSION := $(VERSION)-nucleus
+else 
+	IMMUTABLUE_BASE := immutablue
 endif
 
 # If you want to set this as latest as well
