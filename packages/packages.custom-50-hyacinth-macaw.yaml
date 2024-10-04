@@ -17,8 +17,8 @@ immutablue:
     url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-40/solopasha-hyprland-fedora-40.repo
   - name: ublue-os-staging.repo
     url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-40/ublue-os-staging-fedora-40.repo
-  - name: docker-ce.repo 
-    url: https://download.docker.com/linux/fedora/docker-ce.repo
+  # - name: docker-ce.repo 
+  #   url: https://download.docker.com/linux/fedora/docker-ce.repo
 
   repo_urls_aarch64:
   - name: rust-epel.repo 
@@ -46,7 +46,7 @@ immutablue:
   - hyprlock
   - hyprpaper
   - wireguard-tools
-  - docker-ce
+  # - docker-ce
 
   rpm_aarch64:
   - stow
