@@ -263,6 +263,7 @@ brew:
   install:
   - bat
   - bear
+  - binsider
   - btop 
   - clipboard
   - croc
