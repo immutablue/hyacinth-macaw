@@ -23,6 +23,8 @@ immutablue:
   repo_urls_aarch64:
   - name: rust-epel.repo 
     url: https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-9/cyqsimon-el-rust-pkgs-epel-9.repo
+  - name: yazi.repo 
+    url: https://copr.fedorainfracloud.org/coprs/varlad/yazi/repo/fedora-40/varlad-yazi-fedora-40.repo
 
 
   # RPM packages you want to install
@@ -72,6 +74,8 @@ immutablue:
   - pass
   - dysk
   - newsboat
+  - yazi 
+  - poppler 
 
 
   # Urls to RPMs to download (they are curled)
@@ -264,6 +268,7 @@ brew:
   - croc
   - ddgr
   - entr
+  - ffmpegthumbnailer
   - freerdp
   - glab 
   - helm
@@ -275,11 +280,14 @@ brew:
   - localtunnel
   - newsboat
   - onefetch
+  - poppler
   - progress
+  - sevenzip
   - sshs
   - streamlink
   - stow
   - wiki
+  - yazi
   - yt-dlp
   uninstall:
 
