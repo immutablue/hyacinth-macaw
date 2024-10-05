@@ -46,7 +46,7 @@ immutablue:
   - hyprlock
   - hyprpaper
   - wireguard-tools
-  - alacritty
+  - kitty
   # - docker-ce
 
   rpm_aarch64:
