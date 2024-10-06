@@ -135,6 +135,7 @@ distrobox:
   - xfreerdp
   - figlet 
   - cowsay
+  - python3-pip
   package_aarch64:
   - home-assistant-cli
   npm_packages:
