@@ -198,6 +198,7 @@ distrobox:
   - smd
   - wthrr
   - youtube-tui
+  - lowfi
   bin_export: 
   - autotools-language-server 
   - bash-language-server
