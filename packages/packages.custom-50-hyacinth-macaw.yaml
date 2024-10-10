@@ -23,8 +23,6 @@ immutablue:
   repo_urls_aarch64:
   - name: rust-epel.repo 
     url: https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-9/cyqsimon-el-rust-pkgs-epel-9.repo
-  - name: yazi.repo 
-    url: https://copr.fedorainfracloud.org/coprs/varlad/yazi/repo/fedora-40/varlad-yazi-fedora-40.repo
 
 
   # RPM packages you want to install
@@ -200,6 +198,8 @@ distrobox:
   - wthrr
   - youtube-tui
   - lowfi
+  cargo_packages_aarch64:
+  - yazi
   bin_export: 
   - autotools-language-server 
   - bash-language-server
