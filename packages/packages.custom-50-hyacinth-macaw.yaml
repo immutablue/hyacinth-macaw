@@ -49,7 +49,8 @@ immutablue:
   - hyprpaper
   - wireguard-tools
   - kitty
-  # - docker-ce
+  - qtile
+  - wofi
 
   rpm_aarch64:
   - stow
