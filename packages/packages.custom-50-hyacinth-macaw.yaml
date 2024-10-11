@@ -47,7 +47,7 @@ immutablue:
   - hyprpaper
   - wireguard-tools
   - kitty
-  - qtile
+  - qtile-wayland
   - wofi
 
   rpm_aarch64:
