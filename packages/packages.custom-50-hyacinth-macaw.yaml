@@ -48,7 +48,7 @@ immutablue:
   - wireguard-tools
   - kitty
   - qtile-wayland
-  - wofi
+  - rofi
 
   rpm_aarch64:
   - stow
