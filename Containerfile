@@ -55,3 +55,13 @@ RUN set -x && \
     ostree container commit
 
 
+# unmask, disable, enable, and mask services:
+# Handle .immutablue.services_*[]
+RUN set -x && \
+    svc_yamls=$(for yaml in ./packages/packages.custom-*.yaml; do printf "%s " $yaml; done) && \
+    for yaml in $svc_yamls; do svcs=$(cat <(yq '.immutablue.services_unmask_sys[]' < $yaml) <(yq ".immutablue.services_unmask_sys_$(uname -m)[]" < $yaml)); for s in $svcs; do systemctl unmask "$s"; done; done && \
+    for yaml in $svc_yamls; do svcs=$(cat <(yq '.immutablue.services_disable_sys[]' < $yaml) <(yq ".immutablue.services_disable_sys_$(uname -m)[]" < $yaml)); for s in $svcs; do systemctl disable "$s"; done; done && \
+    for yaml in $svc_yamls; do svcs=$(cat <(yq '.immutablue.services_enable_sys[]' < $yaml) <(yq ".immutablue.services_enable_sys_$(uname -m)[]" < $yaml)); for s in $svcs; do systemctl enable "$s"; done; done && \
+    for yaml in $svc_yamls; do svcs=$(cat <(yq '.immutablue.services_mask_sys[]' < $yaml) <(yq ".immutablue.services_mask_sys_$(uname -m)[]" < $yaml)); for s in $svcs; do systemctl mask "$s"; done; done && \
+    ostree container commit
+

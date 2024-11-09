@@ -142,3 +142,11 @@ asahi_update:
     cd "$HOME/Source/Projects/hyacinth-macaw"
     make ASAHI=1 all
 
+
+update_brew:
+    #!/bin/bash 
+    set -euxo pipefail 
+
+    brew update
+    brew upgrade
+

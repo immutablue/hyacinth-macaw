@@ -24,10 +24,16 @@ prepare_artifacts() {
 
 
 install_artifacts_starship() {
+    local installer="/tmp/install_starship.sh"
+
 	mkdir -p "$HOME/bin/starship"
-	curl -Lo /tmp/install_starship.sh https://starship.rs/install.sh
-	sh /tmp/install_starship.sh -y -b "$HOME/bin/starship/"
-	rm /tmp/install_starship.sh
+	curl -Lo "${installer}" https://starship.rs/install.sh
+
+    if [[ -f "${installer}" ]]
+    then
+    	sh "${installer}" -y -b "$HOME/bin/starship/"
+    	rm "${installer}"
+    fi
 }
 
 
