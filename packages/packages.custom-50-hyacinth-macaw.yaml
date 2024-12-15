@@ -198,6 +198,7 @@ distrobox:
   - wthrr
   - youtube-tui
   - lowfi
+  - sendme
   cargo_packages_aarch64:
   - yazi
   bin_export: 
