@@ -9,7 +9,7 @@ endif
 # Example: <your-project-name>'
 IMAGE_BASE_TAG := hyacinth-macaw
 IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
-
+ALT_IMAGE := none
 
 # This is based on asahi? This is only 
 # relevant for m-series macs!
@@ -131,6 +131,15 @@ endif
 		--compression-format $(IMAGE_COMPRESSION_FORMAT) \
 		--compression-level $(IMAGE_COMPRESSION_LEVEL) \
 		$(IMAGE):$(TAG)
+ifneq ($(ALT_IMAGE), none)
+	buildah \
+		tag \
+		$(IMAGE):$(TAG) \
+		$(ALT_IMAGE):$(TAG)
+	buildah \
+		push \
+		$(ALT_IMAGE):$(TAG)
+endif
 
 
 retag:
