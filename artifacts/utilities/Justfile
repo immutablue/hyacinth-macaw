@@ -140,7 +140,7 @@ asahi_update:
     make VERSION=41-aarch64 all
 
     cd "$HOME/Source/Projects/hyacinth-macaw"
-    make ASAHI=1 all
+    make ASAHI=1 ALT_IMAGE=quay.io/zachpodbielniak/hyacinth-macaw all
 
 
 update_brew:
