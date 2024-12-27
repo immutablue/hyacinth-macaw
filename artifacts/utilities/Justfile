@@ -129,6 +129,17 @@ update_repos:
     done
 
 
+full_update:
+    #!/bin/bash 
+    set -euxo pipefail 
+    
+    cd "$HOME/Source/Projects/immutablue/"
+    make all
+
+    cd "$HOME/Source/Projects/hyacinth-macaw"
+    make ALT_IMAGE=quay.io/zachpodbielniak/hyacinth-macaw all
+
+
 asahi_update:
     #!/bin/bash 
     set -euxo pipefail 
