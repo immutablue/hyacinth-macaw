@@ -4,7 +4,7 @@ REGISTRY :=
 ifndef $(REGISTRY)
 	# Example: registry.gitlab.com/<your-name>
 	# Example: quay.io/<your-name>
-	REGISTRY := registry.gitlab.com/immutablue
+	REGISTRY := quay.io/immutablue
 endif
 # Example: <your-project-name>'
 IMAGE_BASE_TAG := hyacinth-macaw
@@ -122,14 +122,10 @@ push:
 ifeq ($(SET_AS_LATEST), 1)
 	buildah \
 		push \
-		--compression-format $(IMAGE_COMPRESSION_FORMAT) \
-		--compression-level $(IMAGE_COMPRESSION_LEVEL) \
 		$(IMAGE):latest
 endif
 	buildah \
 		push \
-		--compression-format $(IMAGE_COMPRESSION_FORMAT) \
-		--compression-level $(IMAGE_COMPRESSION_LEVEL) \
 		$(IMAGE):$(TAG)
 ifneq ($(ALT_IMAGE), none)
 	buildah \
