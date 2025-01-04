@@ -17,6 +17,9 @@ immutablue:
   file_rm:
   file_rm_aarch64:
   file_rm_x86_64:
+  flatpak_repos:
+  flatpak_repos_aarch64:
+  flatpak_repos_x86_64:
   flatpaks_runtime:
   flatpaks:
   flatpaks_aarch64:

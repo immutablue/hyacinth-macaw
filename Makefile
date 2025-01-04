@@ -7,6 +7,7 @@ ifndef $(REGISTRY)
 	REGISTRY := quay.io/immutablue
 endif
 # Example: <your-project-name>'
+<<<<<<< HEAD
 IMAGE_BASE_TAG := hyacinth-macaw
 IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 ALT_IMAGE := none
@@ -57,6 +58,11 @@ else ifeq ($(KUBERBLUE_NUCLEUS),1)
 	VERSION := $(VERSION)-nucleus
 else 
 	IMMUTABLUE_BASE := immutablue
+endif
+
+ifeq ($(LTS),1)
+	TAG := $(TAG)-lts
+	VERSION := $(VERSION)-lts
 endif
 
 # If you want to set this as latest as well
@@ -116,8 +122,6 @@ endif
 		
 
 # No need to change
-IMAGE_COMPRESSION_FORMAT := zstd:chunked
-IMAGE_COMPRESSION_LEVEL := 12
 push:
 ifeq ($(SET_AS_LATEST), 1)
 	buildah \
