@@ -2,12 +2,9 @@
 
 REGISTRY := 
 ifndef $(REGISTRY)
-	# Example: registry.gitlab.com/<your-name>
-	# Example: quay.io/<your-name>
 	REGISTRY := quay.io/immutablue
 endif
-# Example: <your-project-name>'
-<<<<<<< HEAD
+
 IMAGE_BASE_TAG := hyacinth-macaw
 IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 ALT_IMAGE := none
