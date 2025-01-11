@@ -36,6 +36,13 @@ fi
 # Install steam on asahi builds
 if [[ "$(immutablue_build_is_asahi)" = "${TRUE}" ]]
 then 
+    # rpm-ostree override replace \
+    #     --from repo='@System' \
+    #     --experimental \
+    #     --remove=virglrenderer \
+    #     steam virglrenderer
+        # --from repo='copr:copr.fedorainfracloud.org:group_asahi:mesa' \
+
     rpm-ostree \
         install \
         steam
