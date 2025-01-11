@@ -49,6 +49,7 @@ immutablue:
   - kitty
   - qtile-wayland
   - rofi
+  - muvm
 
   rpm_aarch64:
   - stow
