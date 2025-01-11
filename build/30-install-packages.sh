@@ -32,3 +32,12 @@ then
     pip3 install --prefix=/usr $(for pkg in $pip_pkgs; do printf '%s ' $pkg; done)
 fi
 
+
+# Install steam on asahi builds
+if [[ "$(immutablue_build_is_asahi)" = "${TRUE}" ]]
+then 
+    rpm-ostree \
+        install \
+        steam
+fi
+
