@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-# source /usr/libexec/immutablue/immutablue-header.sh
+source /usr/libexec/immutablue/immutablue-header.sh
 
 PACKAGES_YAMLS="$(for f in ${CUSTOM_INSTALL_DIR}/packages/packages.custom-*.yaml; do printf '%s ' ${f}; done)"
 MARCH="$(uname -m)"
