@@ -38,18 +38,15 @@ immutablue:
   - gnome-shell-extension-appindicator
   - gnome-shell-extension-dash-to-dock
   - gnome-shell-extension-gsconnect
-  # - gnome-shell-extension-user-theme
   - gnome-shell-extension-search-light 
   - tlp
-  # - hyprland
-  # - hyprland-plugins 
-  # - hyprlock
-  # - hyprpaper
   - wireguard-tools
   - kitty
   - qtile-wayland
   - rofi
   - muvm
+  - stow
+  - cowsay
 
   rpm_aarch64:
   - stow
@@ -121,6 +118,29 @@ immutablue:
   #Flatpaks to be uninstalled 
   flatpaks_rm:
   # - org.chromium.chromium 
+  
+  services_user_enable:
+  - dbox-start-dev
+  - dbox-start-util
+  - dconf-load
+  - ephem-alpine
+  - ephem-arch
+  - ephem-fedora
+  - ephem-rhel
+  - ephem-ubi
+  - ephem-ubuntu
+  - mount-drives
+  - mpd-start
+  - on-login
+ 
+  services_mask_user:
+  - tracker-extract-3.service
+  - tracker-miner-fs-3.service
+  - tracker-miner-rss-3.service
+  - tracker-writeback-3.service
+  - tracker-xdg-portal-3.service
+  - tracker-miner-fs-control-3.service
+
 
 distrobox:
   # Create upstream -- Adding tweaks
@@ -136,7 +156,6 @@ distrobox:
   - gnome-tweaks
   - xfreerdp
   - figlet 
-  - cowsay
   - python3-pip
   package_aarch64:
   - home-assistant-cli
@@ -145,7 +164,6 @@ distrobox:
   cargo_packages:
   bin_export: 
   - figlet 
-  - cowsay
   bin_export_aarch64:
   - hass-cli
   app_export: 
@@ -293,7 +311,6 @@ brew:
   - sevenzip
   - sshs
   - streamlink
-  - stow
   - wiki
   - yazi
   - yt-dlp
