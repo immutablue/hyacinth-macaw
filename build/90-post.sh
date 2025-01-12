@@ -5,18 +5,6 @@ if [ -f "./99-common.sh" ]; then source "./99-common.sh"; fi
 
 
 
-install_starship() {
-    local installer="/tmp/install_starship.sh"
-
-	curl -Lo "${installer}" https://starship.rs/install.sh
-
-    if [[ -f "${installer}" ]]
-    then
-    	sh "${installer}" -y -b "/usr/bin/"
-    	rm "${installer}"
-    fi
-}
-
 install_bins() {
     local temp="/tmp"
     local bin="/usr/bin"
@@ -183,7 +171,6 @@ install_themes() {
 }
 
 
-install_starship
 install_bins
 install_fonts
 install_cowsay_files
