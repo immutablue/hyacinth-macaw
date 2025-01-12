@@ -167,43 +167,6 @@ install_extensions() {
 }
 
 
-app_settings_enable_extensions() {
-    declare -a extensions_enable=(
-        "appindicatorsupport@rgcjonas.gmail.com"
-        "dash-to-dock@micxgx.gmail.com"
-        "gsconnect@andyholmes.github.io"
-        "user-theme@gnome-shell-extensions.gcampax.github.com"
-        "desktop-cube@schneegans.github.com"
-        "search-light@icedman.github.com"
-        "tailscale-status@maxgallup.github.com"
-        "tiling-assistant@leleat-on-github"
-        "unblank@sun.wxg@gmail.com"
-    )
-
-    if [[ "$(immutablue_build_is_asahi)" != "${FALSE}" ]]
-    then 
-        extensions_enable+=("rounded-window-corners@fxgn")
-    fi
-
-
-    declare -a extensions_disable=(
-        "background-logo@fedorahosted.org"
-        "launch-new-instance@gnome-shell-extensions.gcampax.github.com"
-        "places-menu@gnome-shell-extensions.gcampax.github.com"
-        "window-list@gnome-shell-extensions.gcampax.github.com"
-    )
-
-    
-    for extension in "${extensions_enable[@]}"
-    do 
-        gnome-extensions enable "${extension}"
-    done
-    
-    for extension in "${extensions_disable[@]}"
-    do 
-        gnome-extensions disable "${extension}"
-    done
-}
 
 install_themes() {
     local gtk_theme="WhiteSur-Dark"
