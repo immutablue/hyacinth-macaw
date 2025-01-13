@@ -49,10 +49,8 @@ immutablue:
   - kitty
   - qtile-wayland
   - rofi
-  - muvm
 
   rpm_aarch64:
-  - stow
   - neovim
   - htop 
   - tmux 
@@ -88,7 +86,6 @@ immutablue:
 
   # RPM packages you want to remove from the image
   rpm_rm:
-  - gnome-software-rpm-ostree
 
   # Build files that need to be removed. If the build is filing about some
   # ephemeral file that exists, put the path here so it get removed in 
