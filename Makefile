@@ -91,8 +91,7 @@ update: install_or_update
 check:
 	shellcheck \
 		-e SC2181 \
-		./post_install.sh \
-		./artifacts/overrides/usr/bin/hyacinth-macaw
+		./post_install.sh
 
 # No need to change
 build: check
