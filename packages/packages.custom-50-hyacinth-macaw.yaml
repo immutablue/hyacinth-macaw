@@ -73,6 +73,7 @@ immutablue:
   - dysk
   - newsboat
   - poppler 
+  - btop
 
   rpm_asahi_aarch64:
   - steam
