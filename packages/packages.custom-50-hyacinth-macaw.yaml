@@ -49,6 +49,8 @@ immutablue:
   - kitty
   - qtile-wayland
   - rofi
+  - ImageMagick
+  - ImageMagick-devel
 
   rpm_aarch64:
   - neovim
