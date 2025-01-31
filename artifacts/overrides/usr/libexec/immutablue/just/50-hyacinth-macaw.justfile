@@ -19,10 +19,7 @@ hyacinth_full_update_asahi:
     set -euxo pipefail 
     
     cd "$HOME/Source/Projects/immutablue/"
-    make TAG=41-aarch64 all
-
-    cd "$HOME/Source/Projects/immutablue-asahi"
-    make VERSION=41-aarch64 all
+    make ASAHI=1 all
 
     cd "$HOME/Source/Projects/hyacinth-macaw"
     make ASAHI=1 all
