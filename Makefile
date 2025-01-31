@@ -41,7 +41,8 @@ ifeq ($(NVIDIA),1)
 	IMMUTABLUE_BASE := immutablue-cyan
 	TAG := $(TAG)-nvidia
 else ifeq ($(ASAHI),1)
-	IMMUTABLUE_BASE := immutablue-asahi
+	IMMUTABLUE_BASE := immutablue
+	VERSION := $(VERSION)-asahi
 	TAG := $(TAG)-asahi
 else ifeq ($(NUCLEUS),1)
 	IMMUTABLUE_BASE := immutablue-nucleus
