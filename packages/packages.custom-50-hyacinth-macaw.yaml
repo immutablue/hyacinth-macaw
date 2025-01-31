@@ -78,7 +78,6 @@ immutablue:
   - btop
 
   rpm_asahi_aarch64:
-  - steam
 
 
   # Urls to RPMs to download (they are curled)
