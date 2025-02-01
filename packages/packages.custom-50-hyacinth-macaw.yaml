@@ -78,6 +78,7 @@ immutablue:
   - btop
   - aerc
   - cpan
+  - firefox
 
   rpm_asahi_aarch64:
 
