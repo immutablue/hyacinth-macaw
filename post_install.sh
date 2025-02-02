@@ -38,7 +38,7 @@ install_artifacts_starship() {
 
 
 install_artfifacts_dotfiles() {
-    [ ! -d "$HOME/.dotfile" ] && git clone "${DOTFILES_GIT}" "$HOME/.dotfiles"
+    [ ! -d "$HOME/.dotfiles" ] && git clone "${DOTFILES_GIT}" "$HOME/.dotfiles"
     bash -c "cd $HOME/.dotfiles && git pull" 
 
     # Kind of dirty
