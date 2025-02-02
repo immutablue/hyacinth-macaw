@@ -106,18 +106,14 @@ immutablue:
   
   # Flatpaks to be installed
   flatpaks:
-  - org.gnome.Platform//46
   - com.bitwarden.desktop
   - com.calibre_ebook.calibre
-  - com.gitfiend.GitFiend
   - org.pulseaudio.pavucontrol
   - re.sonny.Junction
-  - org.onionshare.OnionShare
-  - org.wireshark.Wireshark
-  - org.kiwix.desktop
   - org.jamovi.jamovi
   - io.github.peazip.PeaZip 
   - me.timschneeberger.GalaxyBudsClient
+  - br.com.wiselabs.simplexity
 
 
   #Flatpaks to be uninstalled 
