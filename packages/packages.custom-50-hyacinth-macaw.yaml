@@ -11,14 +11,10 @@
 immutablue:
   # Repo URLs to add in the build (they are curled)
   repo_urls:
-  # - name: tailscale.repo 
-  #   url: https://pkgs.tailscale.com/stable/fedora/tailscale.repo
   # - name: hyprland.repo 
   #   url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-41/solopasha-hyprland-fedora-41.repo
   - name: ublue-os-staging.repo
     url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-41/ublue-os-staging-fedora-41.repo
-  # - name: docker-ce.repo 
-  #   url: https://download.docker.com/linux/fedora/docker-ce.repo
 
   repo_urls_aarch64:
   - name: rust-epel.repo 
@@ -38,7 +34,7 @@ immutablue:
   - gnome-shell-extension-appindicator
   - gnome-shell-extension-dash-to-dock
   - gnome-shell-extension-gsconnect
-  # - gnome-shell-extension-user-theme
+  - gnome-shell-extension-user-theme
   - gnome-shell-extension-search-light 
   - tlp
   # - hyprland
@@ -51,6 +47,8 @@ immutablue:
   - rofi
   - ImageMagick
   - ImageMagick-devel
+  - gnutls
+  - gnutls-utils
 
   rpm_aarch64:
   - neovim
@@ -136,8 +134,8 @@ distrobox:
   - figlet 
   - cowsay
   - python3-pip
-  package_aarch64:
   - home-assistant-cli
+  package_aarch64:
   npm_packages:
   pip_packages: 
   cargo_packages:
