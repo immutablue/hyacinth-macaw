@@ -188,6 +188,7 @@ distrobox:
   - bash-language-server
   - dockerfile-language-server-nodejs
   - pyright
+  - perlnavigator-server
   pip_packages: 
   # See https://github.com/Freed-Wu/autotools-language-server/issues/9
   - tree-sitter==0.21.3
@@ -206,6 +207,7 @@ distrobox:
   - bash-language-server
   - docker-langserver 
   - pyright-langserver 
+  - perlnavigator
   - clangd 
   - R 
   - Rscript
