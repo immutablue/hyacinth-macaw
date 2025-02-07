@@ -32,6 +32,7 @@ immutablue:
   - bpftrace
   - arm-image-installer
   - gnome-shell-extension-appindicator
+  - gnome-shell-extension-blur-my-shell
   - gnome-shell-extension-dash-to-dock
   - gnome-shell-extension-gsconnect
   - gnome-shell-extension-user-theme
