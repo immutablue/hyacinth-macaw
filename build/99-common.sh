@@ -5,43 +5,42 @@ source /usr/libexec/immutablue/immutablue-header.sh
 PACKAGES_YAMLS="$(for f in ${CUSTOM_INSTALL_DIR}/packages/packages.custom-*.yaml; do printf '%s ' ${f}; done)"
 MARCH="$(uname -m)"
 MODULES_CONF="/etc/modules-load.d/50-immutablue-${NAME}.conf"
+IMMUTABLUE_BUILD_OPTIONS_FILE="/usr/immutablue/build_options"
 
 
+get_immutablue_build_options() {
+    IFS=',' read -ra entry_array < "${IMMUTABLUE_BUILD_OPTIONS_FILE}"
+    for entry in "${entry_array[@]}"
+    do
+        echo -e "${entry}"
+    done 
+}
+
+is_option_in_build_options() {
+    local option="$1"
+    IFS=',' read -ra entry_array < "${IMMUTABLUE_BUILD_OPTIONS_FILE}"
+    for entry in "${entry_array[@]}"
+    do
+        if [[ "${option}" == "${entry}" ]]
+        then 
+            echo "${TRUE}"
+            return 0
+        fi
+    done 
+    echo "${FALSE}"
+}
+
+# looks up entries in packages.yaml
+# takes into account the architecture and build options
 get_yaml_array() {
     local key="$1"
     for yaml in ${PACKAGES_YAMLS}
-    do
+    do 
         cat <(yq "${key}[]" < "${yaml}") <(yq "${key}_${MARCH}[]" < "${yaml}")
-
-        if [[ "$(immutablue_build_is_nucleus)" == "${TRUE}" ]]
-        then
-            cat <(yq "${key}_nucleus[]" < "${yaml}") <(yq "${key}_nucleus_${MARCH}[]" < "${yaml}")
-        fi
-
-        if [[ "$(immutablue_build_is_kuberblue)" == "${TRUE}" ]]
-        then
-            cat <(yq "${key}_kuberblue[]" < "${yaml}") <(yq "${key}_kuberblue_${MARCH}[]" < "${yaml}")
-        fi
-        
-        if [[ "$(immutablue_build_is_trueblue)" == "${TRUE}" ]]
-        then
-            cat <(yq "${key}_trueblue[]" < "${yaml}") <(yq "${key}_trueblue_${MARCH}[]" < "${yaml}")
-        fi
-
-        if [[ "$(immutablue_build_is_lts)" == "${TRUE}" ]]
-        then
-            cat <(yq "${key}_lts[]" < "${yaml}") <(yq "${key}_lts_${MARCH}[]" < "${yaml}")
-        fi
-
-        if [[ "$(immutablue_build_is_cyan)" == "${TRUE}" ]]
-        then
-            cat <(yq "${key}_cyan[]" < "${yaml}") <(yq "${key}_cyan_${MARCH}[]" < "${yaml}")
-        fi
-
-        if [[ "$(immutablue_build_is_asahi)" == "${TRUE}" ]]
-        then
-            cat <(yq "${key}_asahi[]" < "${yaml}") <(yq "${key}_asahi_${MARCH}[]" < "${yaml}")
-        fi
+        while read -r option 
+        do 
+            cat <(yq "${key}_${option}[]" < "${yaml}") <(yq "${key}_${option}_${MARCH}[]" < "${yaml}")
+        done < <(get_immutablue_build_options)
     done
 }
 

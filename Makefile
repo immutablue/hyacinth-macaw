@@ -36,32 +36,92 @@ ifndef $(TAG)
 endif
 
 
-# Change which image is the parent image
-ifeq ($(NVIDIA),1)
-	IMMUTABLUE_BASE := immutablue-cyan
-	TAG := $(TAG)-nvidia
-else ifeq ($(ASAHI),1)
-	IMMUTABLUE_BASE := immutablue
-	VERSION := $(VERSION)-asahi
-	TAG := $(TAG)-asahi
-else ifeq ($(NUCLEUS),1)
-	IMMUTABLUE_BASE := immutablue-nucleus
+BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)
+
+# -----------------------------------
+
+# No desktop environment
+ifeq ($(NUCLEUS),1)
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-nucleus
 	TAG := $(TAG)-nucleus
-else ifeq ($(KUBERBLUE),1)
-	IMMUTABLUE_BASE := kuberblue
-	TAG := $(TAG)-kuberblue
-else ifeq ($(KUBERBLUE_NUCLEUS),1)
-	IMMUTABLUE_BASE := kuberblue
-	TAG := $(TAG)-kuberblue-nucleus
-	VERSION := $(VERSION)-nucleus
-else 
-	IMMUTABLUE_BASE := immutablue
 endif
 
-ifeq ($(LTS),1)
-	TAG := $(TAG)-lts
-	VERSION := $(VERSION)-lts
+# KDE desktop
+ifeq ($(KINOITE),1)
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-kinoite
+	TAG := $(TAG)-kinoite
 endif
+
+# Sway desktop
+ifeq ($(SERICEA),1)
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-sericea
+	TAG := $(TAG)-sericea
+endif
+
+# Budgie desktop
+ifeq ($(ONYX),1)
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-onyx
+	TAG := $(TAG)-kinoite
+endif
+
+# XFCE desktop
+ifeq ($(VAUXITE),1)
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-vauxite
+	TAG := $(TAG)-vauxite
+endif
+
+# LXQt desktop
+ifeq ($(LAZURITE),1)
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-lazurite
+	TAG := $(TAG)-lazurite
+endif
+
+# Cosmic desktop
+ifeq ($(COSMIC),1)
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-cosmic
+	TAG := $(TAG)-cosmic
+endif
+
+# Not supported yet
+# Bazzite base w/ immutablue addons
+ifeq ($(BAZZITE),1)
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-nucleus
+	TAG := $(TAG)-bazzite
+endif
+
+
+ifeq ($(KUBERBLUE),1)
+	BASE_IMAGE := quay.io/immutablue/kuberblue:$(VERSION)
+	TAG := $(TAG)-kuberblue
+endif
+
+ifeq ($(TRUEBLUE),1)
+	BASE_IMAGE := quay.io/immutablue/trueblue:$(VERSION)
+	TAG := $(TAG)-trueblue
+endif
+
+
+
+# Build-time customizations from build options
+ifeq ($(ASAHI),1)
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-asahi
+	TAG := $(TAG)-asahi
+endif
+
+ifeq ($(CYAN),1)
+	BASE_IMAGE := $(BASE_IMAGE)-cyan
+	TAG := $(TAG)-cyan
+endif
+
+
+ifeq ($(LTS), 1)
+	BASE_IMAGE := $(BASE_IMAGE)-lts
+	TAG := $(TAG)-lts
+endif
+
+
+# -----------------------------------
+
 
 # If you want to set this as latest as well
 # set this to 1 in your call to make
@@ -104,6 +164,7 @@ ifeq ($(SET_AS_LATEST), 1)
 		-t $(IMAGE):latest \
 		-t $(IMAGE):$(TAG) \
 		-f ./Containerfile \
+		--build-arg=BASE_IMAGE=$(BASE_IMAGE) \
 		--build-arg=IMMUTABLUE_BASE=$(IMMUTABLUE_BASE) \
 		--build-arg=IMAGE_TAG=$(IMAGE_BASE_TAG):$(TAG) \
 		--build-arg=FEDORA_VERSION=$(VERSION)
@@ -114,6 +175,7 @@ else
 		--no-cache \
 		-t $(IMAGE):$(TAG) \
 		-f ./Containerfile \
+		--build-arg=BASE_IMAGE=$(BASE_IMAGE) \
 		--build-arg=IMMUTABLUE_BASE=$(IMMUTABLUE_BASE) \
 		--build-arg=IMAGE_TAG=$(IMAGE_BASE_TAG):$(TAG) \
 		--build-arg=FEDORA_VERSION=$(VERSION)

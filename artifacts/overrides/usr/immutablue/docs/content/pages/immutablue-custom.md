@@ -8,23 +8,34 @@ title = 'Immutablue Custom Build'
 
 You are using an Immutablue custom build. This was likely forked from the [project here](https://gitlab.com/immutablue/immutablue-custom).
 
-Immutablue custom builds can pull either straight from the main Immutablue image (quay.io/immutablue/immutablue) or it can pull from any number of intermediate layers:
-- asahi
-- cyan
-- kuberblue
-- trueblue
-- nucleus
+Immutablue custom builds can pull either straight from the main Immutablue image (quay.io/immutablue/immutablue) and its derivatives:
+- asahi (apple silicon support -- silverblue based only and does not support `lts` or `cyan`)
+- kuberblue (kubernetes built image)
+- trueblue (zfs focuses nas iamge)
+- nucleus (stripped down image with no gui)
+- kinoite (kde plasma based image)
+- lazurite (lxqt based image)
+- vauxite (xfce based image)
 
-You can also mix and match these via the various build files. For example, in your custom build if you would like to build a cutom image that relies upon both Kuberblue and Nucleus:
-```bash
-make KUBERBLUE_NUCLEUS=1 all
-```
-Your image will be built, tagged appropriately, and pushed. 
+(others not currently supported):
+- sericea (sway based image)
+- onyx (budgie based image)
+- cosmic (cosmic)
+- bazzite (bazzite image w/ immutablue customizations)
 
-This also works for rebasing. If you want to rebase without having to figure out what the tag is:
+as well there there are then "modifiers" to the above images which currently are (meaning you could do "lazurite" plus "cyan"):
+- cyan (nvidia support) -- does not support `lts`
+- lts (lts-kernel) -- does not support `cyan`
+
+To use this, you simply pass in all-caps their name and `=1` in the make invocation like so:
 ```bash
-make KUBERBLUE_NUCLEUS=1 rebase
+make KINOITE=1 LTS=1 all
 ```
+Your image will be built using upstream kinoite-lts, tagged appropriately, and pushed to your repo.
+
+## ZFS 
+
+As of February 2025, all `lts` builds are guaranteed to have ZFS support. Non-`lts` builds are not guaranteed, but may have ZFS support
 
 ## Customizations
  
