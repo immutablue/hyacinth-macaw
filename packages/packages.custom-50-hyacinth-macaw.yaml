@@ -136,6 +136,8 @@ distrobox:
   - cowsay
   - python3-pip
   - home-assistant-cli
+  - ImageMagick
+  - ImageMagick-devel
   package_aarch64:
   npm_packages:
   pip_packages: 
@@ -185,6 +187,8 @@ distrobox:
   # youtube-tui reqirements: mpv and sixel
   - mpv-devel
   - libsixel
+  - ImageMagick
+  - ImageMagick-devel
   npm_packages:
   - bash-language-server
   - dockerfile-language-server-nodejs
