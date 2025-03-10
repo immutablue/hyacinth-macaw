@@ -114,6 +114,7 @@ immutablue:
   - io.github.peazip.PeaZip 
   - me.timschneeberger.GalaxyBudsClient
   - br.com.wiselabs.simplexity
+  - io.github.wanglin2.mind-map
 
 
   #Flatpaks to be uninstalled 
@@ -219,6 +220,7 @@ distrobox:
   - Rscript
   - shellcheck
   - youtube-tui
+  - /usr/bin/pandoc
   app_export: 
   bin_symlink:
   - podman 
