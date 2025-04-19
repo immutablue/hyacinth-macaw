@@ -194,6 +194,7 @@ distrobox:
   - ImageMagick
   - ImageMagick-devel
   npm_packages:
+  - @anthropic-ai/claude-code
   - bash-language-server
   - dockerfile-language-server-nodejs
   - pyright
