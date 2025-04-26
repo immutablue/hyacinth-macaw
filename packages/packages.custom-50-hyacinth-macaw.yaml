@@ -38,7 +38,7 @@ immutablue:
   - gnome-shell-extension-user-theme
   - gnome-shell-extension-search-light 
   - gnome-shell-extension-tailscale-gnome-qs
-  - gnome-shell-extension-tailscale-status
+  # - gnome-shell-extension-tailscale-status
   - tlp
   # - hyprland
   # - hyprland-plugins 
