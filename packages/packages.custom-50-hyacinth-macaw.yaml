@@ -303,6 +303,31 @@ distrobox:
   - ltrace 
   - bpftrace 
 
+- name: ollama
+  image: quay.io/immutablue/dbox-fedora:42
+  pkg_inst_cmd: dnf5 install -y
+  pkg_updt_cmd: dnf5 update -y
+
+  extra_commands: 
+  packages:
+  - which
+  - ollama
+  - ImageMagick
+  - ImageMagick-devel
+  npm_packages:
+  pip_packages: 
+  cargo_packages:
+  bin_export: 
+  - ollama
+  app_export: 
+  bin_symlink:
+  - podman 
+  - buildah 
+  - distrobox 
+  - strace 
+  - ltrace 
+  - bpftrace 
+
 brew:
   install:
   - aerc
