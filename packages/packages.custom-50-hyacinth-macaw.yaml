@@ -274,6 +274,34 @@ distrobox:
   app_export:
   bin_symlink:
   
+- name: whisper
+  image: quay.io/immutablue/dbox-fedora:42
+  pkg_inst_cmd: dnf5 install -y
+  pkg_updt_cmd: dnf5 update -y
+
+  extra_commands: 
+  packages:
+  - which
+  - '@development-tools'
+  - git 
+  - cmake
+  - gcc-c++ 
+  - make
+  - libsixel
+  - ImageMagick
+  - ImageMagick-devel
+  npm_packages:
+  pip_packages: 
+  cargo_packages:
+  bin_export: 
+  app_export: 
+  bin_symlink:
+  - podman 
+  - buildah 
+  - distrobox 
+  - strace 
+  - ltrace 
+  - bpftrace 
 
 brew:
   install:
