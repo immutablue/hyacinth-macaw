@@ -278,15 +278,21 @@ distrobox:
   image: quay.io/immutablue/dbox-fedora:42
   pkg_inst_cmd: dnf5 install -y
   pkg_updt_cmd: dnf5 update -y
-
-  extra_commands: 
+  extra_commands: |
+    #!/bin/bash 
+    install_dir="${HOME}/Source/Public/whisper.cpp"
+    sudo dnf5 update -y 
+    sudo dnf install -y '@development-tools' git cmake gcc-c++ make
+    if [[ ! -d "${install_dir}" ]]
+    then
+      git clone https://github.com/ggerganov/whisper.cpp.git "${install_dir}"
+      cd "${install_dir}"
+      ./models/download-ggml-model.sh base.en 
+      sudo cmake -B build 
+      sudo cmake --build build -j
+    fi
   packages:
   - which
-  - '@development-tools'
-  - git 
-  - cmake
-  - gcc-c++ 
-  - make
   - libsixel
   - ImageMagick
   - ImageMagick-devel
@@ -307,7 +313,6 @@ distrobox:
   image: quay.io/immutablue/dbox-fedora:42
   pkg_inst_cmd: dnf5 install -y
   pkg_updt_cmd: dnf5 update -y
-
   extra_commands: 
   packages:
   - which
@@ -327,6 +332,30 @@ distrobox:
   - strace 
   - ltrace 
   - bpftrace 
+
+- name: markitdown
+  image: quay.io/immutablue/dbox-fedora:42
+  pkg_inst_cmd: dnf5 install -y
+  pkg_updt_cmd: dnf5 update -y
+  extra_commands: 
+  packages:
+  - which
+  - python3-pip
+  npm_packages:
+  pip_packages: 
+  - 'markitdown[all]'
+  cargo_packages:
+  bin_export: 
+  - markitdown
+  app_export: 
+  bin_symlink:
+  - podman 
+  - buildah 
+  - distrobox 
+  - strace 
+  - ltrace 
+  - bpftrace 
+  - nvim
 
 brew:
   install:
