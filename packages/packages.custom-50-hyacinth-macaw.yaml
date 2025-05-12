@@ -357,6 +357,34 @@ distrobox:
   - bpftrace 
   - nvim
 
+- name: pyapps
+  image: quay.io/immutablue/dbox-fedora:42
+  pkg_inst_cmd: dnf5 install -y
+  pkg_updt_cmd: dnf5 update -y
+  extra_commands: |
+    #!/bin/bash 
+    sudo dnf5 update -y 
+    sudo dnf5 install -y python3 python3-pip git
+    sudo pip3 install uv
+    sudo uv pip install perplexity-mcp-server --system
+    sudo uv pip install duckduckgo-mcp-server --system
+  packages:
+  - which
+  npm_packages:
+  pip_packages: 
+  cargo_packages:
+  bin_export: 
+  - uv
+  app_export: 
+  bin_symlink:
+  - podman 
+  - buildah 
+  - distrobox 
+  - strace 
+  - ltrace 
+  - bpftrace 
+  - nvim
+
 brew:
   install:
   - aerc
