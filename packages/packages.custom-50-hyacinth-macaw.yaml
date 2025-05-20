@@ -203,6 +203,10 @@ distrobox:
   # See https://github.com/Freed-Wu/autotools-language-server/issues/9
   - tree-sitter==0.21.3
   - autotools-language-server
+  - feedparser
+  - psycopg 
+  - psycopg_binary 
+  - numpy
   cargo_packages:
   # https://github.com/guilhermeprokisch/smd
   - smd
