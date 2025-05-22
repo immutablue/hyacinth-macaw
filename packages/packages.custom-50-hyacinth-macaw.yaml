@@ -52,6 +52,9 @@ immutablue:
   - ImageMagick-devel
   - gnutls
   - gnutls-utils
+  - perl-Mojolicious 
+  - perl-JSON
+  - perl-YAML
 
   rpm_aarch64:
   - neovim
