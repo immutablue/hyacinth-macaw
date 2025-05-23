@@ -304,6 +304,7 @@ distrobox:
       ./models/download-ggml-model.sh base.en 
       sudo cmake -B build 
       sudo cmake --build build -j
+      distrobox-export --bin "${install_dir}/build/bin/whisper-cli"
     fi
   packages:
   - which
