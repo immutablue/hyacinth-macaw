@@ -56,6 +56,13 @@ immutablue:
   - perl-JSON
   - perl-YAML
 
+  rpm_x86_64:
+  - rocm-runtime
+  - rocm-clinfo
+  - rocm-hip
+  - rocm-opencl 
+  - rocm-smi
+
   rpm_aarch64:
   - neovim
   - htop 
