@@ -353,9 +353,15 @@ distrobox:
   pkg_inst_cmd: dnf5 install -y
   pkg_updt_cmd: dnf5 update -y
   extra_commands: 
+    #!/bin/bash 
+    sudo dnf update -y
+    sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
   packages:
   - which
   - python3-pip
+  - ffmpeg
   npm_packages:
   pip_packages: 
   - 'markitdown[all]'
