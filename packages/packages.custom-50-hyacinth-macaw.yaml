@@ -204,6 +204,7 @@ distrobox:
   - ImageMagick
   - ImageMagick-devel
   - cabal-install
+  - gtk-docs
   npm_packages:
   - '@anthropic-ai/claude-code'
   - bash-language-server
