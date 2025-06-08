@@ -203,6 +203,7 @@ distrobox:
   - libsixel
   - ImageMagick
   - ImageMagick-devel
+  - cabal-install
   npm_packages:
   - '@anthropic-ai/claude-code'
   - bash-language-server
