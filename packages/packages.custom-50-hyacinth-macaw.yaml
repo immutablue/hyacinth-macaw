@@ -55,6 +55,8 @@ immutablue:
   - perl-Mojolicious 
   - perl-JSON
   - perl-YAML
+  - xmonad
+  - dmenu
 
   rpm_x86_64:
   - rocm-runtime
