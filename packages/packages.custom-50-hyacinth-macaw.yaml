@@ -56,6 +56,7 @@ immutablue:
   - perl-JSON
   - perl-YAML
   - xmonad
+  - xmobar
   - dmenu
 
   rpm_x86_64:
