@@ -55,9 +55,18 @@ immutablue:
   - perl-Mojolicious 
   - perl-JSON
   - perl-YAML
+  - libX11-devel 
+  - libXft-devel 
+  - libXinerama-devel
+  - libXrandr-devel
+  - libXScrnSaver-devel
+  - gnome-session-xsession
   - xmonad
   - xmobar
   - dmenu
+  - gcc
+  - gcc-plugin-devel
+  - binutils
 
   rpm_x86_64:
   - rocm-runtime
