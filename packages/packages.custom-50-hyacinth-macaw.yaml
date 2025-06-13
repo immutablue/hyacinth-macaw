@@ -63,10 +63,13 @@ immutablue:
   - gnome-session-xsession
   - xmonad
   - xmobar
-  - dmenu
+  - cabal-install
+  - i3lock
   - gcc
   - gcc-plugin-devel
   - binutils
+  - feh
+  - picom
 
   rpm_x86_64:
   - rocm-runtime
