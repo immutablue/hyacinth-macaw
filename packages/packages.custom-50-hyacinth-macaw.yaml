@@ -64,12 +64,14 @@ immutablue:
   - xmonad
   - xmobar
   - cabal-install
+  - stack
   - i3lock
   - gcc
   - gcc-plugin-devel
   - binutils
   - feh
   - picom
+  - mupdf
 
   rpm_x86_64:
   - rocm-runtime
