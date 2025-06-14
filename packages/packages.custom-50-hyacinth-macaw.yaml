@@ -60,6 +60,7 @@ immutablue:
   - libXinerama-devel
   - libXrandr-devel
   - libXScrnSaver-devel
+  - xorg-x11-server-Xephyr 
   - gnome-session-xsession
   - xmonad
   - xmobar
@@ -72,6 +73,7 @@ immutablue:
   - feh
   - picom
   - mupdf
+  - zathura
 
   rpm_x86_64:
   - rocm-runtime
