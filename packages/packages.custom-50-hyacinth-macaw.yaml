@@ -74,6 +74,9 @@ immutablue:
   - picom
   - mupdf
   - zathura
+  - zathura-pdf-poppler
+  - arandr
+  - brightnessctl
 
   rpm_x86_64:
   - rocm-runtime
