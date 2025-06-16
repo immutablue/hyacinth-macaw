@@ -43,5 +43,12 @@ build_trayer()  {
     make clean
 }
 
+build_st() {
+    cd /usr/src/gitlab/st 
+    make all 
+    cp st /usr/bin/
+}
+
 build_trayer
+build_st
 
