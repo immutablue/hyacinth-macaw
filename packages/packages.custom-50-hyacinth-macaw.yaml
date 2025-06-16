@@ -60,6 +60,7 @@ immutablue:
   - libXinerama-devel
   - libXrandr-devel
   - libXScrnSaver-devel
+  - gtk2-devel
   - xorg-x11-server-Xephyr 
   - gnome-session-xsession
   - xmonad

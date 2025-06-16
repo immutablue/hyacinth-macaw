@@ -32,3 +32,16 @@ then
     pip3 install --prefix=/usr $(for pkg in $pip_pkgs; do printf '%s ' $pkg; done)
 fi
 
+
+# custom /usr/src stuff
+
+build_trayer()  {
+    cd /usr/src/gitlab/trayer-srg
+    ./configure 
+    make all 
+    cp trayer /usr/bin/
+    make clean
+}
+
+build_trayer
+

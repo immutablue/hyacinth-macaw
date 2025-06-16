@@ -1,0 +1,3 @@
+[submodule "artifacts/overrides/usr/src/gitlab/trayer-srg"]
+	path = artifacts/overrides/usr/src/gitlab/trayer-srg
+	url = git@gitlab.com:zachpodbielniak/trayer-srg.git
