@@ -21,16 +21,8 @@ immutablue:
     url: https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-9/cyqsimon-el-rust-pkgs-epel-9.repo
 
 
-  # RPM packages you want to install
-  # Same name as anything you'd normally install with `dnf install <name>`
-  rpm:
-  - lxc
-  - lxc-templates
-  # - gdb
-  - strace
-  - ltrace
-  - bpftrace
-  - arm-image-installer
+  # gui tools
+  rpm_gui:
   - gnome-shell-extension-appindicator
   - gnome-shell-extension-blur-my-shell
   - gnome-shell-extension-dash-to-dock
@@ -38,23 +30,9 @@ immutablue:
   - gnome-shell-extension-user-theme
   - gnome-shell-extension-search-light 
   - gnome-shell-extension-tailscale-gnome-qs
-  # - gnome-shell-extension-tailscale-status
-  - tlp
-  # - hyprland
-  # - hyprland-plugins 
-  # - hyprlock
-  # - hyprpaper
-  - wireguard-tools
   - kitty
   - qtile-wayland
   - rofi
-  - ImageMagick
-  - ImageMagick-devel
-  - gnutls
-  - gnutls-utils
-  - perl-Mojolicious 
-  - perl-JSON
-  - perl-YAML
   - libX11-devel 
   - libXft-devel 
   - libXinerama-devel
@@ -65,12 +43,7 @@ immutablue:
   - gnome-session-xsession
   - xmonad
   - xmobar
-  - cabal-install
-  - stack
   - i3lock
-  - gcc
-  - gcc-plugin-devel
-  - binutils
   - feh
   - picom
   - mupdf
@@ -79,6 +52,36 @@ immutablue:
   - arandr
   - brightnessctl
   - xclip
+  # - gnome-shell-extension-tailscale-status
+
+  # RPM packages you want to install
+  # Same name as anything you'd normally install with `dnf install <name>`
+  rpm:
+  - lxc
+  - lxc-templates
+  # - gdb
+  - strace
+  - ltrace
+  - bpftrace
+  - arm-image-installer
+  - tlp
+  # - hyprland
+  # - hyprland-plugins 
+  # - hyprlock
+  # - hyprpaper
+  - wireguard-tools
+  - ImageMagick
+  - ImageMagick-devel
+  - gnutls
+  - gnutls-utils
+  - perl-Mojolicious 
+  - perl-JSON
+  - perl-YAML
+  - cabal-install
+  - stack
+  - gcc
+  - gcc-plugin-devel
+  - binutils
 
   rpm_x86_64:
   - rocm-runtime
@@ -125,7 +128,7 @@ immutablue:
   #- https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm
 
   # RPM packages you want to remove from the image
-  rpm_rm:
+  rpm_rm_gui:
   - gnome-software
 
   # Build files that need to be removed. If the build is filing about some

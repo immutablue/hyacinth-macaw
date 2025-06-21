@@ -49,6 +49,9 @@ build_st() {
     cp st /usr/bin/
 }
 
-build_trayer
-build_st
+if [[ "${TRUE}" == $(is_option_in_build_options "gui") ]]
+then
+    build_trayer
+    build_st
+fi
 
