@@ -65,6 +65,10 @@ immutablue:
   - bpftrace
   - arm-image-installer
   - tlp
+  - cockpit 
+  - cockpit-machines
+  - cockpit-podman 
+  - cockpit-ostree
   # - hyprland
   # - hyprland-plugins 
   # - hyprlock
