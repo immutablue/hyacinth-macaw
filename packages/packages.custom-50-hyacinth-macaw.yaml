@@ -78,6 +78,7 @@ immutablue:
   - zathura-pdf-poppler
   - arandr
   - brightnessctl
+  - xclip
 
   rpm_x86_64:
   - rocm-runtime
