@@ -84,39 +84,40 @@ immutablue:
   - wireguard-tools
 
   rpm_x86_64:
-  - rocm-runtime
   - rocm-clinfo
   - rocm-hip
   - rocm-opencl 
+  - rocm-runtime
   - rocm-smi
 
   rpm_aarch64:
-  - neovim
-  - htop 
-  - tmux 
-  - just
-  - kubernetes-client
-  - helm
-  - fastfetch
+  - aerc
+  - btop
   - calc
   - coreutils
-  - moreutils
+  - cpan
+  - dysk
+  - fastfetch
+  - firefox
   - fzf 
+  - glab
   - glances
+  - helm
+  - htop 
+  - just
+  - kubernetes-client
+  - moreutils
   - ncdu
+  - neovim
+  - newsboat
+  - pass
+  - poppler 
   - ranger
   - ripgrep 
-  - tig
-  - zenity
   - ruby
-  - pass
-  - dysk
-  - newsboat
-  - poppler 
-  - btop
-  - aerc
-  - cpan
-  - firefox
+  - tig
+  - tmux 
+  - zenity
 
   rpm_asahi_aarch64:
 
@@ -145,15 +146,15 @@ immutablue:
   
   # Flatpaks to be installed
   flatpaks:
+  - br.com.wiselabs.simplexity
   - com.bitwarden.desktop
   - com.calibre_ebook.calibre
+  - io.github.peazip.PeaZip 
+  - io.github.wanglin2.mind-map
+  - me.timschneeberger.GalaxyBudsClient
+  - org.jamovi.jamovi
   - org.pulseaudio.pavucontrol
   - re.sonny.Junction
-  - org.jamovi.jamovi
-  - io.github.peazip.PeaZip 
-  - me.timschneeberger.GalaxyBudsClient
-  - br.com.wiselabs.simplexity
-  - io.github.wanglin2.mind-map
 
 
   #Flatpaks to be uninstalled 
