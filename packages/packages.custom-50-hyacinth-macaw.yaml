@@ -59,6 +59,7 @@ immutablue:
   rpm:
   - arm-image-installer
   - binutils
+  - borgbackup
   - bpftrace
   - cabal-install
   - cockpit 
