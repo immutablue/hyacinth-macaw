@@ -23,104 +23,101 @@ immutablue:
 
   # gui tools
   rpm_gui:
+  # - gnome-shell-extension-tailscale-status
+  - arandr
+  - brightnessctl
+  - feh
+  - gnome-session-xsession
   - gnome-shell-extension-appindicator
   - gnome-shell-extension-blur-my-shell
   - gnome-shell-extension-dash-to-dock
   - gnome-shell-extension-gsconnect
-  - gnome-shell-extension-user-theme
   - gnome-shell-extension-search-light 
   - gnome-shell-extension-tailscale-gnome-qs
+  - gnome-shell-extension-user-theme
+  - gtk2-devel
+  - i3lock
   - kitty
-  - qtile-wayland
-  - rofi
   - libX11-devel 
+  - libXScrnSaver-devel
   - libXft-devel 
   - libXinerama-devel
   - libXrandr-devel
-  - libXScrnSaver-devel
-  - gtk2-devel
-  - xorg-x11-server-Xephyr 
-  - gnome-session-xsession
-  - xmonad
-  - xmobar
-  - i3lock
-  - feh
-  - picom
   - mupdf
+  - picom
+  - qtile-wayland
+  - rofi
+  - xclip
+  - xmobar
+  - xmonad
+  - xorg-x11-server-Xephyr 
   - zathura
   - zathura-pdf-poppler
-  - arandr
-  - brightnessctl
-  - xclip
-  # - gnome-shell-extension-tailscale-status
 
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
   rpm:
-  - lxc
-  - lxc-templates
-  # - gdb
-  - strace
-  - ltrace
-  - bpftrace
   - arm-image-installer
-  - tlp
+  - binutils
+  - bpftrace
+  - cabal-install
   - cockpit 
   - cockpit-machines
-  - cockpit-podman 
   - cockpit-ostree
-  # - hyprland
-  # - hyprland-plugins 
-  # - hyprlock
-  # - hyprpaper
-  - wireguard-tools
-  - ImageMagick
-  - ImageMagick-devel
-  - gnutls
-  - gnutls-utils
-  - perl-Mojolicious 
-  - perl-JSON
-  - perl-YAML
-  - cabal-install
-  - stack
+  - cockpit-podman 
   - gcc
   - gcc-plugin-devel
-  - binutils
+  - gdb
+  - gnutls
+  - gnutls-utils
+  - ImageMagick
+  - ImageMagick-devel
+  - ltrace
+  - lxc
+  - lxc-templates
+  - perl-JSON
+  - perl-Mojolicious 
+  - perl-YAML
+  - stack
+  - strace
+  - tlp
+  - wireguard-tools
 
   rpm_x86_64:
-  - rocm-runtime
   - rocm-clinfo
   - rocm-hip
   - rocm-opencl 
+  - rocm-runtime
   - rocm-smi
 
   rpm_aarch64:
-  - neovim
-  - htop 
-  - tmux 
-  - just
-  - kubernetes-client
-  - helm
-  - fastfetch
+  - aerc
+  - btop
   - calc
   - coreutils
-  - moreutils
+  - cpan
+  - dysk
+  - fastfetch
+  - firefox
   - fzf 
+  - glab
   - glances
+  - helm
+  - htop 
+  - just
+  - kubernetes-client
+  - moreutils
   - ncdu
+  - neovim
+  - newsboat
+  - pass
+  - poppler 
   - ranger
   - ripgrep 
-  - tig
-  - zenity
   - ruby
-  - pass
-  - dysk
-  - newsboat
-  - poppler 
-  - btop
-  - aerc
-  - cpan
-  - firefox
+  - tig
+  - tmux 
+  - zenity
 
   rpm_asahi_aarch64:
 
@@ -149,15 +146,15 @@ immutablue:
   
   # Flatpaks to be installed
   flatpaks:
+  - br.com.wiselabs.simplexity
   - com.bitwarden.desktop
   - com.calibre_ebook.calibre
+  - io.github.peazip.PeaZip 
+  - io.github.wanglin2.mind-map
+  - me.timschneeberger.GalaxyBudsClient
+  - org.jamovi.jamovi
   - org.pulseaudio.pavucontrol
   - re.sonny.Junction
-  - org.jamovi.jamovi
-  - io.github.peazip.PeaZip 
-  - me.timschneeberger.GalaxyBudsClient
-  - br.com.wiselabs.simplexity
-  - io.github.wanglin2.mind-map
 
 
   #Flatpaks to be uninstalled 
