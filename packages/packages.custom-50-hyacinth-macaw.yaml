@@ -39,10 +39,10 @@ immutablue:
   - i3lock
   - kitty
   - libX11-devel 
-  - libXScrnSaver-devel
   - libXft-devel 
   - libXinerama-devel
   - libXrandr-devel
+  - libXScrnSaver-devel
   - mupdf
   - picom
   - qtile-wayland
