@@ -78,6 +78,7 @@ immutablue:
   - perl-JSON
   - perl-Mojolicious 
   - perl-YAML
+  - rclone
   - stack
   - strace
   - tlp
