@@ -236,6 +236,8 @@ distrobox:
   - ImageMagick-devel
   - cabal-install
   - gtk-docs
+  - libX11-devel 
+  - libXft-devel
   npm_packages:
   - '@anthropic-ai/claude-code'
   - bash-language-server
