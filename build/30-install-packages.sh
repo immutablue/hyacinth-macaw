@@ -45,13 +45,20 @@ build_trayer()  {
 
 build_st() {
     cd /usr/src/gitlab/st 
-    make all 
+    make
     cp st /usr/bin/
+}
+
+build_dwm() {
+    cd /usr/src/gitlab/st/ 
+    make
+    cp dwm /usr/bin/
 }
 
 if [[ "${TRUE}" == $(is_option_in_build_options "gui") ]]
 then
     build_trayer
     build_st
+    build_dwm
 fi
 

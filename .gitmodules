@@ -3,4 +3,9 @@
 	url = git@gitlab.com:zachpodbielniak/trayer-srg.git
 [submodule "artifacts/overrides/usr/src/gitlab/st"]
 	path = artifacts/overrides/usr/src/gitlab/st
-	url = git@gitlab.com:zachpodbielniak/st.git
+    url = git@gitlab.com:zachpodbielniak/st.git
+    branch = custom-build
+[submodule "artifacts/overrides/usr/src/gitlab/dwm"]
+	path = artifacts/overrides/usr/src/gitlab/dwm
+	url = git@gitlab.com:zachpodbielniak/dwm.git
+    branch = custom-build
