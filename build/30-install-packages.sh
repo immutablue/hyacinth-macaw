@@ -49,9 +49,21 @@ build_st() {
     cp st /usr/bin/
 }
 
+build_lidm() {
+    cd /usr/src/github/lidm 
+    make 
+    make install 
+    install -m644 ./assets/services/systemd.service /usr/lib/systemd/system/lidm.service
+    # systemctl disable display-manager.service 
+    # systemctl mask gdm.service
+    # systemctl enable lidm.service
+}
+
 if [[ "${TRUE}" == $(is_option_in_build_options "gui") ]]
 then
     build_trayer
     build_st
 fi
+
+build_lidm
 

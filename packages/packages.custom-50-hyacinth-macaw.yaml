@@ -76,6 +76,7 @@ immutablue:
   - ltrace
   - lxc
   - lxc-templates
+  - pam-devel
   - perl-JSON
   - perl-Mojolicious 
   - perl-YAML
@@ -162,6 +163,14 @@ immutablue:
   #Flatpaks to be uninstalled 
   flatpaks_rm:
   # - org.chromium.chromium 
+  
+  services_enable_sys:
+  - lidm.service 
+
+  services_disable_sys_gui:
+  - display-manager.service
+  services_mask_sys:
+  - gdm.service
 
 distrobox:
   # Create upstream -- Adding tweaks

@@ -5,3 +5,6 @@
 	path = artifacts/overrides/usr/src/gitlab/st
 	url = git@gitlab.com:zachpodbielniak/st.git
 	branch = custom-build
+[submodule "artifacts/overrides/usr/src/github/lidm"]
+	path = artifacts/overrides/usr/src/github/lidm
+	url = https://github.com/javalsai/lidm
