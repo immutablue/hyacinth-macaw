@@ -51,6 +51,7 @@ immutablue:
   - xmobar
   - xmonad
   - xorg-x11-server-Xephyr 
+  - xorg-x11-xdm
   - zathura
   - zathura-pdf-poppler
 
@@ -76,7 +77,6 @@ immutablue:
   - ltrace
   - lxc
   - lxc-templates
-  - pam-devel
   - perl-JSON
   - perl-Mojolicious 
   - perl-YAML
@@ -165,12 +165,11 @@ immutablue:
   # - org.chromium.chromium 
   
   services_enable_sys:
-  - lidm.service 
 
   services_disable_sys_gui:
-  - display-manager.service
+  # - display-manager.service
   services_mask_sys:
-  - gdm.service
+  # - gdm.service
 
 distrobox:
   # Create upstream -- Adding tweaks
