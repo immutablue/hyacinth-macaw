@@ -45,13 +45,13 @@ build_trayer()  {
 
 build_st() {
     cd /usr/src/gitlab/st 
-    make
+    make clean all
     cp st /usr/bin/
 }
 
 build_dwm() {
-    cd /usr/src/gitlab/st/ 
-    make
+    cd /usr/src/gitlab/dwm/
+    make clean all
     cp dwm /usr/bin/
 }
 
