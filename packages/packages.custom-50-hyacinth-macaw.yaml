@@ -45,6 +45,8 @@ immutablue:
   - libXScrnSaver-devel
   - mupdf
   - picom
+  - proton-vpn-gnome-desktop
+  - proton-vpn-gtk-app
   - qtile-wayland
   - rofi
   - wmctrl
@@ -83,6 +85,7 @@ immutablue:
   - perl-JSON
   - perl-Mojolicious 
   - perl-YAML
+  - protonvpn-cli
   - rclone
   - stack
   - strace
@@ -131,8 +134,12 @@ immutablue:
   # Urls to RPMs to download (they are curled)
   # so provide the url
   rpm_url:
-  #- https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm 
+  - https://repo.protonvpn.com/fedora-42-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.3-1.noarch.rpm
+  #- https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm
   #- https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm
+
+  rpm_url_gui:
+  - https://proton.me/download/mail/linux/1.8.1/ProtonMail-desktop-beta.rpm
 
   # RPM packages you want to remove from the image
   rpm_rm_gui:
