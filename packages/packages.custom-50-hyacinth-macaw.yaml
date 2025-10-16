@@ -138,7 +138,7 @@ immutablue:
   #- https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm
   #- https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm
 
-  rpm_url_gui:
+  rpm_url_gui_x86_64:
   - https://proton.me/download/mail/linux/1.8.1/ProtonMail-desktop-beta.rpm
 
   # RPM packages you want to remove from the image
