@@ -35,6 +35,7 @@ immutablue:
   - gnome-shell-extension-search-light 
   - gnome-shell-extension-tailscale-gnome-qs
   - gnome-shell-extension-user-theme
+  - grim
   - gtk2-devel
   - i3lock
   - kitty
