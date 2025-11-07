@@ -49,6 +49,7 @@ immutablue:
   - proton-vpn-gtk-app
   - qtile-wayland
   - rofi
+  - swappy
   - wmctrl
   - xclip
   - xdotool
