@@ -4,6 +4,7 @@ source /usr/libexec/immutablue/immutablue-header.sh
 
 PACKAGES_YAMLS="$(for f in ${CUSTOM_INSTALL_DIR}/packages/packages.custom-*.yaml; do printf '%s ' ${f}; done)"
 MARCH="$(uname -m)"
+VERSION="${VERSION:-${FEDORA_VERSION}}"
 MODULES_CONF="/etc/modules-load.d/50-immutablue-${NAME}.conf"
 IMMUTABLUE_BUILD_OPTIONS_FILE="/usr/immutablue/build_options"
 
@@ -31,15 +32,38 @@ is_option_in_build_options() {
 }
 
 # looks up entries in packages.yaml
-# takes into account the architecture and build options
+# takes into account the version, architecture and build options
 get_yaml_array() {
     local key="$1"
     for yaml in ${PACKAGES_YAMLS}
-    do 
-        cat <(yq "${key}[]" < "${yaml}") <(yq "${key}_${MARCH}[]" < "${yaml}")
-        while read -r option 
-        do 
-            cat <(yq "${key}_${option}[]" < "${yaml}") <(yq "${key}_${option}_${MARCH}[]" < "${yaml}")
+    do
+        # Base all
+        yq "${key}.all[]" < "${yaml}" 2>/dev/null || true
+        # Version specific
+        if [[ -n "${VERSION}" ]]; then
+            yq "${key}.${VERSION}[]" < "${yaml}" 2>/dev/null || true
+        fi
+        # Architecture all
+        yq "${key}.all_${MARCH}[]" < "${yaml}" 2>/dev/null || true
+        # Version + architecture
+        if [[ -n "${VERSION}" ]]; then
+            yq "${key}.${VERSION}_${MARCH}[]" < "${yaml}" 2>/dev/null || true
+        fi
+        # Build options
+        while read -r option
+        do
+            # Option all
+            yq "${key}_${option}.all[]" < "${yaml}" 2>/dev/null || true
+            # Option version
+            if [[ -n "${VERSION}" ]]; then
+                yq "${key}_${option}.${VERSION}[]" < "${yaml}" 2>/dev/null || true
+            fi
+            # Option architecture all
+            yq "${key}_${option}.all_${MARCH}[]" < "${yaml}" 2>/dev/null || true
+            # Option version architecture
+            if [[ -n "${VERSION}" ]]; then
+                yq "${key}_${option}.${VERSION}_${MARCH}[]" < "${yaml}" 2>/dev/null || true
+            fi
         done < <(get_immutablue_build_options)
     done
 }

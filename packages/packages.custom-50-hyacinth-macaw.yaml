@@ -11,177 +11,193 @@
 immutablue:
   # Repo URLs to add in the build (they are curled)
   repo_urls:
-  # - name: hyprland.repo 
-  #   url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-42/solopasha-hyprland-fedora-42.repo
-  - name: ublue-os-staging.repo
-    url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-42/ublue-os-staging-fedora-42.repo
+    all:
+    # - name: hyprland.repo
+    #   url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-42/solopasha-hyprland-fedora-42.repo
+    - name: ublue-os-staging.repo
+      url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-42/ublue-os-staging-fedora-42.repo
 
   repo_urls_aarch64:
-  - name: rust-epel.repo 
-    url: https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-9/cyqsimon-el-rust-pkgs-epel-9.repo
+    all:
+    - name: rust-epel.repo
+      url: https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-9/cyqsimon-el-rust-pkgs-epel-9.repo
 
 
   # gui tools
   rpm_gui:
-  # - gnome-shell-extension-tailscale-status
-  - arandr
-  - brightnessctl
-  - feh
-  - gnome-session-xsession
-  - gnome-shell-extension-appindicator
-  - gnome-shell-extension-blur-my-shell
-  - gnome-shell-extension-dash-to-dock
-  - gnome-shell-extension-gsconnect
-  - gnome-shell-extension-search-light 
-  - gnome-shell-extension-tailscale-gnome-qs
-  - gnome-shell-extension-user-theme
-  - grim
-  - gtk2-devel
-  - i3lock
-  - kitty
-  - libX11-devel 
-  - libXft-devel 
-  - libXinerama-devel
-  - libXrandr-devel
-  - libXScrnSaver-devel
-  - mupdf
-  - picom
-  - proton-vpn-gnome-desktop
-  - proton-vpn-gtk-app
-  - qtile-wayland
-  - rofi
-  - swappy
-  - wmctrl
-  - xclip
-  - xdotool
-  - xmobar
-  - xmonad
-  - xorg-x11-server-Xephyr 
-  - xorg-x11-xdm
-  - xwininfo
-  - zathura
-  - zathura-pdf-poppler
+    all:
+    # - gnome-shell-extension-tailscale-status
+    - arandr
+    - brightnessctl
+    - feh
+    - gnome-session-xsession
+    - gnome-shell-extension-appindicator
+    - gnome-shell-extension-blur-my-shell
+    - gnome-shell-extension-dash-to-dock
+    - gnome-shell-extension-gsconnect
+    - gnome-shell-extension-search-light
+    - gnome-shell-extension-tailscale-gnome-qs
+    - gnome-shell-extension-user-theme
+    - grim
+    - gtk2-devel
+    - i3lock
+    - kitty
+    - libX11-devel
+    - libXft-devel
+    - libXinerama-devel
+    - libXrandr-devel
+    - libXScrnSaver-devel
+    - mupdf
+    - picom
+    - proton-vpn-gnome-desktop
+    - proton-vpn-gtk-app
+    - qtile-wayland
+    - rofi
+    - swappy
+    - wmctrl
+    - xclip
+    - xdotool
+    - xmobar
+    - xmonad
+    - xorg-x11-server-Xephyr
+    - xorg-x11-xdm
+    - xwininfo
+    - zathura
+    - zathura-pdf-poppler
 
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
   rpm:
-  - arm-image-installer
-  - binutils
-  - borgbackup
-  - bpftrace
-  - cabal-install
-  - cockpit 
-  - cockpit-machines
-  - cockpit-ostree
-  - cockpit-podman 
-  - gcc
-  - gcc-plugin-devel
-  - gdb
-  - gnutls
-  - gnutls-utils
-  - ImageMagick
-  - ImageMagick-devel
-  - ltrace
-  - lxc
-  - lxc-templates
-  - perl-JSON
-  - perl-Mojolicious 
-  - perl-YAML
-  - protonvpn-cli
-  - rclone
-  - stack
-  - strace
-  - tlp
-  - wireguard-tools
+    all:
+    - arm-image-installer
+    - binutils
+    - borgbackup
+    - bpftrace
+    - cabal-install
+    - cockpit
+    - cockpit-machines
+    - cockpit-ostree
+    - cockpit-podman
+    - gcc
+    - gcc-plugin-devel
+    - gdb
+    - gnutls
+    - gnutls-utils
+    - ImageMagick
+    - ImageMagick-devel
+    - ltrace
+    - lxc
+    - lxc-templates
+    - perl-JSON
+    - perl-Mojolicious
+    - perl-YAML
+    - protonvpn-cli
+    - rclone
+    - stack
+    - strace
+    - tlp
+    - wireguard-tools
 
   rpm_x86_64:
-  - rocm-clinfo
-  - rocm-hip
-  - rocm-opencl 
-  - rocm-runtime
-  - rocm-smi
+    all:
+    - rocm-clinfo
+    - rocm-hip
+    - rocm-opencl
+    - rocm-runtime
+    - rocm-smi
 
   rpm_aarch64:
-  - aerc
-  - btop
-  - calc
-  - coreutils
-  - cpan
-  - dysk
-  - fastfetch
-  - firefox
-  - fzf 
-  - glab
-  - glances
-  - helm
-  - htop 
-  - just
-  - kubernetes-client
-  - moreutils
-  - ncdu
-  - neovim
-  - newsboat
-  - pass
-  - poppler 
-  - ranger
-  - ripgrep 
-  - ruby
-  - tig
-  - tmux 
-  - zenity
+    all:
+    - aerc
+    - btop
+    - calc
+    - coreutils
+    - cpan
+    - dysk
+    - fastfetch
+    - firefox
+    - fzf
+    - glab
+    - glances
+    - helm
+    - htop
+    - just
+    - kubernetes-client
+    - moreutils
+    - ncdu
+    - neovim
+    - newsboat
+    - pass
+    - poppler
+    - ranger
+    - ripgrep
+    - ruby
+    - tig
+    - tmux
+    - zenity
 
   rpm_asahi_aarch64:
+    all:
 
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
   rpm_url:
-  - https://repo.protonvpn.com/fedora-42-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.3-1.noarch.rpm
-  #- https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm
-  #- https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm
+    all:
+    - https://repo.protonvpn.com/fedora-42-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.3-1.noarch.rpm
+    #- https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm
+    #- https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm
 
   rpm_url_gui_x86_64:
-  - https://proton.me/download/mail/linux/1.9.1/ProtonMail-desktop-beta.rpm
+    all:
+    - https://proton.me/download/mail/linux/1.9.1/ProtonMail-desktop-beta.rpm
 
   # RPM packages you want to remove from the image
   rpm_rm_gui:
-  - gnome-software
+    all:
+    - gnome-software
 
   # Build files that need to be removed. If the build is filing about some
-  # ephemeral file that exists, put the path here so it get removed in 
+  # ephemeral file that exists, put the path here so it get removed in
   # the later build stages
   file_rm:
-  # - /path/to/some/file
+    all:
+    # - /path/to/some/file
 
   # Runtimes for Flatpaks
   # (Can query with `flatpak list --app --columns=application,runtime`)
   # Really only needed if you plan to build an iso
   flatpaks_runtime:
-  
-  
+    all:
+
   # Flatpaks to be installed
   flatpaks:
-  - br.com.wiselabs.simplexity
-  - com.bitwarden.desktop
-  - com.calibre_ebook.calibre
-  - io.github.peazip.PeaZip 
-  - io.github.wanglin2.mind-map
-  - me.timschneeberger.GalaxyBudsClient
-  - org.jamovi.jamovi
-  - org.pulseaudio.pavucontrol
-  - re.sonny.Junction
+    all:
+    - br.com.wiselabs.simplexity
+    - com.bitwarden.desktop
+    - com.calibre_ebook.calibre
+    - io.github.peazip.PeaZip
+    - io.github.wanglin2.mind-map
+    - me.timschneeberger.GalaxyBudsClient
+    - org.jamovi.jamovi
+    - org.pulseaudio.pavucontrol
+    - re.sonny.Junction
 
-
-  #Flatpaks to be uninstalled 
+  #Flatpaks to be uninstalled
   flatpaks_rm:
-  # - org.chromium.chromium 
+    all:
+    # - org.chromium.chromium
   
   services_enable_sys:
+    all:
 
   services_disable_sys_gui:
-  # - display-manager.service
+    all:
+    # - display-manager.service
+
   services_mask_sys:
-  # - gdm.service
+    all:
+    # - gdm.service
 
 distrobox:
   # Create upstream -- Adding tweaks

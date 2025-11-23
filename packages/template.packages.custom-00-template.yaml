@@ -1,56 +1,203 @@
 # To use this:
-# cp template.packages.custom-00-example.yaml packages.customer-<2_numbers>-<some-name>.yaml
-# - Example: cp template.packages.custom-00-example.yaml packages.customer-10-mystuff.yaml
+# cp template.packages.custom-00-template.yaml packages.custom-<2_numbers>-<some-name>.yaml
+# - Example: cp template.packages.custom-00-template.yaml packages.custom-10-mystuff.yaml
+#
+# All entries support version-specific and architecture-specific configuration:
+# - 'all' applies to all Fedora versions and architectures
+# - Specific versions (e.g., '42', '43') apply only to those versions
+# - Architecture suffixes: 'all_aarch64', 'all_x86_64'
+# - Combined: '42_aarch64', '43_x86_64', etc.
 immutablue:
   repo_urls:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   repo_urls_aarch64:
+    all:
+    # 42:
+    # 43:
   repo_urls_x86_64:
+    all:
+    # 42:
+    # 43:
   rpm:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   rpm_aarch64:
+    all:
+    # 42:
+    # 43:
   rpm_x86_64:
+    all:
+    # 42:
+    # 43:
   rpm_url:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   rpm_url_aarch64:
+    all:
+    # 42:
+    # 43:
   rpm_url_x86_64:
+    all:
+    # 42:
+    # 43:
   rpm_rm:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   rpm_rm_aarch64:
+    all:
+    # 42:
+    # 43:
   rpm_rm_x86_64:
+    all:
+    # 42:
+    # 43:
   file_rm:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   file_rm_aarch64:
+    all:
+    # 42:
+    # 43:
   file_rm_x86_64:
+    all:
+    # 42:
+    # 43:
   flatpak_repos:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   flatpak_repos_aarch64:
+    all:
+    # 42:
+    # 43:
   flatpak_repos_x86_64:
+    all:
+    # 42:
+    # 43:
   flatpaks_runtime:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   flatpaks:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   flatpaks_aarch64:
+    all:
+    # 42:
+    # 43:
   flatpaks_x86_64:
+    all:
+    # 42:
+    # 43:
   flatpaks_rm:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   flatpaks_rm_aarch64:
+    all:
+    # 42:
+    # 43:
   flatpaks_rm_x86_64:
+    all:
+    # 42:
+    # 43:
   services_enable_sys:
-  services_enable_sys_aarch64:
-  services_enable_sys_x86_64:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
+  services_enable_sys_gui:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   services_disable_sys:
-  services_disable_sys_aarch64:
-  services_disable_sys_x86_64:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   services_mask_sys:
-  services_mask_sys_aarch64:
-  services_mask_sys_x86_64:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   services_unmask_sys:
-  services_unmask_sys_aarch64:
-  services_unmask_sys_x86_64:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   services_enable_user:
-  services_enable_user_aarch64:
-  services_enable_user_x86_64:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   services_disable_user:
-  services_disable_user_aarch64:
-  services_disable_user_x86_64:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   services_mask_user:
-  services_mask_user_aarch64:
-  services_mask_user_x86_64:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
   services_unmask_user:
-  services_unmask_user_aarch64:
-  services_unmask_user_x86_64:
+    all:
+    # all_aarch64:
+    # all_x86_64:
+    # 42:
+    # 42_aarch64:
+    # 43_x86_64:
 distrobox:
 - name:
   image: 
