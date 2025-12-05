@@ -190,6 +190,7 @@ immutablue:
     - org.jamovi.jamovi
     - org.pulseaudio.pavucontrol
     - re.sonny.Junction
+    - io.github.astralvixen.geforce-infinity
 
   #Flatpaks to be uninstalled
   flatpaks_rm:
