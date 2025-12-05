@@ -62,3 +62,8 @@ then
     build_dwm
 fi
 
+# Install devpod 
+curl -Lo /tmp/devpod "https://github.com/loft-sh/devpod/releases/latest/download/devpod-linux-amd64" && \
+    install -c -m 0755 /tmp/devpod /usr/bin && \
+    rm -f /tmp/devpod
+
