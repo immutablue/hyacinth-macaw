@@ -8,7 +8,12 @@ if [ -f "./99-common.sh" ]; then source "./99-common.sh"; fi
 # be added to the Containerfile and then mounted
 # in the RUN command
 #
-# By default we are not doing that here so we just
-# run true
-true
+
+# put in place the correct `/etc/os-release`
+if [[ -f "/etc/os-release" ]]
+then 
+    unlink "/etc/os-release"
+fi
+
+ln -s "/etc/.os-release-${FEDORA_VERSION}" "/etc/os-release"
 
