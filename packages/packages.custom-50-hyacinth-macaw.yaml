@@ -59,6 +59,7 @@ immutablue:
     - qtile-wayland
     - rofi
     - swappy
+    - waydroid
     - wmctrl
     - xclip
     - xdotool
