@@ -60,6 +60,7 @@ immutablue:
     - rofi
     - swappy
     - waydroid
+    - wofi
     - wmctrl
     - xclip
     - xdotool
