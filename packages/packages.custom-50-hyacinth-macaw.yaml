@@ -280,6 +280,8 @@ distrobox:
   # youtube-tui reqirements: mpv and sixel
   - mpv-devel
   - libsixel
+  - libsixel-utils
+  - chafa
   - ImageMagick
   - ImageMagick-devel
   - cabal-install
