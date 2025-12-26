@@ -481,6 +481,7 @@ distrobox:
   cargo_packages:
   bin_export: 
   - uv
+  - uvx
   app_export: 
   bin_symlink:
   - podman 
