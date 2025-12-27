@@ -195,6 +195,7 @@ immutablue:
     - org.pulseaudio.pavucontrol
     - re.sonny.Junction
     - io.github.astralvixen.geforce-infinity
+    - io.github.htkhiem.Euphonica
 
   #Flatpaks to be uninstalled
   flatpaks_rm:
