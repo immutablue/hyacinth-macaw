@@ -196,6 +196,7 @@ immutablue:
     - re.sonny.Junction
     - io.github.astralvixen.geforce-infinity
     - io.github.htkhiem.Euphonica
+    - ch.protonmail.protonmail-bridge
 
   #Flatpaks to be uninstalled
   flatpaks_rm:
@@ -516,6 +517,7 @@ brew:
   - insect
   - kubernetes-cli
   - localtunnel
+  - neomutt
   - newsboat
   - onefetch
   - poppler
@@ -524,6 +526,7 @@ brew:
   - sshs
   - streamlink
   - stow
+  - urlscan
   - wiki
   - yazi
   - yt-dlp
