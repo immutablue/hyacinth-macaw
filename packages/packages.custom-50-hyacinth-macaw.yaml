@@ -117,34 +117,34 @@ immutablue:
     - rocm-smi
 
   rpm_aarch64:
-    all:
-    - aerc
-    - btop
-    - calc
-    - coreutils
-    - cpan
-    - dysk
-    - fastfetch
-    - firefox
-    - fzf
-    - glab
-    - glances
-    - helm
-    - htop
-    - just
-    - kubernetes-client
-    - moreutils
-    - ncdu
-    - neovim
-    - newsboat
-    - pass
-    - poppler
-    - ranger
-    - ripgrep
-    - ruby
-    - tig
-    - tmux
-    - zenity
+    # all:
+    # - aerc
+    # - btop
+    # - calc
+    # - coreutils
+    # - cpan
+    # - dysk
+    # - fastfetch
+    # - firefox
+    # - fzf
+    # - glab
+    # - glances
+    # - helm
+    # - htop
+    # - just
+    # - kubernetes-client
+    # - moreutils
+    # - ncdu
+    # - neovim
+    # - newsboat
+    # - pass
+    # - poppler
+    # - ranger
+    # - ripgrep
+    # - ruby
+    # - tig
+    # - tmux
+    # - zenity
 
   rpm_asahi_aarch64:
     all:
