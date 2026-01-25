@@ -292,6 +292,8 @@ distrobox:
   - gtk-docs
   - libX11-devel 
   - libXft-devel
+  - libpq-devel
+  - mariadb-connector-c-devel
   npm_packages:
   - '@anthropic-ai/claude-code'
   - bash-language-server
