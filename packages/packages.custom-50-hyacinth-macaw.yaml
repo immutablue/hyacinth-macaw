@@ -260,6 +260,16 @@ distrobox:
     sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
     bash -c "echo '/usr/local/lib' | sudo tee /etc/ld.so.conf.d/local.conf" && \
     sudo ldconfig;
+    sudo tee /etc/yum.repos.d/google-cloud-sdk.repo <<- 'EOF'
+    [google-cloud-cli]
+    name=Google Cloud CLI
+    baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el9-x86_64
+    enabled=1
+    gpgcheck=1
+    repo_gpgcheck=0
+    gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    EOF
+
 
   # Added packages from upstream
   packages:
@@ -294,6 +304,7 @@ distrobox:
   - libXft-devel
   - libpq-devel
   - mariadb-connector-c-devel
+  - google-cloud-cli
   npm_packages:
   - '@anthropic-ai/claude-code'
   - bash-language-server
@@ -329,6 +340,7 @@ distrobox:
   - shellcheck
   - youtube-tui
   - /usr/bin/pandoc
+  - gcloud
   app_export: 
   bin_symlink:
   - podman 
