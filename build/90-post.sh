@@ -19,3 +19,6 @@ fi
 # Build docs in case any were added with the image
 bash -c "cd /usr/immutablue/docs && hugo build"
 
+# Compile dconf database for system-wide settings
+dconf update
+
