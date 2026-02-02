@@ -532,6 +532,7 @@ brew:
   - kubernetes-cli
   - localtunnel
   - neomutt
+  - newvim
   - newsboat
   - onefetch
   - poppler
@@ -541,6 +542,7 @@ brew:
   - streamlink
   - stow
   - urlscan
+  - whisper-cpp
   - wiki
   - yazi
   - yt-dlp
