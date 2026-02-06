@@ -259,16 +259,6 @@ distrobox:
     sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
     bash -c "echo '/usr/local/lib' | sudo tee /etc/ld.so.conf.d/local.conf" && \
     sudo ldconfig;
-    sudo tee /etc/yum.repos.d/google-cloud-sdk.repo <<- 'EOF'
-    [google-cloud-cli]
-    name=Google Cloud CLI
-    baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el9-x86_64
-    enabled=1
-    gpgcheck=1
-    repo_gpgcheck=0
-    gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-    EOF
-
 
   # Added packages from upstream
   packages:
@@ -368,14 +358,12 @@ distrobox:
 #   bin_symlink:
 
 - name: mpd 
-  image: registry.fedoraproject.org/fedora:42 
+  image: quay.io/immutablue/dbox-fedora:43
   root: false 
   additional_flags:
   pkg_inst_cmd: dnf install -y
   pkg_updt_cmd: dnf update -y
-  extra_commands: |
-    sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm && \
-    [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf';
+  extra_commands:
   packages:
   - which
   - mpc
@@ -389,45 +377,46 @@ distrobox:
   - ncmpcpp
   app_export:
   bin_symlink:
-  
-- name: whisper
-  image: quay.io/immutablue/dbox-fedora:42
-  pkg_inst_cmd: dnf5 install -y
-  pkg_updt_cmd: dnf5 update -y
-  extra_commands: |
-    #!/bin/bash 
-    install_dir="${HOME}/Source/Public/whisper.cpp"
-    sudo dnf5 update -y 
-    sudo dnf install -y '@development-tools' git cmake gcc-c++ make
-    if [[ ! -d "${install_dir}" ]]
-    then
-      git clone https://github.com/ggerganov/whisper.cpp.git "${install_dir}"
-      cd "${install_dir}"
-      ./models/download-ggml-model.sh base.en 
-      cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
-      cmake --build build -j
-      distrobox-export --bin "${install_dir}/build/bin/whisper-cli"
-    fi
-  packages:
-  - which
-  - libsixel
-  - ImageMagick
-  - ImageMagick-devel
-  npm_packages:
-  pip_packages: 
-  cargo_packages:
-  bin_export: 
-  app_export: 
-  bin_symlink:
-  - podman 
-  - buildah 
-  - distrobox 
-  - strace 
-  - ltrace 
-  - bpftrace 
+ 
+# Whisper is now provided via brew so we no longer actually need this
+# - name: whisper
+#   image: quay.io/immutablue/dbox-fedora:43
+#   pkg_inst_cmd: dnf5 install -y
+#   pkg_updt_cmd: dnf5 update -y
+#   extra_commands: |
+#     #!/bin/bash 
+#     install_dir="${HOME}/Source/Public/whisper.cpp"
+#     sudo dnf5 update -y 
+#     sudo dnf install -y '@development-tools' git cmake gcc-c++ make
+#     if [[ ! -d "${install_dir}" ]]
+#     then
+#       git clone https://github.com/ggerganov/whisper.cpp.git "${install_dir}"
+#       cd "${install_dir}"
+#       ./models/download-ggml-model.sh base.en 
+#       cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+#       cmake --build build -j
+#       distrobox-export --bin "${install_dir}/build/bin/whisper-cli"
+#     fi
+#   packages:
+#   - which
+#   - libsixel
+#   - ImageMagick
+#   - ImageMagick-devel
+#   npm_packages:
+#   pip_packages: 
+#   cargo_packages:
+#   bin_export: 
+#   app_export: 
+#   bin_symlink:
+#   - podman 
+#   - buildah 
+#   - distrobox 
+#   - strace 
+#   - ltrace 
+#   - bpftrace 
 
 - name: ollama
-  image: quay.io/immutablue/dbox-fedora:42
+  image: quay.io/immutablue/dbox-fedora:43
   pkg_inst_cmd: dnf5 install -y
   pkg_updt_cmd: dnf5 update -y
   extra_commands: 
@@ -451,7 +440,7 @@ distrobox:
   - bpftrace 
 
 - name: markitdown
-  image: quay.io/immutablue/dbox-fedora:42
+  image: quay.io/immutablue/dbox-fedora:43
   pkg_inst_cmd: dnf5 install -y
   pkg_updt_cmd: dnf5 update -y
   extra_commands: 
@@ -481,7 +470,7 @@ distrobox:
   - nvim
 
 - name: pyapps
-  image: quay.io/immutablue/dbox-fedora:42
+  image: quay.io/immutablue/dbox-fedora:43
   pkg_inst_cmd: dnf5 install -y
   pkg_updt_cmd: dnf5 update -y
   extra_commands: |
@@ -489,7 +478,6 @@ distrobox:
     sudo dnf5 update -y 
     sudo dnf5 install -y python3 python3-pip git
     sudo pip3 install uv
-    sudo uv pip install perplexity-mcp-server --system
     sudo uv pip install duckduckgo-mcp-server --system
   packages:
   - which
