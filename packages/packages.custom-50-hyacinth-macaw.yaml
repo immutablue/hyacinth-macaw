@@ -185,11 +185,9 @@ immutablue:
   # Flatpaks to be installed
   flatpaks:
     all:
-    - br.com.wiselabs.simplexity
     - com.bitwarden.desktop
     - com.calibre_ebook.calibre
     - io.github.peazip.PeaZip
-    - io.github.wanglin2.mind-map
     - me.timschneeberger.GalaxyBudsClient
     - org.jamovi.jamovi
     - org.pulseaudio.pavucontrol
@@ -197,6 +195,7 @@ immutablue:
     - io.github.astralvixen.geforce-infinity
     - io.github.htkhiem.Euphonica
     - ch.protonmail.protonmail-bridge
+    - me.proton.Mail
 
   #Flatpaks to be uninstalled
   flatpaks_rm:
