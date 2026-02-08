@@ -508,6 +508,7 @@ brew:
   - urlscan
   - whisper-cpp
   - wiki
+  - witr
   - yazi
   - yt-dlp
   uninstall:
