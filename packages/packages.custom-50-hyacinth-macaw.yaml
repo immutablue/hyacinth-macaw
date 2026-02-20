@@ -215,295 +215,298 @@ immutablue:
 
 distrobox:
   # Create upstream -- Adding tweaks
-- name: util
-  image:
-  pkg_inst_cmd: dnf install -y
-  pkg_updt_cmd: dnf update -y
-  extra_commands:
-  packages:
-  # Both needed for GTK theme stuff
-  - sassc
-  - glib2-devel
-  - gnome-tweaks
-  - xfreerdp
-  - figlet 
-  - cowsay
-  - python3-pip
-  - ImageMagick
-  - ImageMagick-devel
-  package_aarch64:
-  npm_packages:
-  pip_packages: 
-  cargo_packages:
-  bin_export: 
-  - figlet 
-  - cowsay
-  app_export: 
-  bin_symlink:
- 
+  all:
+  - name: util
+    image:
+    pkg_inst_cmd: dnf install -y
+    pkg_updt_cmd: dnf update -y
+    extra_commands:
+    packages:
+    # Both needed for GTK theme stuff
+    - sassc
+    - glib2-devel
+    - gnome-tweaks
+    - xfreerdp
+    - figlet
+    - cowsay
+    - python3-pip
+    - ImageMagick
+    - ImageMagick-devel
+    package_aarch64:
+    npm_packages:
+    pip_packages:
+    cargo_packages:
+    bin_export:
+    - figlet
+    - cowsay
+    app_export:
+    bin_symlink:
+
   # Created upstream -- But adding my tweaks
-- name: dev
-  image:
-  pkg_inst_cmd: dnf install -y
-  pkg_updt_cmd: dnf update -y
+  - name: dev
+    image:
+    pkg_inst_cmd: dnf install -y
+    pkg_updt_cmd: dnf update -y
 
-  # Setup VS Code Repo - https://code.visualstudio.com/docs/setup/linux
-  # Setup ffmpeg for supporting MTP - https://computingforgeeks.com/how-to-install-ffmpeg-on-fedora/
-  extra_commands: |
-    sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
-    sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
-    sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm && \
-    sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
-    bash -c "echo '/usr/local/lib' | sudo tee /etc/ld.so.conf.d/local.conf" && \
-    sudo ldconfig;
+    # Setup VS Code Repo - https://code.visualstudio.com/docs/setup/linux
+    # Setup ffmpeg for supporting MTP - https://computingforgeeks.com/how-to-install-ffmpeg-on-fedora/
+    extra_commands: |
+      sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
+      sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' && \
+      sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm && \
+      sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
+      bash -c "echo '/usr/local/lib' | sudo tee /etc/ld.so.conf.d/local.conf" && \
+      sudo ldconfig;
 
-  # Added packages from upstream
-  packages:
-  - which
-  - gdb 
-  - R 
-  - clang 
-  - clang-tools-extra 
-  - code 
-  - json-glib-devel 
-  - nautilus-devel 
-  - nautilus-extensions 
-  - gtk4-devel 
-  - fira-code-fonts 
-  - ffmpeg 
-  - bpftool 
-  - libbpf 
-  - libbpf-devel 
-  - libbpf-tools 
-  - bcc-tools 
-  - ShellCheck
-  # youtube-tui reqirements: mpv and sixel
-  - mpv-devel
-  - libsixel
-  - libsixel-utils
-  - chafa
-  - ImageMagick
-  - ImageMagick-devel
-  - cabal-install
-  - gtk-docs
-  - libX11-devel 
-  - libXft-devel
-  - libpq-devel
-  - mariadb-connector-c-devel
-  - google-cloud-cli
-  npm_packages:
-  - bash-language-server
-  - dockerfile-language-server-nodejs
-  - pyright
-  - perlnavigator-server
-  pip_packages: 
-  # See https://github.com/Freed-Wu/autotools-language-server/issues/9
-  - tree-sitter==0.21.3
-  - autotools-language-server
-  - feedparser
-  - psycopg 
-  - psycopg_binary 
-  - numpy
-  cargo_packages:
-  # https://github.com/guilhermeprokisch/smd
-  - smd
-  - wthrr
-  - youtube-tui
-  - lowfi
-  - sendme
-  bin_export: 
-  - autotools-language-server 
-  - bash-language-server
-  - docker-langserver 
-  - pyright-langserver 
-  - perlnavigator
-  - clangd 
-  - R 
-  - Rscript
-  - shellcheck
-  - youtube-tui
-  - /usr/bin/pandoc
-  app_export: 
-  bin_symlink:
-  - podman 
-  - buildah 
-  - distrobox 
-  - strace 
-  - ltrace 
-  - bpftrace 
+    # Added packages from upstream
+    packages:
+    - which
+    - gdb
+    - R
+    - clang
+    - clang-tools-extra
+    - code
+    - json-glib-devel
+    - nautilus-devel
+    - nautilus-extensions
+    - gtk4-devel
+    - fira-code-fonts
+    - ffmpeg
+    - bpftool
+    - libbpf
+    - libbpf-devel
+    - libbpf-tools
+    - bcc-tools
+    - ShellCheck
+    # youtube-tui reqirements: mpv and sixel
+    - mpv-devel
+    - libsixel
+    - libsixel-utils
+    - chafa
+    - ImageMagick
+    - ImageMagick-devel
+    - cabal-install
+    - gtk-docs
+    - libX11-devel
+    - libXft-devel
+    - libpq-devel
+    - mariadb-connector-c-devel
+    - google-cloud-cli
+    npm_packages:
+    - bash-language-server
+    - dockerfile-language-server-nodejs
+    - pyright
+    - perlnavigator-server
+    pip_packages:
+    # See https://github.com/Freed-Wu/autotools-language-server/issues/9
+    - tree-sitter==0.21.3
+    - autotools-language-server
+    - feedparser
+    - psycopg
+    - psycopg_binary
+    - numpy
+    cargo_packages:
+    # https://github.com/guilhermeprokisch/smd
+    - smd
+    - wthrr
+    - youtube-tui
+    - lowfi
+    - sendme
+    bin_export:
+    - autotools-language-server
+    - bash-language-server
+    - docker-langserver
+    - pyright-langserver
+    - perlnavigator
+    - clangd
+    - R
+    - Rscript
+    - shellcheck
+    - youtube-tui
+    - /usr/bin/pandoc
+    app_export:
+    bin_symlink:
+    - podman
+    - buildah
+    - distrobox
+    - strace
+    - ltrace
+    - bpftrace
 
-# - name: vpn 
-#   image: registry.fedoraproject.org/fedora:42
-#   root: true
-#   additional_flags:
-#   - --privileged
-#   pkg_inst_cmd: dnf install -y
-#   pkg_updt_cmd: dnf update -y
-#   extra_commands: |
-#     curl -Lo /tmp/$(basename https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm) https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm; \
-#     sudo dnf install -y /tmp/*.rpm; \
-#     [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf';
-#   packages:
-#   npm_packages:
-#   pip_packages: 
-#   bin_export: 
-#   app_export: 
-#   bin_symlink:
+  # - name: vpn
+  #   image: registry.fedoraproject.org/fedora:42
+  #   root: true
+  #   additional_flags:
+  #   - --privileged
+  #   pkg_inst_cmd: dnf install -y
+  #   pkg_updt_cmd: dnf update -y
+  #   extra_commands: |
+  #     curl -Lo /tmp/$(basename https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm) https://updates.torguard.biz/Software/Linux/torguard-latest-amd64.rpm; \
+  #     sudo dnf install -y /tmp/*.rpm; \
+  #     [ "" == "$(grep max_parallel_downloads /etc/dnf/dnf.conf)" ] && sudo bash -c 'echo "max_parallel_downloads=10" >> /etc/dnf/dnf.conf';
+  #   packages:
+  #   npm_packages:
+  #   pip_packages:
+  #   bin_export:
+  #   app_export:
+  #   bin_symlink:
 
-- name: mpd 
-  image: quay.io/immutablue/dbox-fedora:43
-  root: false 
-  additional_flags:
-  pkg_inst_cmd: dnf install -y
-  pkg_updt_cmd: dnf update -y
-  extra_commands:
-  packages:
-  - which
-  - mpc
-  - mpd 
-  - ncmpcpp
-  npm_packages:
-  pip_packages:
-  bin_export:
-  - mpc
-  - mpd 
-  - ncmpcpp
-  app_export:
-  bin_symlink:
- 
-# Whisper is now provided via brew so we no longer actually need this
-# - name: whisper
-#   image: quay.io/immutablue/dbox-fedora:43
-#   pkg_inst_cmd: dnf5 install -y
-#   pkg_updt_cmd: dnf5 update -y
-#   extra_commands: |
-#     #!/bin/bash 
-#     install_dir="${HOME}/Source/Public/whisper.cpp"
-#     sudo dnf5 update -y 
-#     sudo dnf install -y '@development-tools' git cmake gcc-c++ make
-#     if [[ ! -d "${install_dir}" ]]
-#     then
-#       git clone https://github.com/ggerganov/whisper.cpp.git "${install_dir}"
-#       cd "${install_dir}"
-#       ./models/download-ggml-model.sh base.en 
-#       cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
-#       cmake --build build -j
-#       distrobox-export --bin "${install_dir}/build/bin/whisper-cli"
-#     fi
-#   packages:
-#   - which
-#   - libsixel
-#   - ImageMagick
-#   - ImageMagick-devel
-#   npm_packages:
-#   pip_packages: 
-#   cargo_packages:
-#   bin_export: 
-#   app_export: 
-#   bin_symlink:
-#   - podman 
-#   - buildah 
-#   - distrobox 
-#   - strace 
-#   - ltrace 
-#   - bpftrace 
+  - name: mpd
+    image: quay.io/immutablue/dbox-fedora:43
+    root: false
+    additional_flags:
+    pkg_inst_cmd: dnf install -y
+    pkg_updt_cmd: dnf update -y
+    extra_commands:
+    packages:
+    - which
+    - mpc
+    - mpd
+    - ncmpcpp
+    npm_packages:
+    pip_packages:
+    bin_export:
+    - mpc
+    - mpd
+    - ncmpcpp
+    app_export:
+    bin_symlink:
 
-- name: markitdown
-  image: quay.io/immutablue/dbox-fedora:43
-  pkg_inst_cmd: dnf5 install -y
-  pkg_updt_cmd: dnf5 update -y
-  extra_commands: 
-    #!/bin/bash 
-    sudo dnf update -y
-    sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-    sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+  # Whisper is now provided via brew so we no longer actually need this
+  # - name: whisper
+  #   image: quay.io/immutablue/dbox-fedora:43
+  #   pkg_inst_cmd: dnf5 install -y
+  #   pkg_updt_cmd: dnf5 update -y
+  #   extra_commands: |
+  #     #!/bin/bash
+  #     install_dir="${HOME}/Source/Public/whisper.cpp"
+  #     sudo dnf5 update -y
+  #     sudo dnf install -y '@development-tools' git cmake gcc-c++ make
+  #     if [[ ! -d "${install_dir}" ]]
+  #     then
+  #       git clone https://github.com/ggerganov/whisper.cpp.git "${install_dir}"
+  #       cd "${install_dir}"
+  #       ./models/download-ggml-model.sh base.en
+  #       cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+  #       cmake --build build -j
+  #       distrobox-export --bin "${install_dir}/build/bin/whisper-cli"
+  #     fi
+  #   packages:
+  #   - which
+  #   - libsixel
+  #   - ImageMagick
+  #   - ImageMagick-devel
+  #   npm_packages:
+  #   pip_packages:
+  #   cargo_packages:
+  #   bin_export:
+  #   app_export:
+  #   bin_symlink:
+  #   - podman
+  #   - buildah
+  #   - distrobox
+  #   - strace
+  #   - ltrace
+  #   - bpftrace
 
-  packages:
-  - which
-  - python3-pip
-  - ffmpeg
-  npm_packages:
-  pip_packages: 
-  - 'markitdown[all]'
-  cargo_packages:
-  bin_export: 
-  - markitdown
-  app_export: 
-  bin_symlink:
-  - podman 
-  - buildah 
-  - distrobox 
-  - strace 
-  - ltrace 
-  - bpftrace 
-  - nvim
+  - name: markitdown
+    image: quay.io/immutablue/dbox-fedora:43
+    pkg_inst_cmd: dnf5 install -y
+    pkg_updt_cmd: dnf5 update -y
+    extra_commands:
+      #!/bin/bash
+      sudo dnf update -y
+      sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+      sudo dnf -y install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-- name: pyapps
-  image: quay.io/immutablue/dbox-fedora:43
-  pkg_inst_cmd: dnf5 install -y
-  pkg_updt_cmd: dnf5 update -y
-  extra_commands: |
-    #!/bin/bash 
-    sudo dnf5 update -y 
-    sudo dnf5 install -y python3 python3-pip git
-    sudo pip3 install uv
-    sudo uv pip install duckduckgo-mcp-server --system
-  packages:
-  - which
-  npm_packages:
-  pip_packages: 
-  cargo_packages:
-  bin_export: 
-  - uv
-  - uvx
-  app_export: 
-  bin_symlink:
-  - podman 
-  - buildah 
-  - distrobox 
-  - strace 
-  - ltrace 
-  - bpftrace 
-  - nvim
+    packages:
+    - which
+    - python3-pip
+    - ffmpeg
+    npm_packages:
+    pip_packages:
+    - 'markitdown[all]'
+    cargo_packages:
+    bin_export:
+    - markitdown
+    app_export:
+    bin_symlink:
+    - podman
+    - buildah
+    - distrobox
+    - strace
+    - ltrace
+    - bpftrace
+    - nvim
+
+  - name: pyapps
+    image: quay.io/immutablue/dbox-fedora:43
+    pkg_inst_cmd: dnf5 install -y
+    pkg_updt_cmd: dnf5 update -y
+    extra_commands: |
+      #!/bin/bash
+      sudo dnf5 update -y
+      sudo dnf5 install -y python3 python3-pip git
+      sudo pip3 install uv
+      sudo uv pip install duckduckgo-mcp-server --system
+    packages:
+    - which
+    npm_packages:
+    pip_packages:
+    cargo_packages:
+    bin_export:
+    - uv
+    - uvx
+    app_export:
+    bin_symlink:
+    - podman
+    - buildah
+    - distrobox
+    - strace
+    - ltrace
+    - bpftrace
+    - nvim
 
 brew:
   install:
-  - aerc
-  - bat
-  - bear
-  - binsider
-  - btop 
-  - clipboard
-  - croc
-  - ddgr
-  - entr
-  - ffmpegthumbnailer
-  - freerdp
-  - glab 
-  - helm
-  - hexyl
-  - himalaya
-  - homeassistant-cli
-  - insect
-  - kubernetes-cli
-  - localtunnel
-  - neomutt
-  - newvim
-  - newsboat
-  - ollama
-  - onefetch
-  - poppler
-  - progress
-  - sevenzip
-  - sshs
-  - streamlink
-  - stow
-  - urlscan
-  - whisper-cpp
-  - wiki
-  - witr
-  - yazi
-  - yt-dlp
+    all:
+    - aerc
+    - bat
+    - bear
+    - binsider
+    - btop
+    - clipboard
+    - croc
+    - ddgr
+    - entr
+    - ffmpegthumbnailer
+    - freerdp
+    - glab
+    - helm
+    - hexyl
+    - himalaya
+    - homeassistant-cli
+    - insect
+    - kubernetes-cli
+    - localtunnel
+    - neomutt
+    - newvim
+    - newsboat
+    - ollama
+    - onefetch
+    - poppler
+    - progress
+    - sevenzip
+    - sshs
+    - streamlink
+    - stow
+    - urlscan
+    - whisper-cpp
+    - wiki
+    - witr
+    - yazi
+    - yt-dlp
   uninstall:
+    all:
 
 
