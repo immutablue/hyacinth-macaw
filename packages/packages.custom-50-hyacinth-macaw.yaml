@@ -229,7 +229,6 @@ distrobox:
   - figlet 
   - cowsay
   - python3-pip
-  - home-assistant-cli
   - ImageMagick
   - ImageMagick-devel
   package_aarch64:
@@ -239,8 +238,6 @@ distrobox:
   bin_export: 
   - figlet 
   - cowsay
-  bin_export_aarch64:
-  - hass-cli
   app_export: 
   bin_symlink:
  
@@ -295,7 +292,6 @@ distrobox:
   - mariadb-connector-c-devel
   - google-cloud-cli
   npm_packages:
-  - '@anthropic-ai/claude-code'
   - bash-language-server
   - dockerfile-language-server-nodejs
   - pyright
@@ -315,8 +311,6 @@ distrobox:
   - youtube-tui
   - lowfi
   - sendme
-  cargo_packages_aarch64:
-  - yazi
   bin_export: 
   - autotools-language-server 
   - bash-language-server
@@ -329,7 +323,6 @@ distrobox:
   - shellcheck
   - youtube-tui
   - /usr/bin/pandoc
-  - gcloud
   app_export: 
   bin_symlink:
   - podman 
