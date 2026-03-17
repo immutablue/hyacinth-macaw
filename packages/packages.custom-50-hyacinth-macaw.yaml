@@ -307,15 +307,13 @@ immutablue:
       - numpy
       cargo_packages:
       # https://github.com/guilhermeprokisch/smd
-      - smd
-      - wthrr
-      - youtube-tui
-      - lowfi
-      - sendme
+      # - smd
+      # - wthrr
+      # - youtube-tui
+      # - lowfi
+      # - sendme
       bin_export:
       - autotools-language-server
-      - bash-language-server
-      - docker-langserver
       - pyright-langserver
       - perlnavigator
       - clangd
@@ -471,6 +469,7 @@ immutablue:
     install:
       all:
       - aerc
+      - bash-language-server
       - bat
       - bear
       - binsider
@@ -478,10 +477,12 @@ immutablue:
       - clipboard
       - croc
       - ddgr
+      - docker-language-server
       - entr
       - ffmpegthumbnailer
       - freerdp
       - glab
+      - haskell-language-server
       - helm
       - hexyl
       - himalaya
