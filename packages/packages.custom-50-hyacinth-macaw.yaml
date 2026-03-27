@@ -279,7 +279,6 @@ immutablue:
       - libbpf-tools
       - bcc-tools
       - ShellCheck
-      # youtube-tui reqirements: mpv and sixel
       - mpv-devel
       - libsixel
       - libsixel-utils
@@ -292,7 +291,6 @@ immutablue:
       - libXft-devel
       - libpq-devel
       - mariadb-connector-c-devel
-      - google-cloud-cli
       npm_packages:
       - bash-language-server
       - dockerfile-language-server-nodejs
