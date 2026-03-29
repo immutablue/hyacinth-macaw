@@ -137,10 +137,18 @@ FULL_TAG := $(IMAGE):$(TAG)
 
 # No need to change
 .PHONY: all all_upgrade install update install_or_update \
-	build push iso iso-config _iso_bootc _iso_classic \
+	check build push iso iso-config _iso_bootc _iso_classic \
 	raw raw-config run_raw qcow2 qcow2-config run_qcow2 \
 	ami ami-config gce gce-config vhd vhd-config \
 	upgrade rebase clean
+
+
+# Lint all shell scripts with shellcheck
+check:
+	shellcheck \
+		-e SC2181 \
+		./post_install.sh \
+		./build/*.sh
 
 
 # No need to change
