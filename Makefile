@@ -154,9 +154,10 @@ FULL_TAG := $(IMAGE):$(TAG)
 #   SC2034       - variables used by sourced scripts appear unused
 #   SC2046/SC2086 - intentional word splitting for package lists
 #   SC2181       - inherited from template
+#   SC2231       - intentional unquoted glob in for loop for file iteration
 check:
 	shellcheck \
-		-e SC1090,SC1091,SC2034,SC2046,SC2086,SC2181 \
+		-e SC1090,SC1091,SC2034,SC2046,SC2086,SC2181,SC2231 \
 		./post_install.sh \
 		./build/*.sh
 
