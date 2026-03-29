@@ -144,9 +144,14 @@ FULL_TAG := $(IMAGE):$(TAG)
 
 
 # Lint all shell scripts with shellcheck
+# Exclusions match immutablue upstream:
+#   SC1090/SC1091 - can't follow dynamic/non-constant source paths
+#   SC2034       - variables used by sourced scripts appear unused
+#   SC2046/SC2086 - intentional word splitting for package lists
+#   SC2181       - inherited from template
 check:
 	shellcheck \
-		-e SC2181 \
+		-e SC1090,SC1091,SC2034,SC2046,SC2086,SC2181 \
 		./post_install.sh \
 		./build/*.sh
 
