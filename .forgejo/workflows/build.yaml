@@ -1,0 +1,73 @@
+# build.yaml - Forgejo CI workflow
+#
+# Builds and pushes hyacinth-macaw on every push to master.
+# Split into two jobs: lint (fast gate) and build+push (heavy lifting).
+#
+# Build and push must share a job because the built image lives in
+# buildah's local storage -- a separate job would lose it.
+#
+# Required secrets:
+#   QUAY_USER  - quay.io username
+#   QUAY_TOKEN - quay.io password/token
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: Build Hyacinth Macaw
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    runs-on: linux-amd64
+    container:
+      image: git.podbielniak.com/zachpodbielniak/build-container:43
+      options: --privileged
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch submodules over HTTPS
+        run: |
+          git config --global url."https://gitlab.com/".insteadOf "git@gitlab.com:"
+          git config --global url."https://git.podbielniak.com/".insteadOf "git@git-ssh.podbielniak.com:"
+          git submodule update --init --recursive
+
+      - name: Pre-test (shellcheck)
+        run: make check
+
+  build-and-push:
+    runs-on: linux-amd64
+    needs: lint
+    container:
+      image: git.podbielniak.com/zachpodbielniak/build-container:43
+      options: --privileged
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch submodules over HTTPS
+        run: |
+          git config --global url."https://gitlab.com/".insteadOf "git@gitlab.com:"
+          git config --global url."https://git.podbielniak.com/".insteadOf "git@git-ssh.podbielniak.com:"
+          git submodule update --init --recursive
+
+      - name: Login to quay.io
+        env:
+          QUAY_USER: ${{ secrets.QUAY_USER }}
+          QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
+        run: |
+          buildah login \
+              -u "${QUAY_USER}" \
+              -p "${QUAY_TOKEN}" \
+              quay.io
+
+      - name: Build image
+        run: make build
+
+      - name: Push image
+        run: make push
