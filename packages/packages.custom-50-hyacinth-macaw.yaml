@@ -55,6 +55,8 @@ immutablue:
     - libXScrnSaver-devel
     - mupdf
     - picom
+    - poppler-devel
+    - poppler-glib-devel
     - proton-vpn-gnome-desktop
     - proton-vpn-gtk-app
     - qtile-wayland
