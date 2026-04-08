@@ -35,7 +35,6 @@ immutablue:
     # - gnome-shell-extension-tailscale-status
     - arandr
     - brightnessctl
-    - emacs
     - feh
     - gnome-shell-extension-appindicator
     - gnome-shell-extension-blur-my-shell
