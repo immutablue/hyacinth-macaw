@@ -52,6 +52,7 @@ immutablue:
     - libXinerama-devel
     - libXrandr-devel
     - libXScrnSaver-devel
+    - mediainfo
     - mupdf
     - pcmanfm
     - pcmanfm-devel
@@ -63,6 +64,7 @@ immutablue:
     - qtile-wayland
     - rofi
     - swappy
+    - vips
     - waydroid
     - wofi
     - wmctrl
