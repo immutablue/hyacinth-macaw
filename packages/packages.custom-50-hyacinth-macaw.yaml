@@ -53,6 +53,8 @@ immutablue:
     - libXrandr-devel
     - libXScrnSaver-devel
     - mupdf
+    - pcmanfm
+    - pcmanfm-devel
     - picom
     - poppler-devel
     - poppler-glib-devel
