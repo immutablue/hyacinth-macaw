@@ -22,6 +22,9 @@ immutablue:
       url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-43/ublue-os-staging-fedora-43.repo
     # - name: gnome-x11.repo 
     #   url: https://copr.fedorainfracloud.org/coprs/frantisekz/GNOME-X11/repo/fedora-43/frantisekz-GNOME-X11-fedora-43.repo
+    44:
+    - name: ublue-os-staging.repo
+      url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-43/ublue-os-staging-fedora-44.repo
 
   repo_urls_aarch64:
     all:
@@ -114,7 +117,7 @@ immutablue:
     - rclone
     - stack
     - strace
-    - tlp
+    # - tlp
     - wireguard-tools
 
   rpm_x86_64:
@@ -166,12 +169,10 @@ immutablue:
     - https://repo.protonvpn.com/fedora-42-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.3-1.noarch.rpm
     43:
     - https://repo.protonvpn.com/fedora-43-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.3-1.noarch.rpm
-    #- https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm
-    #- https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm
+    44:
+    - https://repo.protonvpn.com/fedora-44-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.3-1.noarch.rpm
 
   rpm_url_gui_x86_64:
-    all:
-    #- https://proton.me/download/mail/linux/1.10.8/ProtonMail-desktop-beta.rpm
 
   # RPM packages you want to remove from the image
   rpm_rm_gui:
