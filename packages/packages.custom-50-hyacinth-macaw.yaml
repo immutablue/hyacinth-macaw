@@ -14,17 +14,17 @@ immutablue:
     all:
     # - name: hyprland.repo
     #   url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-42/solopasha-hyprland-fedora-42.repo
-    42: 
-    - name: ublue-os-staging.repo
-      url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-42/ublue-os-staging-fedora-42.repo
-    43: 
-    - name: ublue-os-staging.repo
-      url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-43/ublue-os-staging-fedora-43.repo
+    # 42:
+    # - name: ublue-os-staging.repo
+    #   url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-42/ublue-os-staging-fedora-42.repo
+    # 43:
+    # - name: ublue-os-staging.repo
+    #   url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-43/ublue-os-staging-fedora-43.repo
     # - name: gnome-x11.repo 
     #   url: https://copr.fedorainfracloud.org/coprs/frantisekz/GNOME-X11/repo/fedora-43/frantisekz-GNOME-X11-fedora-43.repo
-    44:
-    - name: ublue-os-staging.repo
-      url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-43/ublue-os-staging-fedora-44.repo
+    # 44:
+    # - name: ublue-os-staging.repo
+    #   url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-43/ublue-os-staging-fedora-44.repo
 
   repo_urls_aarch64:
     all:
@@ -43,8 +43,8 @@ immutablue:
     - gnome-shell-extension-blur-my-shell
     - gnome-shell-extension-dash-to-dock
     - gnome-shell-extension-gsconnect
-    - gnome-shell-extension-search-light
-    - gnome-shell-extension-tailscale-gnome-qs
+    # - gnome-shell-extension-search-light
+    # - gnome-shell-extension-tailscale-gnome-qs
     - gnome-shell-extension-user-theme
     - grim
     - gtk2-devel
@@ -57,7 +57,6 @@ immutablue:
     - libXrandr-devel
     - libXScrnSaver-devel
     - maildir-utils
-    - mediainfo
     - msmtp
     - mupdf
     - pcmanfm
@@ -70,7 +69,6 @@ immutablue:
     - qtile-wayland
     - rofi
     - swappy
-    - vips
     - waydroid
     - wofi
     - wmctrl
@@ -105,8 +103,6 @@ immutablue:
     - gdb
     - gnutls
     - gnutls-utils
-    - ImageMagick
-    - ImageMagick-devel
     - ltrace
     - lxc
     - lxc-templates
