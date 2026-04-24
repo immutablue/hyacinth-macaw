@@ -221,7 +221,7 @@ immutablue:
 
   services_enable_user:
     all:
-    - emacs.service
+    #- emacs.service
 
   distrobox:
     # Create upstream -- Adding tweaks
