@@ -62,8 +62,8 @@ immutablue:
     - pcmanfm
     - pcmanfm-devel
     - picom
-    - poppler-devel
-    - poppler-glib-devel
+    # - poppler-devel
+    # - poppler-glib-devel
     - proton-vpn-gnome-desktop
     - proton-vpn-gtk-app
     - qtile-wayland
@@ -109,7 +109,7 @@ immutablue:
     - perl-JSON
     - perl-Mojolicious
     - perl-YAML
-    - protonvpn-cli
+    - proton-vpn-cli
     - rclone
     - stack
     - strace
