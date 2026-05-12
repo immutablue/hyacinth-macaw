@@ -61,9 +61,9 @@ immutablue:
     - mupdf
     - pcmanfm
     - pcmanfm-devel
-    - phosh
-    - phosh-devel
-    - phosh-mobile-settings
+    # - phosh
+    # - phosh-devel
+    # - phosh-mobile-settings
     - picom
     # - poppler-devel
     # - poppler-glib-devel
