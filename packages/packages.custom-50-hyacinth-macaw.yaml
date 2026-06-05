@@ -226,6 +226,18 @@ immutablue:
     all:
     #- emacs.service
 
+  services_mask_user:
+    all:
+    - localsearch-3.service
+    - localsearch-extract-3.service
+    - localsearch-writeback-3.service
+    - tracker-miner-fs-3.service
+    - tracker-miner-fs-control-3.service
+    - tracker-miner-rss-3.service
+    - tracker-extract-3.service
+    - tracker-writeback-3.service
+
+
   distrobox:
     # Create upstream -- Adding tweaks
     all:
