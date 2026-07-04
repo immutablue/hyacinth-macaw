@@ -73,6 +73,7 @@ immutablue:
     - rofi
     - swappy
     - waydroid
+    - weasyprint
     - wofi
     - wmctrl
     - xclip
