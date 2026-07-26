@@ -22,7 +22,9 @@ immutablue:
     #   url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-43/ublue-os-staging-fedora-43.repo
     # - name: gnome-x11.repo 
     #   url: https://copr.fedorainfracloud.org/coprs/frantisekz/GNOME-X11/repo/fedora-43/frantisekz-GNOME-X11-fedora-43.repo
-    # 44:
+    44:
+    - name: claude-desktop-unofficial.repo
+      url: https://pkg.claude-desktop-debian.dev/rpm/claude-desktop-unofficial.repo
     # - name: ublue-os-staging.repo
     #   url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-43/ublue-os-staging-fedora-44.repo
 
@@ -38,6 +40,7 @@ immutablue:
     # - gnome-shell-extension-tailscale-status
     - arandr
     - brightnessctl
+    - claude-desktop-unofficial
     - feh
     - gnome-shell-extension-appindicator
     - gnome-shell-extension-blur-my-shell
