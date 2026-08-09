@@ -72,6 +72,8 @@ immutablue:
     # - poppler-glib-devel
     - proton-vpn-gnome-desktop
     - proton-vpn-gtk-app
+    - qpdf
+    - qpdf-devel
     - qtile-wayland
     - rofi
     - swappy
