@@ -29,6 +29,10 @@ unknown BrowserWindow options, which Electron ignores, and the window falls
 back to the default `frame: true`.  GTK then draws the frame and honours the
 user's button layout.
 
+The option keys survive minification but the string quoting does not — the
+1.30096 bundle switched from `"hidden"` to a backtick literal — so the anchor
+matches whichever quote character is in use and echoes it back untouched.
+
 The replacement is the same byte length as the original, so every entry
 offset in the asar header stays valid.  Electron's embedded asar integrity
 fuse is enabled on this build, so the SHA-256 digests of the patched entry
@@ -45,13 +49,17 @@ Desktop update reshaped the window options).
 
 import hashlib
 import json
+import re
 import struct
 import sys
 
 # The minified window options are stable across releases even though the
-# surrounding identifiers are not, so anchor on the two option keys.
-OLD = b'titleBarStyle:"hidden",titleBarOverlay:'
-NEW = b'TitleBarStyle:"hidden",TitleBarOverlay:'
+# surrounding identifiers and the string quoting are not, so anchor on the two
+# option keys and let the minifier pick whichever quote character it likes.
+# The backreference keeps the pair matched, so a quote inside the value cannot
+# widen the match.
+UNPATCHED = re.compile(rb'titleBarStyle:(["\'`])hidden\1,titleBarOverlay:')
+PATCHED = re.compile(rb'TitleBarStyle:(["\'`])hidden\1,TitleBarOverlay:')
 
 
 def walk(node, prefix):
@@ -72,13 +80,13 @@ def main(argv):
     data = bytearray(open(path, 'rb').read())
 
     # Re-running the build over an already patched image must be a no-op.
-    if data.count(NEW) == 1:
+    if len(PATCHED.findall(data)) == 1:
         print('claude-desktop: main window already patched')
         return 0
 
-    hits = data.count(OLD)
-    if hits != 1:
-        print('claude-desktop: expected exactly 1 titlebar match, found %d' % hits)
+    hits = list(UNPATCHED.finditer(data))
+    if len(hits) != 1:
+        print('claude-desktop: expected exactly 1 titlebar match, found %d' % len(hits))
         return 1
 
     # asar layout: a pickled header (size at [4:8], JSON length at [12:16],
@@ -89,8 +97,17 @@ def main(argv):
     header = json.loads(header_raw)
     base = 8 + header_size
 
-    target = data.find(OLD)
-    data[target:target + len(NEW)] = NEW
+    # Echo the original quote character back so the edit stays byte for byte
+    # the same length; only the two leading key characters change case.
+    quote = hits[0].group(1)
+    replacement = b'TitleBarStyle:' + quote + b'hidden' + quote + b',TitleBarOverlay:'
+    target = hits[0].start()
+
+    if len(replacement) != hits[0].end() - target:
+        print('claude-desktop: replacement would resize the archive, refusing to write')
+        return 1
+
+    data[target:target + len(replacement)] = replacement
 
     # Find the archive entry the patched bytes belong to so its integrity
     # digests can be refreshed.
