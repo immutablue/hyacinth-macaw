@@ -502,6 +502,7 @@ immutablue:
       - bat
       - bear
       - binsider
+      - bjarneo/cliamp/cliamp
       - btop
       - clipboard
       - croc
