@@ -124,6 +124,14 @@ immutablue:
     - strace
     # - tlp
     - wireguard-tools
+    - libzim-devel
+    - gcc-c++
+    - tesseract-devel
+    - leptonica-devel
+    - tesseract-langpack-eng
+    - pandoc
+    - aria2
+    - parallel
 
   rpm_x86_64:
     all:
