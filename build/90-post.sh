@@ -74,6 +74,27 @@ then
     fi
 fi
 
+# Put the ChatGPT desktop app's window buttons back where GNOME wants them.
+# Same story as claude-desktop above: the Linux branch of its per-window
+# option table asks for `titleBarStyle: hidden` plus a Chromium window-controls
+# overlay for the primary/quick-chat window and for detached chat windows, so
+# mutter never decorates them and `org.gnome.desktop.wm.preferences
+# button-layout` is ignored. Patch the bundled asar so those windows fall back
+# to a GTK-decorated frame; the genuinely chromeless windows (dictation,
+# avatar, hotkey overlays) get their framelessness elsewhere and are left
+# alone. Never fail the build over this: a ChatGPT update can reshape the
+# window options, and a titlebar is not worth a broken image.
+chatgpt_asar='/usr/lib/chatgpt/resources/app.asar'
+chatgpt_patch="${CUSTOM_INSTALL_DIR}/build/patches/chatgpt-titlebar.py"
+
+if [[ -f "${chatgpt_asar}" ]] && [[ -f "${chatgpt_patch}" ]]
+then
+    if ! python3 "${chatgpt_patch}" "${chatgpt_asar}"
+    then
+        echo 'WARNING: chatgpt titlebar patch did not apply; window controls stay on the right' >&2
+    fi
+fi
+
 # Build docs in case any were added with the image
 bash -c "cd /usr/immutablue/docs && hugo build"
 
