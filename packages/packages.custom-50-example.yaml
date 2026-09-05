@@ -25,7 +25,7 @@ immutablue:
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
   rpm:
-    42:
+    44:
     - emacs
     # You can also add version-specific packages:
     # 42:
@@ -157,7 +157,7 @@ immutablue:
       # Which image should it be based off of?
       # See supported images with:
       #   `distrobox create --compatibility``
-      image: registry.fedoraproject.org/fedora:41
+      image: registry.fedoraproject.org/fedora:44
       # Does this need to be ran as a root image?
       # Equal to `distrobox create --root`
       # Should be `true` or `false`
@@ -188,7 +188,7 @@ immutablue:
       # What are the packages you want to install?
       packages:
       - htop
-      - neofetch
+      - fastfetch
       - nautilus
       # Architecture specific packages
       packages_aarch64:

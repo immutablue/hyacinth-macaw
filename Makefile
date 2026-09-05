@@ -18,7 +18,7 @@ IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
 # Current version to be based off of
 # Change this after major releases
-CURRENT := 43
+CURRENT := 44
 
 # Can override in make
 ifndef $(VERSION)
@@ -30,7 +30,7 @@ ifndef $(TAG)
 	TAG = $(VERSION)
 endif
 
-# Date tag for versioned snapshots (e.g., 43-20260129)
+# Date tag for versioned snapshots (e.g., 44-20260905)
 DATE_TAG := $(TAG)-$(shell date +%Y%m%d)
 
 BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)
