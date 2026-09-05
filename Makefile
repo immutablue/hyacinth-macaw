@@ -35,7 +35,7 @@ ifndef $(TAG)
 	TAG = $(VERSION)
 endif
 
-# Date tag for versioned snapshots (e.g., 43-20260129)
+# Date tag for versioned snapshots (e.g., 44-20260905)
 DATE_TAG := $(TAG)-$(shell date +%Y%m%d)
 
 BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)

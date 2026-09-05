@@ -4,6 +4,9 @@ A forkable repo that you can use to create a custom build of [Immutablue](https:
 
 
 ## Getting started
+
+The default base is Immutablue 44. Use `make VERSION=43 build` to target another release, or pass `--build-arg FEDORA_VERSION=43` when building the Containerfile directly. Set the registry and project name below before building or pushing your image.
+
 - Fork this repo to your git provider of choice.
 - Find `change-me` in `Makefile` and `Containerfile` and update them using your container registry and project name of choice (probably from your git provider but doesn't have to be).
 - Have a look at `packages/packages.custom-50-example.yaml` and `packages/template.packages.custom-00-template.yaml`. Copy the latter to a new file, or make tweaks to the formal.
