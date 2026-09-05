@@ -28,8 +28,7 @@ immutablue:
     # - name: ublue-os-staging.repo
     #   url: https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-43/ublue-os-staging-fedora-44.repo
 
-  repo_urls_aarch64:
-    all:
+    all_aarch64:
     - name: rust-epel.repo
       url: https://copr.fedorainfracloud.org/coprs/cyqsimon/el-rust-pkgs/repo/epel-9/cyqsimon-el-rust-pkgs-epel-9.repo
 
@@ -133,16 +132,14 @@ immutablue:
     - aria2
     - parallel
 
-  rpm_x86_64:
-    all:
+    all_x86_64:
     - rocm-clinfo
     - rocm-hip
     - rocm-opencl
     - rocm-runtime
     - rocm-smi
 
-  rpm_aarch64:
-    # all:
+    # all_aarch64:
     # - aerc
     # - btop
     # - calc
@@ -171,8 +168,8 @@ immutablue:
     # - tmux
     # - zenity
 
-  rpm_asahi_aarch64:
-    all:
+  rpm_asahi:
+    all_aarch64:
 
 
   # Urls to RPMs to download (they are curled)
@@ -185,8 +182,8 @@ immutablue:
     44:
     - https://repo.protonvpn.com/fedora-44-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.3-1.noarch.rpm
 
-  rpm_url_gui_x86_64:
-    all:
+  rpm_url_gui:
+    all_x86_64:
       - https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm
 
   # RPM packages you want to remove from the image
