@@ -19,10 +19,8 @@ immutablue:
     # 42:
     # - name: some-42-specific.repo
     #   url: https://example.com/fedora-42/repo
-  repo_urls_aarch64:
-    all:
-  repo_urls_x86_64:
-    all:
+    all_aarch64:
+    all_x86_64:
 
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
@@ -35,6 +33,10 @@ immutablue:
     # 43:
     # - some-package-for-43
 
+    # Architecture-specific RPMs
+    all_aarch64:
+    all_x86_64:
+
   # these can be set for speicific builds too (see /usr/immutablue/build_options)
   rpm_silverblue:
     all:
@@ -45,20 +47,12 @@ immutablue:
     all:
     - neovim-qt
 
-  # You can specify RPMs for specific archs only
-  rpm_aarch64:
-    all:
-  rpm_x86_64:
-    all:
-
   # Urls to RPMs to download (they are curled)
   # so provide the url
   rpm_url:
     all:
-  rpm_url_aarch64:
-    all:
-  rpm_url_x86_64:
-    all:
+    all_aarch64:
+    all_x86_64:
 
   # RPM packages you want to remove from the image
   rpm_rm:
@@ -66,10 +60,8 @@ immutablue:
     - tailscale
 
   # You can remove
-  rpm_rm_aarch64:
-    all:
-  rpm_rm_x86_64:
-    all:
+    all_aarch64:
+    all_x86_64:
 
   # Build files that need to be removed. If the build is filing about some
   # ephemeral file that exists, put the path here so it get removed in
@@ -80,10 +72,8 @@ immutablue:
     # - /path/to/some/file
     # - /path/to/some/dir
   # Files can be removed per architecture as well
-  file_rm_aarch64:
-    all:
-  file_rm_x86_64:
-    all:
+    all_aarch64:
+    all_x86_64:
 
 
   # Repositories for Flatpaks
@@ -92,10 +82,8 @@ immutablue:
     - name: flathub
       url: https://dl.flathub.org/repo/flathub.flatpakrepo
 
-  flatpak_repos_aarch64:
-    all:
-  flatpak_repos_x86_64:
-    all:
+    all_aarch64:
+    all_x86_64:
 
   # Runtimes for Flatpaks
   # (Can query with `flatpak list --app --columns=application,runtime`)
@@ -114,10 +102,8 @@ immutablue:
     # - us.zoom.Zoom
 
   # Architecture specific
-  flatpaks_aarch64:
-    all:
-  flatpaks_x86_64:
-    all:
+    all_aarch64:
+    all_x86_64:
 
   # Flatpaks to be uninstalled
   flatpaks_rm:
@@ -125,10 +111,8 @@ immutablue:
     # - org.chromium.Chromium
 
   # Remove Architecture specific flatpaks
-  flatpaks_rm_aarch64:
-    all:
-  flatpaks_rm_x86_64:
-    all:
+    all_aarch64:
+    all_x86_64:
 
   # Services
   # enable
