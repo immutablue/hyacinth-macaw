@@ -178,6 +178,8 @@ immutablue:
     - https://repo.protonvpn.com/fedora-44-stable/protonvpn-stable-release/protonvpn-stable-release-1.0.3-1.noarch.rpm
 
   rpm_url_gui_x86_64:
+    all:
+      - https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm
 
   # RPM packages you want to remove from the image
   rpm_rm_gui:
