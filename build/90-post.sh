@@ -82,8 +82,18 @@ fi
 # button-layout` is ignored. Patch the bundled asar so those windows fall back
 # to a GTK-decorated frame; the genuinely chromeless windows (dictation,
 # avatar, hotkey overlays) get their framelessness elsewhere and are left
-# alone. Never fail the build over this: a ChatGPT update can reshape the
-# window options, and a titlebar is not worth a broken image.
+# alone.
+#
+# Removing the overlay option is not sufficient on its own: two call sites
+# (`installApplicationMenuTitleBarOverlaySync` and `setWindowZoom`) call
+# `BrowserWindow.setTitleBarOverlay()` gated on the platform rather than on
+# whether the window is actually frameless, and that throws `Titlebar overlay
+# is not enabled` on a framed window. The first runs synchronously while the
+# primary window is being created, so the throw unwinds into the bootstrap's
+# catch and the app quits before it ever draws -- the patch takes both
+# branches off the Linux path as well. Never fail the build over this: a
+# ChatGPT update can reshape the window options, and a titlebar is not worth
+# a broken image.
 chatgpt_asar='/usr/lib/chatgpt/resources/app.asar'
 chatgpt_patch="${CUSTOM_INSTALL_DIR}/build/patches/chatgpt-titlebar.py"
 

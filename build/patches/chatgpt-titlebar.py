@@ -39,27 +39,47 @@ unknown BrowserWindow options, which Electron ignores, and the windows fall
 back to the default `frame: true`.  GTK then draws the frame and honours the
 user's button layout.
 
-The option keys survive minification but the string quoting does not, so the
-anchor matches whichever quote character is in use and echoes it back
-untouched.
+Dropping the option is not enough on its own.  Two call sites reach for
+`BrowserWindow.setTitleBarOverlay()` afterwards, gated on the *platform and
+the window appearance* rather than on whether the window actually has an
+overlay:
 
-The replacement is the same byte length as the original, so every entry
-offset in the asar header stays valid.  The SHA-256 digests of each patched
-entry are recomputed and written back into the header in case the embedded
-asar integrity fuse is enabled.  The header is re-serialised from the parsed
-tree rather than patched as text -- the entry spans a single integrity block,
-so its block digest and its whole-file digest are the same hex string and a
-search-and-replace could not tell them apart.  Electron writes the header as
-compact JSON, so the round trip is verified to be byte for byte identical
-before anything is rewritten, and hex digests are fixed width, so the header
-keeps its size.  The archive is nearly 300 MB, so the edits are seeked to and
+    installApplicationMenuTitleBarOverlaySync(e,t){
+        if(process.platform!==`win32`&&process.platform!==`linux`
+           ||t!==`primary`&&t!==`quickChat`&&t!==`detached`)return;
+        let n=()=>{e.isDestroyed()||e.setTitleBarOverlay(M9(...))};
+        ...
+    }
+    setWindowZoom(e,t){ ... (process.platform===`win32`||process.platform
+        ===`linux`)&&(this.windowZooms.set(n.id,t),n.setTitleBarOverlay(...))}
+
+`setTitleBarOverlay()` throws `TypeError: Titlebar overlay is not enabled` on
+a window that is not frameless, and the first of those runs synchronously
+from `createWindow()` during `createPrimaryWindow()`.  The throw unwinds into
+the bootstrap's `catch`, which destroys every window and quits -- the app
+looks like it never starts.  So the same edit also has to take those two
+branches off the Linux path: comparing against `Linux` instead of `linux`
+never matches `process.platform`, which turns the first into an early return
+and the second into a no-op, exactly as on a platform without overlays.
+
+Every replacement is the same byte length as the original -- only the case of
+existing characters changes -- so every entry offset in the asar header stays
+valid.  The SHA-256 digests of each patched entry are recomputed and written
+back into the header, because the embedded asar integrity fuse is enabled on
+this build.  The header is re-serialised from the parsed tree rather than
+patched as text -- an entry spans a single integrity block, so its block
+digest and its whole-file digest are the same hex string and a search-and-
+replace could not tell them apart.  Electron writes the header as compact
+JSON, so the round trip is verified to be byte for byte identical before
+anything is rewritten, and hex digests are fixed width, so the header keeps
+its size.  The archive is nearly 300 MB, so the edits are seeked to and
 written individually rather than rewriting the whole file.
 
 Usage:
     chatgpt-titlebar.py <path-to-app.asar>
 
 Exits 0 when the archive was patched or was already patched, and non-zero
-when the expected pattern could not be found (typically because a ChatGPT
+when any expected pattern could not be found (typically because a ChatGPT
 update reshaped the window options).
 """
 
@@ -70,13 +90,58 @@ import re
 import struct
 import sys
 
-# The minified window options are stable across releases even though the
-# surrounding identifiers and the string quoting are not, so anchor on the two
-# option keys and let the minifier pick whichever quote character it likes.
-# The backreference keeps the pair matched, so a quote inside the value cannot
+# Minified string quoting is not stable across releases, so every anchor
+# matches whichever quote character is in use and echoes it back untouched.
+# The backreference keeps each pair matched, so a quote inside a value cannot
 # widen the match.
-UNPATCHED = re.compile(rb'titleBarStyle:(["\'`])hidden\1,titleBarOverlay:')
-PATCHED = re.compile(rb'TitleBarStyle:(["\'`])hidden\1,TitleBarOverlay:')
+QUOTE = rb'(["\'`])'
+
+
+def rule(unpatched, patched, replacement, minimum):
+    """Bundle one edit: what to find, what "already done" looks like, the fix."""
+    return {
+        'unpatched': re.compile(unpatched),
+        'patched': re.compile(patched),
+        'replacement': replacement,
+        'minimum': minimum,
+    }
+
+
+RULES = [
+    # The per-appearance window options themselves.  Capitalised, both keys
+    # become unknown BrowserWindow options and the window keeps `frame: true`.
+    # Current builds emit two of these (primary/quickChat, and detached).
+    rule(
+        rb'titleBarStyle:' + QUOTE + rb'hidden\1,titleBarOverlay:',
+        rb'TitleBarStyle:' + QUOTE + rb'hidden\1,TitleBarOverlay:',
+        lambda m: b'TitleBarStyle:' + m.group(1) + b'hidden' + m.group(1) + b',TitleBarOverlay:',
+        2,
+    ),
+
+    # installApplicationMenuTitleBarOverlaySync()'s platform guard.  Never
+    # matching `Linux` makes the whole condition true on Linux, so the
+    # function returns before installing the nativeTheme hook that calls
+    # setTitleBarOverlay() -- which would otherwise throw during startup.
+    rule(
+        rb'process\.platform!==' + QUOTE + rb'win32\1&&process\.platform!==' + QUOTE + rb'linux\2\|\|t!==' + QUOTE + rb'primary\3',
+        rb'process\.platform!==' + QUOTE + rb'win32\1&&process\.platform!==' + QUOTE + rb'Linux\2\|\|t!==' + QUOTE + rb'primary\3',
+        lambda m: (b'process.platform!==' + m.group(1) + b'win32' + m.group(1)
+                   + b'&&process.platform!==' + m.group(2) + b'Linux' + m.group(2)
+                   + b'||t!==' + m.group(3) + b'primary' + m.group(3)),
+        1,
+    ),
+
+    # setWindowZoom()'s platform guard, which re-applies the overlay geometry
+    # whenever the renderer changes zoom.  Same throw, same fix.
+    rule(
+        rb'process\.platform===' + QUOTE + rb'win32\1\|\|process\.platform===' + QUOTE + rb'linux\2\)&&\(this\.windowZooms\.set\(',
+        rb'process\.platform===' + QUOTE + rb'win32\1\|\|process\.platform===' + QUOTE + rb'Linux\2\)&&\(this\.windowZooms\.set\(',
+        lambda m: (b'process.platform===' + m.group(1) + b'win32' + m.group(1)
+                   + b'||process.platform===' + m.group(2) + b'Linux' + m.group(2)
+                   + b')&&(this.windowZooms.set('),
+        1,
+    ),
+]
 
 
 def walk(node, prefix):
@@ -115,6 +180,51 @@ def dump_header(header):
     return json.dumps(header, separators=(',', ':'), ensure_ascii=False).encode()
 
 
+def collect_edits(data):
+    """Apply every rule to data in place; return (edits, ok).
+
+    Each rule must either match at least its expected number of times or be
+    fully applied already.  A rule that matches neither means the bundle has
+    been reshaped, and a half-applied set of rules is what crashes the app --
+    so anything short of "all found" or "all already done" is a failure.
+    """
+    edits = []
+    ok = True
+
+    for entry in RULES:
+        hits = list(entry['unpatched'].finditer(data))
+        already = len(entry['patched'].findall(data))
+
+        if not hits:
+            # Re-running the build over an already patched image is a no-op.
+            if already >= entry['minimum']:
+                print('chatgpt: %d site(s) already patched' % already)
+            else:
+                print('chatgpt: expected pattern not found (%s)'
+                      % entry['unpatched'].pattern.decode('ascii', 'replace'))
+                ok = False
+            continue
+
+        if len(hits) < entry['minimum']:
+            print('chatgpt: expected at least %d match(es), found %d (%s)'
+                  % (entry['minimum'], len(hits),
+                     entry['unpatched'].pattern.decode('ascii', 'replace')))
+            ok = False
+            continue
+
+        # Only the case of existing characters changes, so each edit stays
+        # byte for byte the same length and no entry offset moves.
+        for hit in hits:
+            replacement = entry['replacement'](hit)
+            if len(replacement) != hit.end() - hit.start():
+                print('chatgpt: replacement would resize the archive, refusing to write')
+                return [], False
+            edits.append((hit.start(), replacement))
+            data[hit.start():hit.start() + len(replacement)] = replacement
+
+    return edits, ok
+
+
 def main(argv):
     if len(argv) != 2:
         print('usage: chatgpt-titlebar.py <path-to-app.asar>')
@@ -128,16 +238,11 @@ def main(argv):
     with open(path, 'rb') as handle:
         handle.readinto(data)
 
-    hits = list(UNPATCHED.finditer(data))
-    already = len(PATCHED.findall(data))
-
-    # Re-running the build over an already patched image must be a no-op.
-    if not hits:
-        if already:
-            print('chatgpt: %d window(s) already patched' % already)
-            return 0
-        print('chatgpt: no frameless window options found, nothing to patch')
+    edits, ok = collect_edits(data)
+    if not ok:
         return 1
+    if not edits:
+        return 0
 
     # asar layout: a pickled header (size at [4:8], JSON length at [12:16],
     # JSON starting at 16) followed by the concatenated file contents.
@@ -152,18 +257,6 @@ def main(argv):
     if dump_header(header) != header_raw:
         print('chatgpt: header does not round trip, refusing to write')
         return 1
-
-    # Echo the original quote character back so each edit stays byte for byte
-    # the same length; only the two leading key characters change case.
-    edits = []
-    for hit in hits:
-        quote = hit.group(1)
-        replacement = b'TitleBarStyle:' + quote + b'hidden' + quote + b',TitleBarOverlay:'
-        if len(replacement) != hit.end() - hit.start():
-            print('chatgpt: replacement would resize the archive, refusing to write')
-            return 1
-        edits.append((hit.start(), replacement))
-        data[hit.start():hit.start() + len(replacement)] = replacement
 
     # Find the archive entries the patched bytes belong to so their integrity
     # digests can be refreshed.  In practice every hit lives in the same main
@@ -202,7 +295,7 @@ def main(argv):
         handle.seek(16)
         handle.write(header_raw)
 
-    print('chatgpt: patched %d window definition(s)' % len(edits))
+    print('chatgpt: patched %d site(s)' % len(edits))
     return 0
 
 
