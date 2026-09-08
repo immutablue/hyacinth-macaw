@@ -9,7 +9,7 @@ Hyacinth Macaw is Zach's personal custom build of [Immutablue](https://gitlab.co
 **Key Features:**
 - Based on Immutablue (Fedora Silverblue with sane defaults)
 - Custom GNOME extensions and keybindings
-- Window managers: dwm, qtile (source included for dwm/st)
+- Window managers: qtile
 - Terminal: kitty (replaces ptyxis)
 - Home Assistant integration via keybindings
 - ProtonVPN integration
@@ -88,13 +88,7 @@ hyacinth-macaw/
         │   ├── sysctl.d/50-hyacinth-macaw.conf
         │   └── fuse.conf
         └── usr/
-            ├── bin/dwm-start
-            ├── libexec/immutablue/just/50-hyacinth-macaw.justfile
-            ├── share/xsessions/dwm.desktop
-            └── src/gitlab/
-                ├── dwm/      # Patched dwm source
-                ├── st/       # Patched st terminal source
-                └── trayer-srg/
+            └── libexec/immutablue/just/50-hyacinth-macaw.justfile
 ```
 
 ## Package Configuration
@@ -118,11 +112,6 @@ Packages are defined in `packages/packages.custom-50-hyacinth-macaw.yaml`:
 - `qtile-wayland` - Qtile window manager
 - `rofi` - Application launcher
 - `picom` - Compositor for X11
-
-**Included Source (for compilation):**
-- `dwm` - Dynamic window manager (patched)
-- `st` - Simple terminal (patched)
-- `trayer-srg` - System tray
 
 ## dconf Settings
 
@@ -186,13 +175,6 @@ fi
 
 1. Place file in `artifacts/overrides/` mirroring target path
 2. Example: `artifacts/overrides/etc/myconfig.conf` → `/etc/myconfig.conf`
-
-### Modifying dwm/st
-
-Source is in `artifacts/overrides/usr/src/gitlab/`:
-- Edit `dwm/config.h` or `st/config.h`
-- Rebuild image
-- Compile on target: `cd /usr/src/gitlab/dwm && sudo make clean install`
 
 ## Registry
 

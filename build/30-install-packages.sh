@@ -33,35 +33,6 @@ then
 fi
 
 
-# custom /usr/src stuff
-
-build_trayer()  {
-    cd /usr/src/gitlab/trayer-srg
-    ./configure 
-    make all 
-    cp trayer /usr/bin/
-    make clean
-}
-
-build_st() {
-    cd /usr/src/gitlab/st 
-    make clean all
-    cp st /usr/bin/
-}
-
-build_dwm() {
-    cd /usr/src/gitlab/dwm/
-    make clean all
-    cp dwm /usr/bin/
-}
-
-if [[ "${TRUE}" == $(is_option_in_build_options "gui") ]]
-then
-    build_trayer
-    build_st
-    build_dwm
-fi
-
 # Install devpod 
 curl -Lo /tmp/devpod "https://github.com/loft-sh/devpod/releases/latest/download/devpod-linux-amd64" && \
     install -c -m 0755 /tmp/devpod /usr/bin && \
