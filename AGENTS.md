@@ -139,6 +139,8 @@ immutablue hyacinth_full_update_asahi  # Full update for Asahi
 
 - Registers the custom justfile
 - Replaces ptyxis with kitty symlink
+- Patches Claude Desktop: GTK titlebar (asar), GPU/Wayland launcher env on its `.desktop` Exec line, and a system `com.anthropic.Claude.desktop` carrying `%u` so `claude://` sign-in callbacks reach the app (MimeType stripped from the packaged entry so there is one handler)
+- Patches the ChatGPT desktop titlebar (asar)
 - Builds Hugo docs
 - Runs `dconf update` to compile GNOME settings
 

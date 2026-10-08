@@ -74,6 +74,53 @@ then
     fi
 fi
 
+# Give claude:// a working handler, or browser sign-in never completes.
+#
+# The app's asar sets desktopName=com.anthropic.Claude.desktop, so Electron's
+# protocol-client registration writes
+# `x-scheme-handler/claude=com.anthropic.Claude.desktop` into the user's
+# mimeapps.list. The package only ships claude-desktop-unofficial.desktop, so
+# on native Wayland `ensure_portal_app_id_entry()` (launcher-common.sh,
+# upstream #805) fills the gap with a user-level com.anthropic.Claude.desktop
+# alias for the GlobalShortcuts portal -- one whose Exec has no %u and no
+# MimeType. Every "Open with Claude" from the browser then launches the app
+# with the claude://login/... callback stripped off, and the "sign in again"
+# prompt loops forever.
+#
+# Shipping a system entry under that id fixes both ends at once: the
+# launcher finds it in XDG_DATA_DIRS, deletes its own marker-tagged alias and
+# stops writing one, and the mimeapps default now resolves to an entry that
+# passes the URI through. MimeType is then stripped from the packaged entry
+# so the portal's OpenURI chooser (flatpak browsers) offers one "Claude",
+# not two identical icons, and the mime cache is refreshed to match. Never
+# fail the build over this either.
+claude_desktop_alias='/usr/share/applications/com.anthropic.Claude.desktop'
+
+if [[ -f "${claude_desktop_entry}" ]]
+then
+    if ! cat > "${claude_desktop_alias}" <<EOF
+[Desktop Entry]
+Type=Application
+Name=Claude
+Exec=${claude_desktop_env}/usr/bin/claude-desktop-unofficial %u
+Icon=claude-desktop-unofficial
+NoDisplay=true
+MimeType=x-scheme-handler/claude;
+EOF
+    then
+        echo 'WARNING: could not write claude-desktop URI entry; claude:// login callbacks stay broken' >&2
+    elif ! sed -i '/^MimeType=/d' "${claude_desktop_entry}"
+    then
+        echo 'WARNING: could not strip MimeType from claude-desktop entry; portal chooser lists Claude twice' >&2
+    fi
+
+    if command -v update-desktop-database > /dev/null
+    then
+        update-desktop-database /usr/share/applications \
+            || echo 'WARNING: update-desktop-database failed; claude:// may resolve via a stale mime cache' >&2
+    fi
+fi
+
 # Put the ChatGPT desktop app's window buttons back where GNOME wants them.
 # Same story as claude-desktop above: the Linux branch of its per-window
 # option table asks for `titleBarStyle: hidden` plus a Chromium window-controls
