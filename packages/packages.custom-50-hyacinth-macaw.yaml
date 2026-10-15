@@ -41,6 +41,7 @@ immutablue:
     - brightnessctl
     - claude-desktop-unofficial
     - feh
+    - fluid-soundfont-gm
     - gnome-shell-extension-appindicator
     - gnome-shell-extension-blur-my-shell
     - gnome-shell-extension-dash-to-dock
