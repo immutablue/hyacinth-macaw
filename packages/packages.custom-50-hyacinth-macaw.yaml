@@ -131,10 +131,6 @@ immutablue:
     - pandoc
     - aria2
     - parallel
-    - wireshark-cli
-    - binwalk
-    - rizin
-    - sigrok-cli
 
     all_x86_64:
     - rocm-clinfo
@@ -548,6 +544,16 @@ immutablue:
       - witr
       - yazi
       - yt-dlp
+
+      # rea tools
+      - apktool
+      - binwalk
+      - ghidra
+      - jadx
+      - rizin
+      - sigrok-cli
+      - wabt
+      - wireshark
     uninstall:
       all:
 
