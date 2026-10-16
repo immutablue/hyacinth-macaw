@@ -528,7 +528,7 @@ immutablue:
       - kubernetes-cli
       - localtunnel
       - neomutt
-      - newvim
+      - neovim
       - newsboat
       - ollama
       - onefetch
