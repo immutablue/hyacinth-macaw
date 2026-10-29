@@ -12,6 +12,48 @@ pkg_urls=$(get_immutablue_package_urls)
 pip_pkgs=$(get_immutablue_pip_packages)
 
 
+# With Immutablue's backend library the base image's own package manager
+# does the work (dnf5 on fedora-bootc, pacman on arch-bootc, pkg on
+# freebsd-be); see build/99-common.sh. Package files go first, then
+# packages by name, as before.
+if [[ "${IMMUTABLUE_HAVE_BACKENDS}" == "1" ]]
+then
+    # Package files: <pkg_key>_url (rpm_url on fedora-bootc)
+    if [[ "$pkg_urls" != "" ]]
+    then
+        mapfile -t pkg_url_list <<< "${pkg_urls}"
+        backend_pkg_install_files "${pkg_url_list[@]}"
+    fi
+
+    # Packages by name: native <pkg_key> lists plus the logical pkg lists,
+    # in one transaction
+    if [[ "$pkgs" != "" ]]
+    then
+        mapfile -t pkg_list <<< "${pkgs}"
+        backend_pkg_install "${pkg_list[@]}"
+    fi
+
+    # pip only on backends that list 'pip' under provides in backend.yaml
+    # (fedora-bootc today; Arch's python, for one, is externally managed per
+    # PEP 668). Elsewhere the packages are reported and skipped.
+    if [[ "$pip_pkgs" != "" ]]
+    then
+        if [[ "$(backend_has pip)" == "${TRUE}" ]]
+        then
+            mapfile -t pip_list <<< "${pip_pkgs}"
+            pip3 install --prefix=/usr "${pip_list[@]}"
+        else
+            echo "Backend ${IMMUTABLUE_BACKEND} does not provide pip; skipping pip packages: ${pip_pkgs//$'\n'/ }"
+        fi
+    fi
+
+    exit 0
+fi
+
+
+# Without the backend library (a base image from Immutablue master):
+# rpm-ostree, exactly as before.
+
 # Install rpm_urls
 if [[ "$pkg_urls" != "" ]]
 then
