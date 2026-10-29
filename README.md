@@ -9,7 +9,7 @@ The default base is Immutablue 44. Use `make VERSION=43 build` to target another
 
 - Fork this repo to your git provider of choice.
 - Find `change-me` in `Makefile` and `Containerfile` and update them using your container registry and project name of choice (probably from your git provider but doesn't have to be).
-- Have a look at `packages/packages.custom-50-example.yaml` and `packages/template.packages.custom-00-template.yaml`. Copy the latter to a new file, or make tweaks to the formal.
+- Have a look at `packages/packages.custom-50-hyacinth-macaw.yaml` (this image's packages) and `packages/template.packages.custom-00-template.yaml` (every key, documented). Copy the latter to a new file, or make tweaks to the former.
     - The syntax overall should be straight forward, there are comments that are should describe things and what they do.
     - If there are questions open an issue.
 - Add anything you want into `post_install.sh` for your customization. Such as pulling in your dotfiles for your user, cloning repos, etc. For an example of what could be done, check out how this is done in [Hyacinth Macaw](https://gitlab.com/immutablue/hyacinth-macaw/-/blob/master/post_install.sh?ref_type=heads). There really is endless possibilities of what you can do.
