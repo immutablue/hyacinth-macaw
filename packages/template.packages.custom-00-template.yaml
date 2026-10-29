@@ -9,6 +9,18 @@
 # - Combined: '42_aarch64', '43_x86_64', etc.
 # Put architecture suffixes on these inner keys, not on section names.
 # Build options go on section names, e.g. rpm_url_gui with all_x86_64.
+# - On arch-bootc the version is 'arch' (e.g. 'arch:', 'arch_x86_64:')
+#
+# Backends (see docs/backends.org):
+# - rpm*     native packages, fedora-bootc
+# - pacman*  native packages, arch-bootc
+# - freebsd* native packages, freebsd-be
+# - pkg*     logical packages for every backend: a plain name, or
+#            {name: <default>, rpm: <x>, pacman: <y>, freebsd: <z>} where an
+#            override may be a list or null (not on that backend)
+# - service entries may be {name: <unit>, rc: <rc script or null>}
+# pkg*, pacman*, freebsd* and {name:, rc:} services need a base image built
+# from Immutablue's multi-backend design; older base images read rpm* only.
 immutablue:
   repo_urls:
     all:
@@ -17,6 +29,16 @@ immutablue:
     # 42:
     # 42_aarch64:
     # 43_x86_64:
+  pkg:
+    all:
+    # - some-package
+    # - {name: fedora-name, pacman: arch-name, freebsd: null}
+    # all_aarch64:
+    # all_x86_64:
+    # 44:
+    # arch:
+  pkg_rm:
+    all:
   rpm:
     all:
     # all_aarch64:
@@ -24,6 +46,10 @@ immutablue:
     # 42:
     # 42_aarch64:
     # 43_x86_64:
+  pacman:
+    all:
+  freebsd:
+    all:
   rpm_url:
     all:
     # all_aarch64:
@@ -31,6 +57,10 @@ immutablue:
     # 42:
     # 42_aarch64:
     # 43_x86_64:
+  pacman_url:
+    all:
+  freebsd_url:
+    all:
   rpm_rm:
     all:
     # all_aarch64:
@@ -38,6 +68,10 @@ immutablue:
     # 42:
     # 42_aarch64:
     # 43_x86_64:
+  pacman_rm:
+    all:
+  freebsd_rm:
+    all:
   file_rm:
     all:
     # all_aarch64:
@@ -75,6 +109,8 @@ immutablue:
     # 43_x86_64:
   services_enable_sys:
     all:
+    # - some.service
+    # - {name: sshd.service, rc: sshd}
     # all_aarch64:
     # all_x86_64:
     # 42:
