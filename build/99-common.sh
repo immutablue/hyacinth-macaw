@@ -328,3 +328,59 @@ then
     }
 fi
 
+
+# Last step of the image build; the Containerfiles call it after every
+# build/*.sh has run.
+#
+# In order of preference:
+#
+#   1. backend_finalize_derived, when the base image's backend defines it:
+#      Immutablue's own hook for finishing an image built FROM an Immutablue
+#      image, which knows its backend better than this repo can.
+#   2. Otherwise, per backend, whatever is safe to run a second time on top
+#      of an image that was already finalized once:
+#        fedora-bootc  ostree container commit, as this repo always ran.
+#        gnomeos       backend_finalize, which is an advisory bootc lint only:
+#                      GNOME OS images are bootc + composefs and never get an
+#                      ostree container commit.
+#        arch-bootc    bootc container lint. Arch's backend_finalize must NOT
+#                      run again: it deletes /var and /usr/local and recreates
+#                      the bootc symlinks, which already exist in the base.
+#        freebsd-be    backend_finalize. It re-records the stock /etc trees and
+#                      the setuid/schg modes deliver.sh restores, which have to
+#                      describe this image rather than its base. FreeBSD has
+#                      no ostree.
+#   3. A base image without the backend library: ostree container commit.
+#
+# An unknown backend is an error rather than a guess: finalizing the wrong
+# way produces an image that builds and then fails to deploy.
+immutablue_custom_finalize() {
+    if declare -F backend_finalize_derived > /dev/null
+    then
+        backend_finalize_derived
+        return
+    fi
+
+    if [[ "${IMMUTABLUE_HAVE_BACKENDS}" != "1" ]]
+    then
+        ostree container commit
+        return
+    fi
+
+    case "${IMMUTABLUE_BACKEND}" in
+        fedora-bootc)
+            ostree container commit
+            ;;
+        gnomeos|freebsd-be)
+            backend_finalize
+            ;;
+        arch-bootc)
+            bootc container lint
+            ;;
+        *)
+            echo "ERROR: no derived-image finalize step known for backend '${IMMUTABLUE_BACKEND}'" >&2
+            echo "       (and the base image defines no backend_finalize_derived)" >&2
+            return 1
+            ;;
+    esac
+}
