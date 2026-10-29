@@ -1,0 +1,63 @@
+# Containerfile.freebsd
+#
+# The custom image for Immutablue's freebsd-be backend (FreeBSD 15.1, delivered
+# as a ZFS boot environment). 'make FREEBSD=1 build' selects this file.
+#
+# It MUST be built on a FreeBSD host -- FreeBSD containers only run there, with
+# podman/buildah and ocijail (sysutils/podman-suite, sysutils/ocijail). On
+# Linux, use Immutablue's builder VM (backends/freebsd-be/builder-vm.sh in the
+# immutablue repository) and run 'make FREEBSD=1 build' inside it.
+#
+# It differs from the Linux Containerfile in three ways:
+#
+#   - buildah on FreeBSD has no RUN --mount, so the build context is COPY'd
+#     into the image and deleted again at the end of the RUN. The image has to
+#     be built with --squash (the Makefile passes it for FREEBSD=1), otherwise
+#     the copy survives in the COPY layer.
+#   - bash is /usr/local/bin/bash on FreeBSD; the '#!/bin/bash' scripts in
+#     build/ are run through it explicitly.
+#   - FreeBSD has no ostree. immutablue_custom_finalize (build/99-common.sh)
+#     calls Immutablue's backend_finalize_derived when the base image has it,
+#     else the backend's backend_finalize, which records the stock /etc trees
+#     and setuid/schg modes the boot environment delivery restores.
+#
+# Same as the Linux Containerfile: add other FROM stages here and copy from
+# them in build/10-copy.sh -- with COPY --from=<stage> <src> <dst> into a
+# temporary path, since there are no bind mounts, and delete it afterwards.
+ARG FEDORA_VERSION=15.1
+ARG BASE_IMAGE=quay.io/immutablue/immutablue:${FEDORA_VERSION}-freebsd
+
+
+FROM ${BASE_IMAGE}
+
+
+# FEDORA_VERSION keeps its name for parity with the Linux Containerfile and
+# Immutablue's build scripts; here it is the FreeBSD release, which is what
+# Immutablue's freebsd-be images use as VERSION (e.g. pkg.15.1 in yaml).
+ARG FEDORA_VERSION=15.1
+ARG INSTALL_DIR=/usr/immutablue
+ARG NAME=change-me
+ARG CUSTOM_INSTALL_DIR=${INSTALL_DIR}-build-${NAME}
+ARG IMMUTABLUE_BUILD=true
+ARG IMAGE_TAG=immutablue
+
+
+# Copy files to appropriate place. The packages yaml files stay in the image
+# (Immutablue reads /usr/immutablue/packages.custom-*.yaml at runtime for
+# flatpaks, distrobox, brew); the full build context is only for the build.
+COPY ./packages/packages.custom-*.yaml ${INSTALL_DIR}/
+COPY . ${CUSTOM_INSTALL_DIR}/
+COPY ./artifacts/overrides/ /
+
+
+# Run every build/*.sh in order, finalize, then delete the build context copy
+# (--squash keeps it out of the image's layers).
+RUN /usr/local/bin/bash -c ' \
+        set -euxo pipefail && \
+        ls -l "${CUSTOM_INSTALL_DIR}/build" && \
+        for script in "${CUSTOM_INSTALL_DIR}"/build/*.sh; do \
+            /usr/local/bin/bash "${script}" || { echo "ERROR: ${script} failed"; exit 1; }; \
+        done && \
+        source "${CUSTOM_INSTALL_DIR}/build/99-common.sh" && \
+        immutablue_custom_finalize' && \
+    rm -rf "${CUSTOM_INSTALL_DIR}"
