@@ -34,62 +34,120 @@ immutablue:
 
 
   # gui tools
-  rpm_gui:
+  # Logical packages, resolved for the base image's backend
+  # (fedora-bootc: rpm, arch-bootc: pacman, freebsd-be: freebsd). An entry is
+  # the Fedora name, or {name: <fedora>, pacman: <arch>, freebsd: <freebsd>}
+  # where a name differs; null = not available on that backend (AUR-only on
+  # Arch counts as not available). Fedora-only packages, and those from
+  # Fedora-only third-party repos (Proton, claude-desktop), stay in the
+  # native rpm* lists below. Names checked 2026-10-29 against Arch's
+  # official repos and FreeBSD:15:amd64/quarterly.
+  pkg:
     all:
-    # - gnome-shell-extension-tailscale-status
+    - binutils
+    - {name: borgbackup, pacman: borg, freebsd: py312-borgbackup}
+    - {name: cabal-install, freebsd: hs-cabal-install}
+    - {name: cockpit, freebsd: null}
+    - {name: cockpit-machines, freebsd: null}
+    - {name: cockpit-podman, freebsd: null}
+    - {name: cockpit-ostree, pacman: null, freebsd: null}
+    - gcc
+    # g++ and the plugin headers ship with gcc on Arch and FreeBSD
+    - {name: gcc-c++, pacman: null, freebsd: null}
+    - gdb
+    - gnutls
+    - {name: gnutls-utils, pacman: null, freebsd: null}   # part of gnutls there
+    - {name: ltrace, freebsd: null}
+    - {name: lxc, freebsd: null}
+    - {name: lxc-templates, pacman: null, freebsd: null}
+    - {name: perl-JSON, pacman: perl-json, freebsd: p5-JSON}
+    - {name: perl-Mojolicious, pacman: null, freebsd: p5-Mojolicious}   # AUR on Arch
+    - {name: perl-YAML, pacman: perl-yaml, freebsd: p5-YAML}
+    - rclone
+    - {name: stack, freebsd: hs-stack}
+    - {name: strace, freebsd: null}   # FreeBSD: truss(1) in base
+    - wireguard-tools
+    - {name: libzim-devel, pacman: libzim, freebsd: libzim}
+    - {name: tesseract-devel, pacman: tesseract, freebsd: tesseract}
+    - {name: leptonica-devel, pacman: leptonica, freebsd: leptonica}
+    - {name: tesseract-langpack-eng, pacman: tesseract-data-eng, freebsd: tesseract-data}
+    - {name: pandoc, pacman: pandoc-cli, freebsd: hs-pandoc}
+    - aria2
+    - parallel
+    all_x86_64:
+    # Arch's ROCm installs under /opt, which an arch-bootc image makes a
+    # symlink into /var (the bootc layout), and pacman refuses to write
+    # through it ("/opt exists in filesystem"); Fedora's lives under /usr.
+    - {name: rocm-clinfo, pacman: clinfo, freebsd: null}
+    - {name: rocm-hip, pacman: null, freebsd: null}
+    - {name: rocm-opencl, pacman: null, freebsd: null}
+    - {name: rocm-runtime, pacman: null, freebsd: null}
+    - {name: rocm-smi, pacman: null, freebsd: null}
+
+  pkg_gui:
+    all:
     - arandr
-    - brightnessctl
-    - claude-desktop-unofficial
+    - {name: brightnessctl, freebsd: null}
     - feh
-    - fluid-soundfont-gm
-    - gnome-shell-extension-appindicator
-    - gnome-shell-extension-blur-my-shell
-    - gnome-shell-extension-dash-to-dock
-    - gnome-shell-extension-gsconnect
-    # - gnome-shell-extension-search-light
-    # - gnome-shell-extension-tailscale-gnome-qs
-    - gnome-shell-extension-user-theme
+    - {name: fluid-soundfont-gm, pacman: soundfont-fluid, freebsd: fluid-soundfont}
+    - {name: gnome-shell-extension-appindicator, freebsd: null}
+    - {name: gnome-shell-extension-blur-my-shell, pacman: null, freebsd: null}   # AUR on Arch
+    - {name: gnome-shell-extension-dash-to-dock, pacman: null, freebsd: gnome-shell-extension-dashtodock}
+    - {name: gnome-shell-extension-gsconnect, pacman: null, freebsd: null}   # AUR on Arch
+    - {name: gnome-shell-extension-user-theme, pacman: gnome-shell-extensions, freebsd: gnome-shell-extensions}
     - grim
-    - gtk2-devel
+    - {name: gtk2-devel, pacman: null, freebsd: gtk2}   # Arch dropped gtk2
     - i3lock
     - isync
-    - kitty
-    - libX11-devel
-    - libXft-devel
-    - libXinerama-devel
-    - libXrandr-devel
-    - libXScrnSaver-devel
-    - maildir-utils
+    - {name: kitty, freebsd: null}   # not in FreeBSD quarterly
+    - {name: libX11-devel, pacman: libx11, freebsd: libX11}
+    - {name: libXft-devel, pacman: libxft, freebsd: libXft}
+    - {name: libXinerama-devel, pacman: libxinerama, freebsd: libXinerama}
+    - {name: libXrandr-devel, pacman: libxrandr, freebsd: libXrandr}
+    - {name: libXScrnSaver-devel, pacman: libxss, freebsd: libXScrnSaver}
+    - {name: maildir-utils, pacman: null, freebsd: mu}   # mu is AUR on Arch
     - msmtp
     - mupdf
     - pcmanfm
-    - pcmanfm-devel
+    - {name: pcmanfm-devel, pacman: null, freebsd: null}
+    - picom
+    # Fedora: from Proton's repo (rpm_url); Arch: extra
+    - {name: proton-vpn-gtk-app, freebsd: null}
+    - qpdf
+    - {name: qpdf-devel, pacman: null, freebsd: null}
+    - {name: qtile-wayland, pacman: qtile, freebsd: py312-qtile}
+    - rofi
+    - swappy
+    - {name: waydroid, freebsd: null}
+    - {name: weasyprint, pacman: python-weasyprint, freebsd: null}
+    - wofi
+    - {name: wmctrl, freebsd: wmctrl-fork}
+    - xclip
+    - xdotool
+    - {name: xmobar, freebsd: hs-xmobar}
+    - {name: xmonad, pacman: [xmonad, xmonad-contrib], freebsd: hs-xmonad}
+    - {name: xorg-x11-server-Xephyr, pacman: xorg-server-xephyr, freebsd: xephyr}
+    - {name: xorg-x11-xdm, pacman: xorg-xdm, freebsd: xdm}
+    - {name: xwininfo, pacman: xorg-xwininfo}
+    - zathura
+    - zathura-pdf-poppler
+
+  pkg_rm_gui:
+    all:
+    - gnome-software
+
+  rpm_gui:
+    all:
+    # - gnome-shell-extension-tailscale-status
+    - claude-desktop-unofficial
+    # - gnome-shell-extension-search-light
+    # - gnome-shell-extension-tailscale-gnome-qs
     # - phosh
     # - phosh-devel
     # - phosh-mobile-settings
-    - picom
     # - poppler-devel
     # - poppler-glib-devel
     - proton-vpn-gnome-desktop
-    - proton-vpn-gtk-app
-    - qpdf
-    - qpdf-devel
-    - qtile-wayland
-    - rofi
-    - swappy
-    - waydroid
-    - weasyprint
-    - wofi
-    - wmctrl
-    - xclip
-    - xdotool
-    - xmobar
-    - xmonad
-    - xorg-x11-server-Xephyr
-    - xorg-x11-xdm
-    - xwininfo
-    - zathura
-    - zathura-pdf-poppler
     42: 
     - gnome-session-xsession
 
@@ -99,46 +157,12 @@ immutablue:
   rpm:
     all:
     - arm-image-installer
-    - binutils
-    - borgbackup
     # - bpftrace
-    - cabal-install
-    - cockpit
-    - cockpit-machines
-    - cockpit-ostree
-    - cockpit-podman
-    - gcc
     - gcc-plugin-devel
-    - gdb
-    - gnutls
-    - gnutls-utils
-    - ltrace
-    - lxc
-    - lxc-templates
-    - perl-JSON
-    - perl-Mojolicious
-    - perl-YAML
     - proton-vpn-cli
-    - rclone
-    - stack
-    - strace
     # - tlp
-    - wireguard-tools
-    - libzim-devel
-    - gcc-c++
-    - tesseract-devel
-    - leptonica-devel
-    - tesseract-langpack-eng
-    - pandoc
-    - aria2
-    - parallel
 
     all_x86_64:
-    - rocm-clinfo
-    - rocm-hip
-    - rocm-opencl
-    - rocm-runtime
-    - rocm-smi
 
     # all_aarch64:
     # - aerc
@@ -190,7 +214,6 @@ immutablue:
   # RPM packages you want to remove from the image
   rpm_rm_gui:
     all:
-    - gnome-software
 
   # Build files that need to be removed. If the build is filing about some
   # ephemeral file that exists, put the path here so it get removed in
