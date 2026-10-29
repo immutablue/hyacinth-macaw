@@ -1,0 +1,14 @@
+NAME="Hyacinth Macaw"
+VERSION="Hyacinth Macaw (Immutablue, FreeBSD 15.1)"
+ID=immutablue
+ID_LIKE=freebsd
+VERSION_ID=15.1
+VERSION_CODENAME="Hyacinth Macaw"
+PRETTY_NAME="Hyacinth Macaw (Immutablue, FreeBSD 15.1-RELEASE)"
+ANSI_COLOR="0;38;2;60;110;180"
+HOME_URL="https://gitlab.com/immutablue/hyacinth-macaw"
+DOCUMENTATION_URL="https://gitlab.com/immutablue/hyacinth-macaw"
+SUPPORT_URL="https://gitlab.com/immutablue/hyacinth-macaw"
+BUG_REPORT_URL="https://gitlab.com/immutablue/hyacinth-macaw"
+VARIANT="Hyacinth Macaw"
+VARIANT_ID=hyacinth-macaw

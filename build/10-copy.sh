@@ -9,11 +9,27 @@ if [ -f "./99-common.sh" ]; then source "./99-common.sh"; fi
 # in the RUN command
 #
 
-# put in place the correct `/etc/os-release`
-if [[ -f "/etc/os-release" ]]
-then 
+# Put in place the correct `/etc/os-release`.
+#
+# Which file that is belongs to the base image's backend: with Immutablue's
+# backend library (IMMUTABLUE_HAVE_BACKENDS, see 99-common.sh) it is
+# backend_os_release_path -- /etc/.os-release-<version> on Fedora,
+# .os-release-arch on arch-bootc, .os-release-freebsd on freebsd-be; this
+# repository's overrides carry the Hyacinth Macaw versions of each. gnomeos
+# keeps GNOME OS's own /usr/lib/os-release. Without the library (a base image
+# from before the multi-backend design) it is the Fedora file, as before.
+# -L as well as -f: on FreeBSD /etc/os-release is a symlink into /var/run.
+if [[ "${IMMUTABLUE_HAVE_BACKENDS:-0}" == 1 ]]
+then
+    os_release="$(backend_os_release_path)"
+else
+    os_release="/etc/.os-release-${FEDORA_VERSION}"
+fi
+
+if [[ -f "/etc/os-release" ]] || [[ -L "/etc/os-release" ]]
+then
     unlink "/etc/os-release"
 fi
 
-ln -s "/etc/.os-release-${FEDORA_VERSION}" "/etc/os-release"
+ln -s "${os_release}" "/etc/os-release"
 

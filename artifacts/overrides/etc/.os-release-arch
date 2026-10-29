@@ -1,0 +1,16 @@
+NAME="Hyacinth Macaw"
+VERSION="Hyacinth Macaw (Immutablue, Arch Linux)"
+ID=immutablue
+ID_LIKE=arch
+BUILD_ID=rolling
+VERSION_CODENAME="Hyacinth Macaw"
+PRETTY_NAME="Hyacinth Macaw (Immutablue, Arch Linux)"
+ANSI_COLOR="0;38;2;60;110;180"
+LOGO=archlinux-logo
+DEFAULT_HOSTNAME="hyacinth-macaw"
+HOME_URL="https://gitlab.com/immutablue/hyacinth-macaw"
+DOCUMENTATION_URL="https://gitlab.com/immutablue/hyacinth-macaw"
+SUPPORT_URL="https://gitlab.com/immutablue/hyacinth-macaw"
+BUG_REPORT_URL="https://gitlab.com/immutablue/hyacinth-macaw"
+VARIANT="Hyacinth Macaw"
+VARIANT_ID=hyacinth-macaw
