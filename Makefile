@@ -79,8 +79,14 @@ ifndef $(TAG)
 	TAG = $(BASE_TAG)
 endif
 
-# Date tag for versioned snapshots (e.g., 44-20260905)
-DATE_TAG := $(TAG)-$(shell date +%Y%m%d)
+# Date tag for versioned snapshots (e.g., 44-20260905, 44-nucleus-20260905)
+#
+# Deferred ('=') so it picks up the variant suffixes appended to TAG below;
+# expanded immediately it was always '<version>-<date>', and every variant
+# pushed over the same date tag. The date is taken once, so a build that
+# runs past midnight still tags and pushes the same name.
+BUILD_DATE := $(shell date +%Y%m%d)
+DATE_TAG = $(TAG)-$(BUILD_DATE)
 
 BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)
 
