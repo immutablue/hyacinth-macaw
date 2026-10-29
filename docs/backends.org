@@ -1,0 +1,182 @@
+#+title: Backends in a custom Immutablue image
+#+description: How immutablue-custom builds on Immutablue's fedora-bootc, arch-bootc, freebsd-be and gnomeos base images, and how it keeps working on older ones.
+#+authors: Zach Podbielniak
+#+categories: immutablue-custom building
+#+created: 2026-10-29T00:00:00-04:00
+#+updated: 2026-10-29T00:00:00-04:00
+#+version: 1.0
+
+* Overview
+
+Immutablue is the configuration and packages layered on top of a base operating system, and that base is a /backend/. A custom image built from this repository is a layer on top of an Immutablue image, so it inherits whichever backend that image was built on:
+
+| Backend        | Base OS                        | Packages | Init    | Delivery                   | Build with              |
+|----------------+--------------------------------+----------+---------+----------------------------+-------------------------|
+| =fedora-bootc= | Fedora Atomic (the default)    | dnf5     | systemd | bootc / ostree             | =make build=            |
+| =arch-bootc=   | Arch Linux (rolling)           | pacman   | systemd | bootc / ostree             | =make ARCHLINUX=1 build= |
+| =freebsd-be=   | FreeBSD 15.1                   | pkg      | rc      | ZFS boot environment       | =make FREEBSD=1 build= (on FreeBSD) |
+| =gnomeos=      | GNOME OS nightly               | none     | systemd | bootc / composefs          | point =BASE_IMAGE= at a gnomeos image |
+
+The build scripts in =build/= do not call =dnf5=, =pacman=, =pkg=, =systemctl= or =sysrc= themselves when the base image is backend-aware. They call Immutablue's backend functions, which the base image ships, so the same =build/= and the same =packages/*.yaml= produce a Fedora, an Arch or a FreeBSD image.
+
+* How the build finds the backend
+
+=build/99-common.sh= is sourced by every build script. It looks for Immutablue's build library in =IMMUTABLUE_LIB_DIR= (default =/usr/immutablue=), which an Immutablue image built from the multi-backend design ships:
+
+| Path                                          | What it is |
+|-----------------------------------------------+------------|
+| =/usr/immutablue/backend=                     | The backend the base image was built with, one line |
+| =/usr/immutablue/build_options=               | The base image's build options (=gui,silverblue=, =nucleus=, ...) |
+| =/usr/immutablue/build/99-common.sh=          | Immutablue's helpers: =yq_query=, =get_yaml_array=, =dedupe_lines=, =get_backend_package_list= |
+| =/usr/immutablue/backends/lib/interface.sh=   | The backend contract: =backend_get=, =backend_has=, =backend_load= |
+| =/usr/immutablue/backends/<backend>/=         | =backend.yaml= (facts: =pkg_key=, =repo_key=, =init=, =provides=) and =backend.sh= (the implementation) |
+
+** With the library (=IMMUTABLUE_HAVE_BACKENDS=1=)
+
+When =backends/lib/interface.sh= exists, =99-common.sh=:
+
+1. reads =IMMUTABLUE_BACKEND= from =/usr/immutablue/backend= (the environment only when that file is missing; default =fedora-bootc=),
+2. exports =INSTALL_DIR=/usr/immutablue= (Immutablue's helpers read =${INSTALL_DIR}/packages.yaml= when sourced),
+3. exports =IMMUTABLUE_BUILD_OPTIONS= from =/usr/immutablue/build_options=, which is where Immutablue's =get_immutablue_build_options= reads them,
+4. sources =/usr/immutablue/build/99-common.sh=, which loads and validates the backend,
+5. restores this image's =MODULES_CONF= (=/etc/modules-load.d/50-immutablue-<NAME>.conf=),
+6. redefines the getters the build scripts use so they run Immutablue's resolvers over every =packages/packages.custom-*.yaml=, in alphanumeric order, with duplicates removed.
+
+** Without it (=IMMUTABLUE_HAVE_BACKENDS=0=)
+
+Immutablue images built from Immutablue master (still published) have no backend library. On those, nothing changes: the getters are the original ones that read the =rpm*= keys, and every stage takes its original path (=rpm-ostree install=, =rpm-ostree uninstall=, =systemctl=, =curl= into =/etc/yum.repos.d=, =ostree container commit=). The new yaml keys are simply not read.
+
+* What each stage does
+
+| Stage                        | With the backend library | Without it |
+|------------------------------+--------------------------+------------|
+| =20-add-repos.sh=            | Reads the backend's =repo_key= (=repo_urls= on fedora-bootc) and calls =backend_repo_add <name> <url>=; a backend with no =repo_key= (arch-bootc, freebsd-be, gnomeos) skips the stage. A failed download stops the build | =curl= each =repo_urls= entry into =/etc/yum.repos.d= (failures ignored) |
+| =30-install-packages.sh=     | =backend_pkg_install_files= for =<pkg_key>_url=, then =backend_pkg_install= for the packages; pip packages only when =backend_has pip= | =rpm-ostree install= for =rpm_url= and =rpm=; =pip3 install --prefix=/usr= |
+| =40-uninstall-packages.sh=   | =backend_pkg_remove= for the packages that =backend_pkg_installed= reports as installed; the rest are reported and skipped | =rpm-ostree uninstall= |
+| =50-remove-files.sh=         | unchanged (=file_rm=) | unchanged |
+| =60-services.sh=             | =backend_svc <action> [--global] <unit>= (systemctl, or sysrc(8) on FreeBSD) | =systemctl [--global] <action> <unit>= |
+| finalize (Containerfile)     | see [[*Finalizing the image][Finalizing the image]] | =ostree container commit= |
+
+* packages.custom-*.yaml with backends
+
+The full schema is Immutablue's =docs/content/building/packages-yaml.org=; this is what a custom image uses.
+
+** Logical and native package lists
+
+| Key family                         | Read on            | Contents |
+|------------------------------------+--------------------+----------|
+| =pkg=, =pkg_<option>=, =pkg_<arch>= | every backend     | Logical entries, resolved per backend |
+| =pkg_rm*=                          | every backend      | Logical removals |
+| =rpm*=, =rpm_rm*=, =rpm_url*=      | fedora-bootc (and every image without the library) | Fedora names, removals, package file URLs |
+| =pacman*=, =pacman_rm*=, =pacman_url*= | arch-bootc     | Arch names, removals, package files |
+| =freebsd*=, =freebsd_rm*=, =freebsd_url*= | freebsd-be  | FreeBSD names, removals, package files |
+
+A backend installs its native list first and then the logical list resolved to its own names. gnomeos has no package manager and installs nothing; a package file URL on gnomeos is a build error.
+
+A logical entry is one of:
+
+| Form | Meaning |
+|------+---------|
+| =- tmux= | The same name everywhere |
+| =- {name: fd-find, pacman: fd, freebsd: null}= | =name= is the default (and the Fedora name); =rpm=, =pacman=, =freebsd= override it; =null= leaves it out on that backend |
+| =- {name: bemenu-run, pacman: [bemenu, bemenu-wayland]}= | A list installs several packages for one entry |
+
+Only =rpm=, =pacman= and =freebsd= are valid override fields. A misspelled field is ignored and the entry falls back to =name=.
+
+** How a list is composed
+
+Each key is read as =<key>.all=, =<key>.<VERSION>=, =<key>.all_<ARCH>=, =<key>.<VERSION>_<ARCH>=, =<key>_<ARCH>.all=, =<key>_<ARCH>.<VERSION>=, and the same for every build option of the base image (=<key>_gui=, =<key>_silverblue=, =<key>_nucleus=, ...). =VERSION= is the Fedora release, =arch= on arch-bootc, =15.1= on freebsd-be.
+
+Differences from the old rpm-only reader, which only apply with the library:
+
+- the =<key>_<ARCH>.all= form (=rpm_x86_64.all=, =file_rm_aarch64.all=) is read; the old reader never read it,
+- a list that is a string or a map by mistake stops the build instead of being silently ignored,
+- a package named twice (in two files, or in the native and the logical list) is installed once.
+
+** Services
+
+Service lists take plain unit names, or entries keyed by the backend's /init system/:
+
+#+begin_src yaml
+services_enable_sys:
+  all:
+  - sshd.service                           # systemd only
+  - {name: sshd.service, rc: sshd}         # sshd_enable=YES on FreeBSD
+  - {name: foo.timer, rc: null}            # not on FreeBSD
+#+end_src
+
+FreeBSD's rc(8) has no masking and no per-user services: =mask=, =unmask= and anything in the =*_user= lists are reported and skipped there.
+
+** Repositories
+
+=repo_urls= entries are dnf =.repo= files, read on fedora-bootc only (its =repo_key=). arch-bootc and freebsd-be define no =repo_key= in Immutablue yet, so the stage is skipped on them.
+
+** pip
+
+=pip_packages= are installed only on backends that list =pip= under =provides= in =backend.yaml= (fedora-bootc). Arch's Python is externally managed (PEP 668); the packages are reported and skipped there.
+
+* Finalizing the image
+
+The last step of the build is =immutablue_custom_finalize= in =build/99-common.sh=, run by both Containerfiles after every =build/*.sh=:
+
+1. =backend_finalize_derived=, when the base image's backend defines it. This is Immutablue's hook for images built /from/ an Immutablue image and always wins.
+2. Otherwise, per backend:
+   - fedora-bootc: =ostree container commit=,
+   - gnomeos: the backend's =backend_finalize= (an advisory =bootc container lint=; GNOME OS is composefs without an ostree commit),
+   - arch-bootc: =bootc container lint=. Arch's own =backend_finalize= is deliberately not run: it deletes =/var= and =/usr/local= and recreates the bootc symlinks, which the base image already has,
+   - freebsd-be: the backend's =backend_finalize=, which records the stock =/etc= trees and setuid/schg modes the boot environment delivery restores (FreeBSD has no ostree),
+   - any other backend: an error.
+3. Without the backend library: =ostree container commit=.
+
+* Building
+
+** Fedora and Arch
+
+#+begin_src bash
+make build                       # quay.io/immutablue/immutablue:44 -> <image>:44
+make NUCLEUS=1 build             # :44-nucleus
+make CYAN=1 build                # :44-cyan
+make ARCHLINUX=1 build           # quay.io/immutablue/immutablue:arch -> <image>:arch
+make ARCHLINUX=1 NUCLEUS=1 build # :arch-nucleus
+#+end_src
+
+=ARCHLINUX= and =FREEBSD= accept =1=, =true= or =yes=. The other variant flags keep working; a combination Immutablue does not publish (=ARCHLINUX=1 KINOITE=1=) fails when the base image is pulled.
+
+The default example yaml enables =xrdp.service= for gui builds. Immutablue does not install xrdp on arch-bootc, so remove that entry before an =ARCHLINUX=1= build.
+
+** FreeBSD
+
+FreeBSD containers can only be built on FreeBSD (podman/buildah with ocijail), and buildah there has no =RUN --mount=. =make FREEBSD=1 build= therefore:
+
+- builds =Containerfile.freebsd= from =quay.io/immutablue/immutablue:15.1-freebsd= (=15.1-freebsd-nucleus= with =NUCLEUS=1=),
+- passes =--squash=: the Containerfile =COPY='s the build context into the image, runs =build/*.sh= through =/usr/local/bin/bash=, and deletes the copy, which only stays out of the layers when the image is squashed.
+
+Run it on a FreeBSD 15.1 host with =sysutils/podman-suite= and =sysutils/ocijail=, using =gmake= (the Makefile is GNU make). From a Linux workstation, Immutablue's builder VM is such a host: create it with =backends/freebsd-be/builder-vm.sh create= in the immutablue repository, copy this repository into it, and run =sudo gmake FREEBSD=1 build= there.
+
+** Disk images
+
+The =iso=, =raw=, =qcow2=, =ami=, =gce= and =vhd= targets use bootc-image-builder, which supports Fedora-based images only. Immutablue builds Arch and FreeBSD installer ISOs with its own =backends/<backend>/make-iso.sh=.
+
+* Updating a system
+
+=make upgrade= and =make rebase= use =immutablue-backend= when =/usr/bin/immutablue-backend= exists (Immutablue images with backends), which updates the way the running system's backend needs: bootc or rpm-ostree on Fedora, bootc on Arch, a new ZFS boot environment on FreeBSD.
+
+#+begin_src bash
+sudo immutablue-backend upgrade
+sudo immutablue-backend rebase <registry>/<image>:<tag>
+#+end_src
+
+Without it they fall back to =rpm-ostree update= and =rpm-ostree rebase ostree-unverified-registry:<image>:<tag>=.
+
+* Testing on a host
+
+The backend path can be exercised without a container build by pointing =IMMUTABLUE_LIB_DIR= at a checkout of immutablue's multi-backend branch. With no =backend= file there, =IMMUTABLUE_BACKEND= from the environment selects the backend:
+
+#+begin_src bash
+CUSTOM_INSTALL_DIR="${PWD}" NAME=test FEDORA_VERSION=44 \
+IMMUTABLUE_LIB_DIR=~/source/projects/immutablue \
+IMMUTABLUE_BACKEND=arch-bootc IMMUTABLUE_BUILD_OPTIONS=gui,silverblue \
+bash -c 'source build/99-common.sh; get_immutablue_packages; get_immutablue_system_services_to_enable'
+#+end_src
+
+Without =IMMUTABLUE_LIB_DIR= on a host without =/usr/immutablue/backends=, the same command prints what the old rpm-only reader would.
