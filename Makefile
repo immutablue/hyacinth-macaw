@@ -25,69 +25,113 @@ IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 # Change this after major releases
 CURRENT := 44
 
+# -----------------------------------
+# Backend: the operating system underneath the Immutablue base image.
+#
+#   (default)     fedora-bootc  immutablue:44, immutablue:44-nucleus, ...
+#   ARCHLINUX=1   arch-bootc    immutablue:arch, immutablue:arch-nucleus
+#   FREEBSD=1     freebsd-be    immutablue:15.1-freebsd,
+#                               immutablue:15.1-freebsd-nucleus
+#
+# Arch is rolling, so its VERSION is 'arch' rather than a release. FreeBSD's
+# VERSION is the FreeBSD release and its tags carry a '-freebsd' suffix.
+# Only 1/true/yes count, as in Immutablue's own Makefile.
+#
+# FreeBSD images are built from Containerfile.freebsd, with --squash, and
+# only on a FreeBSD host (with gmake: this is a GNU Makefile). On Linux, run
+# the build in Immutablue's FreeBSD builder VM
+# (backends/freebsd-be/builder-vm.sh in the immutablue repository).
+# -----------------------------------
+BACKEND := fedora-bootc
+ifneq ($(filter 1 true yes,$(ARCHLINUX)),)
+	BACKEND := arch-bootc
+endif
+ifneq ($(filter 1 true yes,$(FREEBSD)),)
+	BACKEND := freebsd-be
+endif
+
+FREEBSD_VERSION := 15.1
+BASE_TAG_SUFFIX :=
+CONTAINERFILE := ./Containerfile
+BUILD_FLAGS :=
+
 # Can override in make
 ifndef $(VERSION)
 	VERSION = $(CURRENT)
 endif
 
+ifeq ($(BACKEND),arch-bootc)
+	VERSION := arch
+endif
+
+ifeq ($(BACKEND),freebsd-be)
+	VERSION := $(FREEBSD_VERSION)
+	BASE_TAG_SUFFIX := -freebsd
+	CONTAINERFILE := ./Containerfile.freebsd
+	BUILD_FLAGS := --squash
+endif
+
+# The Immutablue tag the variants below build on: 44, arch, 15.1-freebsd
+BASE_TAG := $(VERSION)$(BASE_TAG_SUFFIX)
+
 # Can override in make
 ifndef $(TAG)
-	TAG = $(VERSION)
+	TAG = $(BASE_TAG)
 endif
 
 # Date tag for versioned snapshots (e.g., 44-20260905)
 DATE_TAG := $(TAG)-$(shell date +%Y%m%d)
 
-BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)
+BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)
 
 # -----------------------------------
 
 # No desktop environment
 ifeq ($(NUCLEUS),1)
-	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-nucleus
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)-nucleus
 	TAG := $(TAG)-nucleus
 endif
 
 # KDE desktop
 ifeq ($(KINOITE),1)
-	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-kinoite
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)-kinoite
 	TAG := $(TAG)-kinoite
 endif
 
 # Sway desktop
 ifeq ($(SERICEA),1)
-	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-sericea
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)-sericea
 	TAG := $(TAG)-sericea
 endif
 
 # Budgie desktop
 ifeq ($(ONYX),1)
-	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-onyx
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)-onyx
 	TAG := $(TAG)-kinoite
 endif
 
 # XFCE desktop
 ifeq ($(VAUXITE),1)
-	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-vauxite
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)-vauxite
 	TAG := $(TAG)-vauxite
 endif
 
 # LXQt desktop
 ifeq ($(LAZURITE),1)
-	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-lazurite
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)-lazurite
 	TAG := $(TAG)-lazurite
 endif
 
 # Cosmic desktop
 ifeq ($(COSMIC),1)
-	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-cosmic
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)-cosmic
 	TAG := $(TAG)-cosmic
 endif
 
 # Not supported yet
 # Bazzite base w/ immutablue addons
 ifeq ($(BAZZITE),1)
-	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-nucleus
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)-nucleus
 	TAG := $(TAG)-bazzite
 endif
 
@@ -106,7 +150,7 @@ endif
 
 # Build-time customizations from build options
 ifeq ($(ASAHI),1)
-	BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)-asahi
+	BASE_IMAGE := quay.io/immutablue/immutablue:$(BASE_TAG)-asahi
 	TAG := $(TAG)-asahi
 endif
 
@@ -183,7 +227,8 @@ ifeq ($(SET_AS_LATEST), 1)
 		-t $(IMAGE):latest \
 		-t $(IMAGE):$(TAG) \
 		-t $(IMAGE):$(DATE_TAG) \
-		-f ./Containerfile \
+		-f $(CONTAINERFILE) \
+		$(BUILD_FLAGS) \
 		--build-arg=BASE_IMAGE=$(BASE_IMAGE) \
 		--build-arg=IMMUTABLUE_BASE=$(IMMUTABLUE_BASE) \
 		--build-arg=IMAGE_TAG=$(IMAGE_BASE_TAG):$(TAG) \
@@ -195,7 +240,8 @@ else
 		--no-cache \
 		-t $(IMAGE):$(TAG) \
 		-t $(IMAGE):$(DATE_TAG) \
-		-f ./Containerfile \
+		-f $(CONTAINERFILE) \
+		$(BUILD_FLAGS) \
 		--build-arg=BASE_IMAGE=$(BASE_IMAGE) \
 		--build-arg=IMMUTABLUE_BASE=$(IMMUTABLUE_BASE) \
 		--build-arg=IMAGE_TAG=$(IMAGE_BASE_TAG):$(TAG) \
@@ -922,12 +968,28 @@ vhd:
 
 
 
+# Update the running system, or switch it to this image.
+#
+# Immutablue images built with backends ship immutablue-backend, which does
+# this the way the running system's backend needs (bootc / rpm-ostree on
+# Fedora, bootc on Arch, a new ZFS boot environment on FreeBSD). Images from
+# Immutablue master only have rpm-ostree.
+IMMUTABLUE_BACKEND_CMD := $(wildcard /usr/bin/immutablue-backend)
+
 upgrade:
+ifneq ($(IMMUTABLUE_BACKEND_CMD),)
+	sudo immutablue-backend upgrade
+else
 	sudo rpm-ostree update
+endif
 
 
 rebase:
+ifneq ($(IMMUTABLUE_BACKEND_CMD),)
+	sudo immutablue-backend rebase $(IMAGE):$(TAG)
+else
 	sudo rpm-ostree rebase ostree-unverified-registry:$(IMAGE):$(TAG)
+endif
 
 clean:
 	rm -rf ./iso
