@@ -12,25 +12,41 @@ pkg_urls=$(get_immutablue_package_urls)
 pip_pkgs=$(get_immutablue_pip_packages)
 
 
-# With Immutablue's backend library the base image's own package manager
-# does the work (dnf5 on fedora-bootc, pacman on arch-bootc, pkg on
-# freebsd-be); see build/99-common.sh. Package files go first, then
-# packages by name, as before.
+# With Immutablue's backend library the lists come resolved for the base
+# image's backend (see build/99-common.sh): native <pkg_key> lists plus the
+# logical pkg lists. Package files go first, then packages by name, as
+# before.
+#
+# On fedora-bootc they are still installed with rpm-ostree, as derived
+# images always have been, not with the backend's dnf5: rpm-ostree treats a
+# failing %posttrans scriptlet as non-fatal, dnf5 fails the whole
+# transaction on it, and RPMs whose scriptlets expect a booted systemd
+# (proton-vpn-daemon, for one) would stop builds that work today. The other
+# backends use their package manager through backend_pkg_install*.
 if [[ "${IMMUTABLUE_HAVE_BACKENDS}" == "1" ]]
 then
     # Package files: <pkg_key>_url (rpm_url on fedora-bootc)
     if [[ "$pkg_urls" != "" ]]
     then
         mapfile -t pkg_url_list <<< "${pkg_urls}"
-        backend_pkg_install_files "${pkg_url_list[@]}"
+        if [[ "${IMMUTABLUE_BACKEND}" == "fedora-bootc" ]]
+        then
+            rpm-ostree install "${pkg_url_list[@]}"
+        else
+            backend_pkg_install_files "${pkg_url_list[@]}"
+        fi
     fi
 
-    # Packages by name: native <pkg_key> lists plus the logical pkg lists,
-    # in one transaction
+    # Packages by name, in one transaction
     if [[ "$pkgs" != "" ]]
     then
         mapfile -t pkg_list <<< "${pkgs}"
-        backend_pkg_install "${pkg_list[@]}"
+        if [[ "${IMMUTABLUE_BACKEND}" == "fedora-bootc" ]]
+        then
+            rpm-ostree install "${pkg_list[@]}"
+        else
+            backend_pkg_install "${pkg_list[@]}"
+        fi
     fi
 
     # pip only on backends that list 'pip' under provides in backend.yaml

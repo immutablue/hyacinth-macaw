@@ -29,9 +29,16 @@ then
         fi
     done
 
+    # rpm-ostree on fedora-bootc, as derived images always have (see
+    # 30-install-packages.sh); the backend's package manager elsewhere.
     if [[ ${#installed_pkgs[@]} -gt 0 ]]
     then
-        backend_pkg_remove "${installed_pkgs[@]}"
+        if [[ "${IMMUTABLUE_BACKEND}" == "fedora-bootc" ]]
+        then
+            rpm-ostree uninstall "${installed_pkgs[@]}"
+        else
+            backend_pkg_remove "${installed_pkgs[@]}"
+        fi
     fi
 
     exit 0
