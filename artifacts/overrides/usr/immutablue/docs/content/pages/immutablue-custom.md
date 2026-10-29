@@ -33,6 +33,15 @@ make KINOITE=1 LTS=1 all
 ```
 Your image will be built using upstream kinoite-lts, tagged appropriately, and pushed to your repo.
 
+## Backends
+
+Immutablue also builds on operating systems other than Fedora, and a custom build can sit on any of them:
+- Fedora Atomic (`fedora-bootc`, the default): `make build`
+- Arch Linux (`arch-bootc`): `make ARCHLINUX=1 build` (base `quay.io/immutablue/immutablue:arch`, `arch-nucleus` with `NUCLEUS=1`)
+- FreeBSD 15.1 (`freebsd-be`): `make FREEBSD=1 build` on a FreeBSD host (base `quay.io/immutablue/immutablue:15.1-freebsd`, built from `Containerfile.freebsd`)
+
+Packages can be listed once for every backend under `pkg` in the packages yaml (e.g. `- {name: fd-find, pacman: fd, freebsd: null}`), or per backend under `rpm`, `pacman` and `freebsd`. Update or switch images with `sudo immutablue-backend upgrade` and `sudo immutablue-backend rebase <image>:<tag>`, which work the same way on every backend. Custom builds on base images from before backends existed keep working as they always did. See `docs/backends.org` in the immutablue-custom repository for details.
+
 ## ZFS 
 
 As of February 2025, all `lts` builds are guaranteed to have ZFS support. Non-`lts` builds are not guaranteed, but may have ZFS support
