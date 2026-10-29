@@ -47,19 +47,19 @@ immutablue:
     - binutils
     - {name: borgbackup, pacman: borg, freebsd: py312-borgbackup}
     - {name: cabal-install, freebsd: hs-cabal-install}
-    - {name: cockpit, freebsd: null}
-    - {name: cockpit-machines, freebsd: null}
-    - {name: cockpit-podman, freebsd: null}
-    - {name: cockpit-ostree, pacman: null, freebsd: null}
+    - {name: cockpit, freebsd: null}   # cockpit is Linux-only (systemd, cgroups)
+    - {name: cockpit-machines, freebsd: null}   # no cockpit on FreeBSD
+    - {name: cockpit-podman, freebsd: null}   # no cockpit on FreeBSD
+    - {name: cockpit-ostree, pacman: null, freebsd: null}   # rpm-ostree UI; Fedora-only
     - gcc
     # g++ and the plugin headers ship with gcc on Arch and FreeBSD
-    - {name: gcc-c++, pacman: null, freebsd: null}
+    - {name: gcc-c++, pacman: null, freebsd: null}   # in gcc there
     - gdb
     - gnutls
     - {name: gnutls-utils, pacman: null, freebsd: null}   # part of gnutls there
-    - {name: ltrace, freebsd: null}
-    - {name: lxc, freebsd: null}
-    - {name: lxc-templates, pacman: null, freebsd: null}
+    - {name: ltrace, freebsd: null}   # Linux-only (ptrace + ELF/glibc); FreeBSD: truss/dtrace
+    - {name: lxc, freebsd: null}   # Linux containers; FreeBSD has jails
+    - {name: lxc-templates, pacman: null, freebsd: null}   # Arch: templates ship in lxc
     - {name: perl-JSON, pacman: perl-json, freebsd: p5-JSON}
     - {name: perl-Mojolicious, pacman: null, freebsd: p5-Mojolicious}   # AUR on Arch
     - {name: perl-YAML, pacman: perl-yaml, freebsd: p5-YAML}
@@ -78,7 +78,8 @@ immutablue:
     # Arch's ROCm installs under /opt, which an arch-bootc image makes a
     # symlink into /var (the bootc layout), and pacman refuses to write
     # through it ("/opt exists in filesystem"); Fedora's lives under /usr.
-    - {name: rocm-clinfo, pacman: clinfo, freebsd: null}
+    # FreeBSD has no ROCm at all (the amdgpu KFD compute driver is Linux-only).
+    - {name: rocm-clinfo, pacman: clinfo, freebsd: null}   # no ROCm on FreeBSD (amdgpu KFD is Linux-only)
     - {name: rocm-hip, pacman: null, freebsd: null}
     - {name: rocm-opencl, pacman: null, freebsd: null}
     - {name: rocm-runtime, pacman: null, freebsd: null}
@@ -87,16 +88,16 @@ immutablue:
   pkg_gui:
     all:
     - arandr
-    - {name: brightnessctl, freebsd: null}
+    - {name: brightnessctl, freebsd: null}   # Linux sysfs; FreeBSD: backlight(8) in base
     - feh
     - {name: fluid-soundfont-gm, pacman: soundfont-fluid, freebsd: fluid-soundfont}
-    - {name: gnome-shell-extension-appindicator, freebsd: null}
-    - {name: gnome-shell-extension-blur-my-shell, pacman: null, freebsd: null}   # AUR on Arch
-    - {name: gnome-shell-extension-dash-to-dock, pacman: null, freebsd: gnome-shell-extension-dashtodock}
-    - {name: gnome-shell-extension-gsconnect, pacman: null, freebsd: null}   # AUR on Arch
+    - {name: gnome-shell-extension-appindicator, freebsd: null}   # not in FreeBSD quarterly
+    - {name: gnome-shell-extension-blur-my-shell, pacman: null, freebsd: null}   # AUR on Arch; no FreeBSD port
+    - {name: gnome-shell-extension-dash-to-dock, pacman: null, freebsd: gnome-shell-extension-dashtodock}   # AUR on Arch
+    - {name: gnome-shell-extension-gsconnect, pacman: null, freebsd: null}   # AUR on Arch; no FreeBSD port
     - {name: gnome-shell-extension-user-theme, pacman: gnome-shell-extensions, freebsd: gnome-shell-extensions}
     - grim
-    - {name: gtk2-devel, pacman: null, freebsd: gtk2}   # Arch dropped gtk2
+    - {name: gtk2-devel, pacman: null, freebsd: gtk2}   # Arch moved gtk2 to the AUR
     - i3lock
     - isync
     - {name: kitty, freebsd: null}   # not in FreeBSD quarterly
@@ -109,17 +110,17 @@ immutablue:
     - msmtp
     - mupdf
     - pcmanfm
-    - {name: pcmanfm-devel, pacman: null, freebsd: null}
+    - {name: pcmanfm-devel, pacman: null, freebsd: null}   # headers ship in pcmanfm there
     - picom
     # Fedora: from Proton's repo (rpm_url); Arch: extra
-    - {name: proton-vpn-gtk-app, freebsd: null}
+    - {name: proton-vpn-gtk-app, freebsd: null}   # no FreeBSD port (NetworkManager-based)
     - qpdf
-    - {name: qpdf-devel, pacman: null, freebsd: null}
+    - {name: qpdf-devel, pacman: null, freebsd: null}   # headers ship in qpdf there
     - {name: qtile-wayland, pacman: qtile, freebsd: py312-qtile}
     - rofi
     - swappy
-    - {name: waydroid, freebsd: null}
-    - {name: weasyprint, pacman: python-weasyprint, freebsd: null}
+    - {name: waydroid, freebsd: null}   # needs Linux binder/LXC
+    - {name: weasyprint, pacman: python-weasyprint, freebsd: null}   # not in FreeBSD quarterly
     - wofi
     - {name: wmctrl, freebsd: wmctrl-fork}
     - xclip
@@ -136,10 +137,13 @@ immutablue:
     all:
     - gnome-software
 
+  # Native Fedora lists: only packages with no Arch or FreeBSD equivalent
+  # (or from a Fedora-only third-party repo) live here; each entry says why.
+  # Everything portable belongs in pkg/pkg_gui above.
   rpm_gui:
     all:
     # - gnome-shell-extension-tailscale-status
-    - claude-desktop-unofficial
+    - claude-desktop-unofficial   # Fedora-only: rpm repo in repo_urls (44)
     # - gnome-shell-extension-search-light
     # - gnome-shell-extension-tailscale-gnome-qs
     # - phosh
@@ -147,19 +151,19 @@ immutablue:
     # - phosh-mobile-settings
     # - poppler-devel
     # - poppler-glib-devel
-    - proton-vpn-gnome-desktop
+    - proton-vpn-gnome-desktop   # Fedora-only: Proton rpm repo (rpm_url)
     42: 
-    - gnome-session-xsession
+    - gnome-session-xsession   # Fedora 42 only (X11 session split out, gone in 43)
 
 
-  # RPM packages you want to install
-  # Same name as anything you'd normally install with `dnf install <name>`
+  # RPM packages you want to install (fedora-bootc only; see the note above
+  # rpm_gui). Same name as anything you'd normally install with `dnf install <name>`
   rpm:
     all:
-    - arm-image-installer
+    - arm-image-installer   # Fedora-only tool (writes Fedora ARM images)
     # - bpftrace
-    - gcc-plugin-devel
-    - proton-vpn-cli
+    - gcc-plugin-devel   # Fedora split; plugin headers ship with gcc on Arch/FreeBSD
+    - proton-vpn-cli   # Fedora-only: Proton rpm repo (rpm_url); not packaged for Arch/FreeBSD
     # - tlp
 
     all_x86_64:
