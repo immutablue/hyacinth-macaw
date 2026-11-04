@@ -11,7 +11,7 @@
 # fedora-bootc (the default), arch-bootc (make ARCHLINUX=1) and gnomeos.
 # FreeBSD images (make FREEBSD=1) use Containerfile.freebsd instead, because
 # buildah on FreeBSD has no RUN --mount and the build has to run there.
-ARG FEDORA_VERSION=44
+ARG FEDORA_VERSION=45
 ARG IMMUTABLUE_BASE=immutablue
 ARG IMAGE_REGISTRY=quay.io/immutablue
 ARG BASE_IMAGE=quay.io/immutablue/immutablue:${FEDORA_VERSION}
@@ -21,7 +21,7 @@ ARG BASE_IMAGE=quay.io/immutablue/immutablue:${FEDORA_VERSION}
 FROM ${BASE_IMAGE}
 
 
-ARG FEDORA_VERSION=44
+ARG FEDORA_VERSION=45
 ARG INSTALL_DIR=/usr/immutablue
 ARG NAME=hyacinth-macaw
 ARG CUSTOM_INSTALL_DIR=${INSTALL_DIR}-build-${NAME}

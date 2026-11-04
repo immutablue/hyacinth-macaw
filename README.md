@@ -23,8 +23,8 @@ Immutablue builds on more than one operating system, called a *backend*. Your cu
 
 | Flag | Backend | Base image | Your tag |
 |------|---------|------------|----------|
-| (none) | `fedora-bootc` | `quay.io/immutablue/immutablue:44` | `44` |
-| `NUCLEUS=1` | `fedora-bootc` | `quay.io/immutablue/immutablue:44-nucleus` | `44-nucleus` |
+| (none) | `fedora-bootc` | `quay.io/immutablue/immutablue:45` | `45` |
+| `NUCLEUS=1` | `fedora-bootc` | `quay.io/immutablue/immutablue:45-nucleus` | `45-nucleus` |
 | `ARCHLINUX=1` | `arch-bootc` | `quay.io/immutablue/immutablue:arch` | `arch` |
 | `ARCHLINUX=1 NUCLEUS=1` | `arch-bootc` | `quay.io/immutablue/immutablue:arch-nucleus` | `arch-nucleus` |
 | `FREEBSD=1` | `freebsd-be` | `quay.io/immutablue/immutablue:15.1-freebsd` | `15.1-freebsd` |

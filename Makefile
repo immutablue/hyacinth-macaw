@@ -23,12 +23,12 @@ IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
 # Current version to be based off of
 # Change this after major releases
-CURRENT := 44
+CURRENT := 45
 
 # -----------------------------------
 # Backend: the operating system underneath the Immutablue base image.
 #
-#   (default)     fedora-bootc  immutablue:44, immutablue:44-nucleus, ...
+#   (default)     fedora-bootc  immutablue:45, immutablue:45-nucleus, ...
 #   ARCHLINUX=1   arch-bootc    immutablue:arch, immutablue:arch-nucleus
 #   FREEBSD=1     freebsd-be    immutablue:15.1-freebsd,
 #                               immutablue:15.1-freebsd-nucleus
@@ -71,7 +71,7 @@ ifeq ($(BACKEND),freebsd-be)
 	BUILD_FLAGS := --squash
 endif
 
-# The Immutablue tag the variants below build on: 44, arch, 15.1-freebsd
+# The Immutablue tag the variants below build on: 45, arch, 15.1-freebsd
 BASE_TAG := $(VERSION)$(BASE_TAG_SUFFIX)
 
 # Can override in make
@@ -79,7 +79,7 @@ ifndef $(TAG)
 	TAG = $(BASE_TAG)
 endif
 
-# Date tag for versioned snapshots (e.g., 44-20260905, 44-nucleus-20260905)
+# Date tag for versioned snapshots (e.g., 45-20260905, 45-nucleus-20260905)
 #
 # Deferred ('=') so it picks up the variant suffixes appended to TAG below;
 # expanded immediately it was always '<version>-<date>', and every variant

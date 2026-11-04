@@ -133,9 +133,9 @@ The last step of the build is =immutablue_custom_finalize= in =build/99-common.s
 ** Fedora and Arch
 
 #+begin_src bash
-make build                       # quay.io/immutablue/immutablue:44 -> <image>:44
-make NUCLEUS=1 build             # :44-nucleus
-make CYAN=1 build                # :44-cyan
+make build                       # quay.io/immutablue/immutablue:45 -> <image>:45
+make NUCLEUS=1 build             # :45-nucleus
+make CYAN=1 build                # :45-cyan
 make ARCHLINUX=1 build           # quay.io/immutablue/immutablue:arch -> <image>:arch
 make ARCHLINUX=1 NUCLEUS=1 build # :arch-nucleus
 #+end_src
@@ -173,7 +173,7 @@ Without it they fall back to =rpm-ostree update= and =rpm-ostree rebase ostree-u
 The backend path can be exercised without a container build by pointing =IMMUTABLUE_LIB_DIR= at a checkout of immutablue's multi-backend branch. With no =backend= file there, =IMMUTABLUE_BACKEND= from the environment selects the backend:
 
 #+begin_src bash
-CUSTOM_INSTALL_DIR="${PWD}" NAME=test FEDORA_VERSION=44 \
+CUSTOM_INSTALL_DIR="${PWD}" NAME=test FEDORA_VERSION=45 \
 IMMUTABLUE_LIB_DIR=~/source/projects/immutablue \
 IMMUTABLUE_BACKEND=arch-bootc IMMUTABLUE_BUILD_OPTIONS=gui,silverblue \
 bash -c 'source build/99-common.sh; get_immutablue_packages; get_immutablue_system_services_to_enable'
