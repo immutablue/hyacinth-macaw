@@ -51,7 +51,7 @@ Immutablue images built from Immutablue master (still published) have no backend
 | Stage                        | With the backend library | Without it |
 |------------------------------+--------------------------+------------|
 | =20-add-repos.sh=            | Reads the backend's =repo_key= (=repo_urls= on fedora-bootc) and calls =backend_repo_add <name> <url>=; a backend with no =repo_key= (arch-bootc, freebsd-be, gnomeos) skips the stage. A failed download stops the build | =curl= each =repo_urls= entry into =/etc/yum.repos.d= (failures ignored) |
-| =30-install-packages.sh=     | =backend_pkg_install_files= for =<pkg_key>_url=, then =backend_pkg_install= for the packages; pip packages only when =backend_has pip= | =rpm-ostree install= for =rpm_url= and =rpm=; =pip3 install --prefix=/usr= |
+| =30-install-packages.sh=     | =rpm --import= for =rpm_gpg_keys= then =rpm-ostree install= for =rpm_url= on fedora-bootc (=backend_pkg_install_files= for =<pkg_key>_url= elsewhere), then =backend_pkg_install= for the packages; pip packages only when =backend_has pip= | =rpm --import= for =rpm_gpg_keys=, =rpm-ostree install= for =rpm_url= and =rpm=; =pip3 install --prefix=/usr= |
 | =40-uninstall-packages.sh=   | =backend_pkg_remove= for the packages that =backend_pkg_installed= reports as installed; the rest are reported and skipped | =rpm-ostree uninstall= |
 | =50-remove-files.sh=         | unchanged (=file_rm=) | unchanged |
 | =60-services.sh=             | =backend_svc <action> [--global] <unit>= (systemctl, or sysrc(8) on FreeBSD) | =systemctl [--global] <action> <unit>= |
@@ -67,7 +67,7 @@ The full schema is Immutablue's =docs/content/building/packages-yaml.org=; this 
 |------------------------------------+--------------------+----------|
 | =pkg=, =pkg_<option>=, =pkg_<arch>= | every backend     | Logical entries, resolved per backend |
 | =pkg_rm*=                          | every backend      | Logical removals |
-| =rpm*=, =rpm_rm*=, =rpm_url*=      | fedora-bootc (and every image without the library) | Fedora names, removals, package file URLs |
+| =rpm*=, =rpm_rm*=, =rpm_url*=, =rpm_gpg_keys*= | fedora-bootc (and every image without the library) | Fedora names, removals, package file URLs, and the signing keys for those files (URL, absolute path, or repo-relative path); Fedora 45+ refuses a package file whose key is not imported |
 | =pacman*=, =pacman_rm*=, =pacman_url*= | arch-bootc     | Arch names, removals, package files |
 | =freebsd*=, =freebsd_rm*=, =freebsd_url*= | freebsd-be  | FreeBSD names, removals, package files |
 

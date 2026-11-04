@@ -57,6 +57,9 @@ immutablue:
     # 42:
     # 42_aarch64:
     # 43_x86_64:
+  rpm_gpg_keys:
+    all:
+    # 45:
   pacman_url:
     all:
   freebsd_url:

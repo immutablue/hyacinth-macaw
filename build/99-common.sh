@@ -97,6 +97,64 @@ get_immutablue_package_urls() {
 }
 
 
+# Signing keys for the rpm_url packages, from .immutablue.rpm_gpg_keys.
+get_immutablue_rpm_gpg_keys() {
+    get_yaml_array '.immutablue.rpm_gpg_keys'
+}
+
+
+# import_rpm_gpg_keys:
+#
+# Imports every key in rpm_gpg_keys into the image's rpm keyring, so the
+# rpm_url packages signed with them verify. Fedora 45's rpm (6.1) checks
+# signatures on every package it installs, files on the command line
+# included, and fails a package whose key is not imported (NOKEY); before
+# that only digests were checked and these keys were not needed.
+#
+# An entry is an http(s) URL, an absolute path in the image, or a path
+# relative to this repository (CUSTOM_INSTALL_DIR), for keys vendored here
+# because the vendor publishes them nowhere but inside the package.
+import_rpm_gpg_keys() {
+    local keys
+    local key
+    local key_file
+
+    keys="$(get_immutablue_rpm_gpg_keys)"
+    if [[ -z "${keys}" ]]
+    then
+        return 0
+    fi
+
+    while read -r key
+    do
+        if [[ -z "${key}" ]]
+        then
+            continue
+        fi
+
+        case "${key}" in
+            http://*|https://*)
+                key_file="$(mktemp)"
+                if ! curl -fsSL --retry 3 -o "${key_file}" "${key}"
+                then
+                    echo "ERROR: could not download rpm signing key ${key}" >&2
+                    rm -f "${key_file}"
+                    return 1
+                fi
+                rpm --import "${key_file}"
+                rm -f "${key_file}"
+                ;;
+            /*)
+                rpm --import "${key}"
+                ;;
+            *)
+                rpm --import "${CUSTOM_INSTALL_DIR}/${key}"
+                ;;
+        esac
+    done <<< "${keys}"
+}
+
+
 get_immutablue_files_to_remove() {
     get_yaml_array '.immutablue.file_rm'
 }
@@ -269,6 +327,13 @@ then
             return 0
         fi
         custom_yaml_resolve get_yaml_array ".immutablue.${pkg_key}_url"
+    }
+
+
+    # rpm_gpg_keys from every custom packages yaml; only fedora-bootc
+    # imports them (see import_rpm_gpg_keys above).
+    get_immutablue_rpm_gpg_keys() {
+        custom_yaml_resolve get_yaml_array '.immutablue.rpm_gpg_keys'
     }
 
 

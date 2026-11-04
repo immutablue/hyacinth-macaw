@@ -31,6 +31,8 @@ then
         mapfile -t pkg_url_list <<< "${pkg_urls}"
         if [[ "${IMMUTABLUE_BACKEND}" == "fedora-bootc" ]]
         then
+            # Their signing keys first: Fedora 45+ rejects unverified files
+            import_rpm_gpg_keys
             rpm-ostree install "${pkg_url_list[@]}"
         else
             backend_pkg_install_files "${pkg_url_list[@]}"
@@ -73,6 +75,7 @@ fi
 # Install rpm_urls
 if [[ "$pkg_urls" != "" ]]
 then
+    import_rpm_gpg_keys
     rpm-ostree install $(for pkg in $pkg_urls; do printf '%s ' $pkg; done)
 fi
 
