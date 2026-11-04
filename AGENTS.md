@@ -30,15 +30,15 @@ Inherit Immutablue variants by passing flags:
 
 | Flag | Description | Base Image |
 |------|-------------|------------|
-| `CYAN=1` | NVIDIA GPU support | `immutablue:43-cyan` |
-| `ASAHI=1` | Apple Silicon | `immutablue:43-asahi` |
-| `KUBERBLUE=1` | Kubernetes | `kuberblue:43` |
-| `TRUEBLUE=1` | ZFS support | `trueblue:43` |
-| `LTS=1` | LTS kernel | `immutablue:43-lts` |
-| `NIX=1` | Nix package manager | `immutablue:43-nix` |
-| `KINOITE=1` | KDE Plasma | `immutablue:43-kinoite` |
-| `SERICEA=1` | Sway | `immutablue:43-sericea` |
-| `NUCLEUS=1` | Minimal (no GUI) | `immutablue:43-nucleus` |
+| `CYAN=1` | NVIDIA GPU support | `immutablue:45-cyan` |
+| `ASAHI=1` | Apple Silicon | `immutablue:45-asahi` |
+| `KUBERBLUE=1` | Kubernetes | `kuberblue:45` |
+| `TRUEBLUE=1` | ZFS support | `trueblue:45` |
+| `LTS=1` | LTS kernel | `immutablue:45-lts` |
+| `NIX=1` | Nix package manager | `immutablue:45-nix` |
+| `KINOITE=1` | KDE Plasma | `immutablue:45-kinoite` |
+| `SERICEA=1` | Sway | `immutablue:45-sericea` |
+| `NUCLEUS=1` | Minimal (no GUI) | `immutablue:45-nucleus` |
 
 **Examples:**
 ```bash
@@ -185,4 +185,4 @@ Images are pushed to:
 quay.io/immutablue/hyacinth-macaw:<tag>
 ```
 
-Tags follow pattern: `<version>[-variant...]` (e.g., `43`, `43-asahi`, `43-cyan-lts`)
+Tags follow pattern: `<version>[-variant...]` (e.g., `45`, `45-asahi`, `45-cyan-lts`)
