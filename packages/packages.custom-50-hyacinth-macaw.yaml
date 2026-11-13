@@ -12,6 +12,10 @@ immutablue:
   # Repo URLs to add in the build (they are curled)
   repo_urls:
     all:
+    # Vendored .repo (Cursor publishes none to curl); the repo checkout sits at
+    # CUSTOM_INSTALL_DIR (Containerfile: ${INSTALL_DIR}-build-${NAME}).
+    - name: grok-bot.repo
+      url: file:///usr/immutablue-build-hyacinth-macaw/repos/grok-bot.repo
     # - name: hyprland.repo
     #   url: https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-42/solopasha-hyprland-fedora-42.repo
     # 42:
@@ -147,6 +151,7 @@ immutablue:
     all:
     # - gnome-shell-extension-tailscale-status
     - claude-desktop-unofficial   # Fedora-only: rpm repo in repo_urls (44, 45)
+    - grok-bot   # Fedora-only: Cursor's signed yum repo (repos/grok-bot.repo); api2 RPM is unsigned
     # - gnome-shell-extension-search-light
     # - gnome-shell-extension-tailscale-gnome-qs
     # - phosh

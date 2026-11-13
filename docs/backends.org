@@ -111,6 +111,8 @@ FreeBSD's rc(8) has no masking and no per-user services: =mask=, =unmask= and an
 
 =repo_urls= entries are dnf =.repo= files, read on fedora-bootc only (its =repo_key=). arch-bootc and freebsd-be define no =repo_key= in Immutablue yet, so the stage is skipped on them.
 
+A vendor that publishes a signed yum repo but no =.repo= file to curl gets one vendored under =repos/= and referenced with a =file://= URL into the build checkout (=CUSTOM_INSTALL_DIR=, =/usr/immutablue-build-hyacinth-macaw=); =repos/grok-bot.repo= is the example. Prefer that over =rpm_url= when the direct-download RPM is unsigned: Fedora 45's rpm 6.1 (=%_pkgverify_level all=) rejects unsigned package files outright, and no =rpm_gpg_keys= entry can fix that.
+
 ** pip
 
 =pip_packages= are installed only on backends that list =pip= under =provides= in =backend.yaml= (fedora-bootc). Arch's Python is externally managed (PEP 668); the packages are reported and skipped there.
