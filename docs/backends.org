@@ -113,6 +113,8 @@ FreeBSD's rc(8) has no masking and no per-user services: =mask=, =unmask= and an
 
 A vendor that publishes a signed yum repo but no =.repo= file to curl gets one vendored under =repos/= and referenced with a =file://= URL into the build checkout (=CUSTOM_INSTALL_DIR=, =/usr/immutablue-build-hyacinth-macaw=); =repos/grok-bot.repo= is the example. Prefer that over =rpm_url= when the direct-download RPM is unsigned: Fedora 45's rpm 6.1 (=%_pkgverify_level all=) rejects unsigned package files outright, and no =rpm_gpg_keys= entry can fix that.
 
+Packages that install under =/opt= (grok-bot ships =/opt/Grok Bot=) cannot unpack on a bootc image as-is: =/opt= is a symlink to =var/opt= and =/var/opt= does not exist at build time, so rpm's cpio fails with =mkdir failed= and rpm-ostree reports only =error: Error -1 running transaction=. =build/30-install-packages.sh= handles this on fedora-bootc: =opt_prepare= swaps the symlink for a real directory before the installs, and =opt_finalize= moves each =/opt/<name>= to =/usr/lib/opt/<name>=, restores the symlink, and writes =/usr/lib/tmpfiles.d/hyacinth-macaw-opt.conf= with an =L+ /var/opt/<name>= link per directory (spaces escaped as =\x20=, since tmpfiles.d does not unquote the target). Symlinks the packages create into =/opt= (e.g. =/usr/bin/grok-bot=) resolve through that link on the booted system.
+
 ** pip
 
 =pip_packages= are installed only on backends that list =pip= under =provides= in =backend.yaml= (fedora-bootc). Arch's Python is externally managed (PEP 668); the packages are reported and skipped there.
