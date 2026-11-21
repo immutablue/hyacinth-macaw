@@ -192,7 +192,7 @@ FULL_TAG := $(IMAGE):$(TAG)
 
 # No need to change
 .PHONY: all all_upgrade install update install_or_update \
-	check build push iso iso-config _iso_bootc _iso_classic \
+	check build push iso iso-config _iso_bootc _iso_classic _iso_live _immutablue_src \
 	raw raw-config run_raw qcow2 qcow2-config run_qcow2 \
 	ami ami-config gce gce-config vhd vhd-config \
 	upgrade rebase clean
@@ -311,12 +311,17 @@ BOOTC_IMAGE_BUILDER := quay.io/centos-bootc/bootc-image-builder:latest
 # Usage:
 #   make iso                    # Default: bootc-image-builder ISO
 #   make CLASSIC_ISO=1 iso      # Classic: build-container-installer ISO
+#   make LIVE=1 iso             # Live: live desktop + Anaconda installer
 #
 # Note: bootc-image-builder ISOs are "install-to-disk" installers.
 #       Classic ISOs use Anaconda with more configuration options.
+#       Live ISOs boot your image as a live desktop; see _iso_live below.
 ifndef $(CLASSIC_ISO)
 	CLASSIC_ISO := 0
 endif
+
+# LIVE=1: 'make iso' builds a live installer ISO (only 1/true/yes count)
+LIVE ?= 0
 
 ISO_DIR := ./iso
 ISO_BUILD_DIR := $(ISO_DIR)/.build-$(TAG)
@@ -324,7 +329,10 @@ ISO_CONFIG := $(ISO_DIR)/config-$(TAG).toml
 ISO_OUTPUT := $(ISO_DIR)/$(IMAGE_BASE_TAG)-$(TAG).iso
 
 iso:
-ifeq ($(CLASSIC_ISO),1)
+ifneq ($(filter 1 true yes,$(LIVE)),)
+	@echo "Building live installer ISO using Immutablue's make-live-iso.sh..."
+	$(MAKE) _iso_live
+else ifeq ($(CLASSIC_ISO),1)
 	@echo "Building classic ISO using build-container-installer..."
 	$(MAKE) _iso_classic
 else
@@ -447,20 +455,111 @@ _iso_classic: flatpak_refs/flatpaks
 	@echo ""
 	@echo "Classic ISO built: $(ISO_OUTPUT)"
 
-# Run ISO in QEMU for testing (containerized)
-run_iso:
-	@if [ ! -f "$(ISO_OUTPUT)" ]; then \
-		echo "Error: No ISO found at $(ISO_OUTPUT). Run 'make iso' first."; \
+
+# Live installer ISO (make LIVE=1 iso)
+#
+# Your image boots as a live desktop (GNOME, as liveuser, no password) with
+# Anaconda's WebUI, which installs the image carried on the ISO and then
+# 'bootc switch'es the installed system to $(IMAGE):$(TAG), so updates come
+# from your registry. On ZFS images (TRUEBLUE=1, or LTS=1 on an Immutablue
+# image with ZFS) the live session also has "Install on ZFS": root on a ZFS
+# pool (stripe/mirror/raidz1-3, optional native encryption), which Anaconda
+# cannot create. The ISO works offline and is a hybrid image (dd to a USB
+# stick), UEFI with Secure Boot and BIOS.
+#
+# The ISO is built by Immutablue's own backends/fedora-bootc/make-live-iso.sh,
+# so it stays in step with the Immutablue image underneath yours. It is
+# taken from IMMUTABLUE_SRC; when that is the default ./.immutablue it is a
+# sparse clone of IMMUTABLUE_REPO at IMMUTABLUE_REF (a branch or tag),
+# refreshed on each build.
+# Point IMMUTABLUE_SRC at an existing checkout to use that instead.
+#
+# Needs: the image in local container storage ('make build' first, or
+# 'podman pull $(IMAGE):$(TAG)'), rootless podman and git. A desktop image
+# and the fedora-bootc backend only (no NUCLEUS, ARCHLINUX or FREEBSD).
+#
+# Unattended installs for tests (wipe the disk at boot without asking, so
+# the ISO is named *.autoinstall-test.iso):
+#   ISO_AUTOINSTALL=/dev/vda                      Anaconda, Btrfs
+#   ISO_AUTOINSTALL="/dev/vda /dev/vdb" ISO_AUTOINSTALL_LAYOUT=mirror
+#                                                 root on ZFS (ZFS images)
+#   ISO_AUTOINSTALL_PASSPHRASE=<text>             encrypt that pool (the
+#                                                 passphrase is on the ISO's
+#                                                 kernel command line)
+#
+# Usage:
+#   make LIVE=1 iso
+#   make LIVE=1 TRUEBLUE=1 iso
+#   make LIVE=1 IMMUTABLUE_SRC=../immutablue iso
+#   make LIVE=1 ISO_AUTOINSTALL=/dev/vda iso run_iso
+IMMUTABLUE_REPO ?= https://gitlab.com/immutablue/immutablue.git
+IMMUTABLUE_REF ?= master
+IMMUTABLUE_SRC_DEFAULT := ./.immutablue
+IMMUTABLUE_SRC ?= $(IMMUTABLUE_SRC_DEFAULT)
+LIVE_ISO_SCRIPT := $(IMMUTABLUE_SRC)/backends/fedora-bootc/make-live-iso.sh
+LIVE_ISO_NAME = $(IMAGE_BASE_TAG)-$(TAG)-live$(if $(ISO_AUTOINSTALL),.autoinstall-test).iso
+LIVE_ISO_OUTPUT = $(ISO_DIR)/$(LIVE_ISO_NAME)
+
+_iso_live: _immutablue_src
+	@if [ "$(BACKEND)" != "fedora-bootc" ]; then \
+		echo "Error: LIVE=1 supports the fedora-bootc backend only (this is $(BACKEND))."; \
 		exit 1; \
 	fi
-	@echo "Booting ISO: $(ISO_OUTPUT)"
+	@if [ "$(NUCLEUS)" = "1" ]; then \
+		echo "Error: LIVE=1 needs a desktop image; $(TAG) has none (use 'make iso')."; \
+		exit 1; \
+	fi
+	@mkdir -p $(ISO_DIR)
+	bash $(LIVE_ISO_SCRIPT) \
+		$(if $(ISO_AUTOINSTALL),--autoinstall "$(ISO_AUTOINSTALL)") \
+		$(if $(ISO_AUTOINSTALL_LAYOUT),--autoinstall-layout $(ISO_AUTOINSTALL_LAYOUT)) \
+		$(if $(ISO_AUTOINSTALL_PASSPHRASE),--autoinstall-passphrase "$(ISO_AUTOINSTALL_PASSPHRASE)") \
+		$(IMAGE):$(TAG) $(LIVE_ISO_OUTPUT)
+	cd $(ISO_DIR) && sha256sum $(LIVE_ISO_NAME) > $(LIVE_ISO_NAME).CHECKSUM
+	@echo ""
+	@echo "Live ISO built: $(LIVE_ISO_OUTPUT)"
+
+# Immutablue's live ISO tooling (backends/fedora-bootc only, sparse clone).
+# A checkout you point IMMUTABLUE_SRC at is used as it is; the default one
+# follows IMMUTABLUE_REF, keeping the copy it has when offline.
+_immutablue_src:
+	@if [ -f "$(LIVE_ISO_SCRIPT)" ] && [ "$(IMMUTABLUE_SRC)" != "$(IMMUTABLUE_SRC_DEFAULT)" ]; then \
+		exit 0; \
+	elif [ -d "$(IMMUTABLUE_SRC)/.git" ] && [ "$(IMMUTABLUE_SRC)" = "$(IMMUTABLUE_SRC_DEFAULT)" ]; then \
+		echo "Updating $(IMMUTABLUE_SRC) to $(IMMUTABLUE_REF)..."; \
+		{ git -C $(IMMUTABLUE_SRC) fetch --depth 1 origin $(IMMUTABLUE_REF) \
+			&& git -C $(IMMUTABLUE_SRC) checkout --quiet --detach FETCH_HEAD; } \
+			|| echo "Warning: could not update $(IMMUTABLUE_SRC); using the copy it has."; \
+	elif [ "$(IMMUTABLUE_SRC)" = "$(IMMUTABLUE_SRC_DEFAULT)" ]; then \
+		echo "Fetching Immutablue's live ISO tooling ($(IMMUTABLUE_REPO) $(IMMUTABLUE_REF))..."; \
+		git clone --quiet --depth 1 --filter=blob:none --sparse \
+			--branch $(IMMUTABLUE_REF) $(IMMUTABLUE_REPO) $(IMMUTABLUE_SRC) \
+			&& git -C $(IMMUTABLUE_SRC) sparse-checkout set backends/fedora-bootc; \
+	fi
+	@if [ ! -f "$(LIVE_ISO_SCRIPT)" ]; then \
+		echo "Error: $(LIVE_ISO_SCRIPT) not found."; \
+		echo "IMMUTABLUE_SRC must be an Immutablue checkout with live ISO support."; \
+		exit 1; \
+	fi
+
+
+# 'make run_iso' boots the ISO 'make iso' builds with the same flags
+RUN_ISO = $(if $(filter 1 true yes,$(LIVE)),$(LIVE_ISO_OUTPUT),$(ISO_OUTPUT))
+
+# Run ISO in QEMU for testing (containerized)
+run_iso:
+	@if [ ! -f "$(RUN_ISO)" ]; then \
+		echo "Error: No ISO found at $(RUN_ISO). Run 'make iso' first."; \
+		exit 1; \
+	fi
+	@echo "Booting ISO: $(RUN_ISO)"
 	@echo "Web console: http://localhost:8006"
 	podman run --rm --cap-add NET_ADMIN \
 		-p 127.0.0.1:8006:8006 \
 		--env CPU_CORES=8 --env RAM_SIZE=8G --env DISK_SIZE=64G --env BOOT_MODE=uefi \
 		--device=/dev/kvm \
 		--device=/dev/net/tun \
-		-v $(CURDIR)/$(ISO_OUTPUT):/boot.iso:Z \
+		-v $(CURDIR)/$(RUN_ISO):/boot.iso:Z \
 		docker.io/qemux/qemu
 
 
@@ -999,6 +1098,7 @@ endif
 
 clean:
 	rm -rf ./iso
+	rm -rf ./.immutablue
 	rm -rf ./raw
 	rm -rf ./qcow2
 	rm -rf ./ami

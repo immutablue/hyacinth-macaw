@@ -48,6 +48,7 @@ immutablue:
 - **FreeBSD** images use `Containerfile.freebsd` and must be built on a FreeBSD 15.1 host (podman-suite + ocijail) with `gmake FREEBSD=1 build`; the build is squashed (`--squash`) so the copied build context does not stay in the image. From Linux, use Immutablue's builder VM (`backends/freebsd-be/builder-vm.sh` in the [immutablue](https://gitlab.com/immutablue/immutablue) repo).
 - **Older base images**: Immutablue images built from Immutablue master have no backend library. On those the build behaves exactly as it always did (`rpm-ostree`, `systemctl`, only the `rpm*` keys), so this repo still builds on them.
 - The ISO/disk image targets (`iso`, `qcow2`, `raw`, ...) use bootc-image-builder and only support the Fedora backend.
+- `make LIVE=1 iso` builds a live installer ISO instead: your image as a live desktop with Anaconda, and on ZFS images (`TRUEBLUE=1`) a root-on-ZFS installer too. It uses Immutablue's own live ISO tooling: [docs/iso.org](docs/iso.org).
 - Details, the full key reference and how to test the backend path on a host: [docs/backends.org](docs/backends.org).
 
 

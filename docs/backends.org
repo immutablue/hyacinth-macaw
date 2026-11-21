@@ -3,8 +3,8 @@
 #+authors: Zach Podbielniak
 #+categories: immutablue-custom building
 #+created: 2026-10-29T00:00:00-04:00
-#+updated: 2026-10-29T00:00:00-04:00
-#+version: 1.0
+#+updated: 2026-11-21T00:00:00-05:00
+#+version: 1.1
 
 * Overview
 
@@ -160,6 +160,8 @@ Run it on a FreeBSD 15.1 host with =sysutils/podman-suite= and =sysutils/ocijail
 ** Disk images
 
 The =iso=, =raw=, =qcow2=, =ami=, =gce= and =vhd= targets use bootc-image-builder, which supports Fedora-based images only. Immutablue builds Arch and FreeBSD installer ISOs with its own =backends/<backend>/make-iso.sh=.
+
+=make LIVE=1 iso= builds a live installer ISO of a =fedora-bootc= image with Immutablue's =backends/fedora-bootc/make-live-iso.sh= instead of bootc-image-builder; see [[file:iso.org][iso.org]].
 
 * Updating a system
 

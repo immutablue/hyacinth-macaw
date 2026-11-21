@@ -1,0 +1,99 @@
+#+title: Installer ISOs for a custom Immutablue image
+#+description: The three ISO flavours of immutablue-custom (bootc-image-builder, classic, live), and the live ISO's Anaconda and root-on-ZFS installers.
+#+authors: Zach Podbielniak
+#+categories: immutablue-custom building iso
+#+created: 2026-11-21T00:00:00-05:00
+#+updated: 2026-11-21T00:00:00-05:00
+#+version: 1.0
+
+* Overview
+
+=make iso= turns your image into an installer ISO in =./iso/=. There are three kinds:
+
+| Command                  | Tooling                       | What it boots                                           | Output                                 |
+|--------------------------+-------------------------------+---------------------------------------------------------+----------------------------------------|
+| =make iso=               | bootc-image-builder           | a text/Anaconda install-to-disk installer               | =iso/<project>-<tag>.iso=              |
+| =make CLASSIC_ISO=1 iso= | build-container-installer     | Anaconda with flatpaks bundled                          | =iso/<project>-<tag>.iso=              |
+| =make LIVE=1 iso=        | Immutablue's =make-live-iso.sh= | a live desktop of your image, with Anaconda (and ZFS) | =iso/<project>-<tag>-live.iso=         |
+
+All three are for the =fedora-bootc= backend. Arch and FreeBSD installer ISOs are built by Immutablue itself (=backends/<backend>/make-iso.sh=), see [[file:backends.org][backends.org]].
+
+* The live ISO (=LIVE=1=)
+
+** What it is
+
+The live ISO boots your image as a live GNOME session (user =liveuser=, no password) with Anaconda's WebUI installer on the dash. It is the same ISO Immutablue builds for itself with =make LIVE=1 iso=, built from your image instead:
+
+- The installer installs your image from an OCI image layout carried on the ISO, so it works offline.
+- After the install the system is =bootc switch='ed to =$(IMAGE):$(TAG)=, so =immutablue update= pulls from your registry.
+- Anaconda's defaults are Btrfs; the first boot of the installed system runs GNOME's initial setup, which creates the user.
+- The ISO is hybrid: it boots from optical media and from a USB stick (=dd=), under UEFI (shim, Secure Boot) and BIOS.
+- Update services, first-boot provisioning and ZFS pool import are off in the live session; the installed system gets the image's own presets.
+
+** Root on ZFS
+
+When the image has ZFS (=TRUEBLUE=1=, or an Immutablue base built with =ZFS=1= / =LTS=1=), the live session also ships =immutablue-zfs-install= and an "Install Immutablue on ZFS" launcher, because Anaconda cannot create ZFS pools. Nothing needs to be enabled: the live build adds it whenever =zpool= is in the image.
+
+- Disks are laid out as BIOS boot, ESP, ext4 =/boot= and a ZFS partition each; the pool is a stripe, mirror, raidz1, raidz2 or raidz3, with optional native encryption.
+- Datasets: =<pool>/ROOT/immutablue= for =/= and =<pool>/home= for =/var/home=.
+- The machine gets its own hostid (=spl_hostid== karg and =/etc/hostid=), so the pool keeps importing after image updates.
+- The live initramfs never imports pools, so booting the ISO on a machine with existing pools leaves them alone.
+
+** Building it
+
+The image must be in local container storage first: build it, or pull it.
+
+#+begin_src bash
+make build
+make LIVE=1 iso
+#+end_src
+
+#+begin_src bash
+make TRUEBLUE=1 build
+make LIVE=1 TRUEBLUE=1 iso
+#+end_src
+
+The host needs rootless podman and git, nothing else: every step runs in containers. A =NUCLEUS=1= image has no desktop, so =LIVE=1= refuses it (use plain =make iso=).
+
+** Where the tooling comes from
+
+The ISO is built by Immutablue's own =backends/fedora-bootc/make-live-iso.sh= and its =live/= directory, so the live layer stays in step with the Immutablue image underneath yours rather than being copied into this repository and drifting.
+
+| Variable          | Default                                          | Meaning                                                 |
+|-------------------+--------------------------------------------------+---------------------------------------------------------|
+| =IMMUTABLUE_SRC=  | =./.immutablue=                                  | the Immutablue checkout to take the tooling from        |
+| =IMMUTABLUE_REPO= | =https://gitlab.com/immutablue/immutablue.git=   | where the default checkout is cloned from               |
+| =IMMUTABLUE_REF=  | =master=                                         | the branch or tag the default checkout follows          |
+
+- With the default =IMMUTABLUE_SRC=, the first =make LIVE=1 iso= makes a shallow, sparse clone (=backends/fedora-bootc= only) and later builds move it to the tip of =IMMUTABLUE_REF=. Offline, the copy it already has is used. =make clean= removes it.
+- Any other =IMMUTABLUE_SRC= is used as it is, never fetched: =make LIVE=1 IMMUTABLUE_SRC=../immutablue iso= builds with your working copy of Immutablue.
+- Pin =IMMUTABLUE_REF= to a tag when an ISO must be reproducible.
+
+** Testing it
+
+=make run_iso= boots the ISO the same flags would build, in a containerized QEMU (web console on =http://localhost:8006=):
+
+#+begin_src bash
+make LIVE=1 run_iso
+#+end_src
+
+For automated tests the ISO can install itself at boot without asking. Such an ISO wipes the named disks, so it is named =*.autoinstall-test.iso= and must never be handed out:
+
+| Variable                     | Effect                                                                             |
+|------------------------------+------------------------------------------------------------------------------------|
+| =ISO_AUTOINSTALL=            | the disk (Anaconda), or several disks (ZFS), to install to; powers off when done   |
+| =ISO_AUTOINSTALL_LAYOUT=     | ZFS images: install with root on ZFS in this layout (=stripe=, =mirror=, =raidz1=-=3=) |
+| =ISO_AUTOINSTALL_PASSPHRASE= | encrypt that pool; the passphrase is on the ISO's kernel command line, tests only |
+
+#+begin_src bash
+make LIVE=1 ISO_AUTOINSTALL=/dev/vda iso
+#+end_src
+
+#+begin_src bash
+make LIVE=1 TRUEBLUE=1 ISO_AUTOINSTALL="/dev/vda /dev/vdb" ISO_AUTOINSTALL_LAYOUT=mirror iso
+#+end_src
+
+** Limits
+
+- Branding inside the ISO is Immutablue's: the volume label, boot menu title, Anaconda product name and the ZFS launcher say "Immutablue". The image installed, and the registry it updates from, are yours.
+- =fedora-bootc= desktop images only.
