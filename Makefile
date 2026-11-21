@@ -496,7 +496,7 @@ _iso_classic: flatpak_refs/flatpaks
 #
 # LIVE_NAME is the product name on the ISO: volume label, boot menu,
 # Anaconda and the ZFS installer. Letters, digits, spaces and ._+- only.
-LIVE_NAME ?= $(IMAGE_BASE_TAG)
+LIVE_NAME ?= Hyacinth Macaw
 IMMUTABLUE_REPO ?= https://gitlab.com/immutablue/immutablue.git
 IMMUTABLUE_REF ?= master
 IMMUTABLUE_SRC_DEFAULT := ./.immutablue
