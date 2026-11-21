@@ -198,6 +198,8 @@ immutablue:
       cargo_packages:
       cargo_packages_aarch64:
       cargo_packages_x86_64:
+      # bin_export: names on the box's PATH or absolute paths, exported to
+      # ~/bin/export; one that is not installed in the box is skipped
       bin_export:
       bin_export_aarch64:
       bin_export_x86_64:
