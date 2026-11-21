@@ -492,6 +492,11 @@ _iso_classic: flatpak_refs/flatpaks
 #   make LIVE=1 TRUEBLUE=1 iso
 #   make LIVE=1 IMMUTABLUE_SRC=../immutablue iso
 #   make LIVE=1 ISO_AUTOINSTALL=/dev/vda iso run_iso
+#   make LIVE=1 LIVE_NAME="My Distro" iso
+#
+# LIVE_NAME is the product name on the ISO: volume label, boot menu,
+# Anaconda and the ZFS installer. Letters, digits, spaces and ._+- only.
+LIVE_NAME ?= $(IMAGE_BASE_TAG)
 IMMUTABLUE_REPO ?= https://gitlab.com/immutablue/immutablue.git
 IMMUTABLUE_REF ?= master
 IMMUTABLUE_SRC_DEFAULT := ./.immutablue
@@ -510,7 +515,13 @@ _iso_live: _immutablue_src
 		exit 1; \
 	fi
 	@mkdir -p $(ISO_DIR)
-	bash $(LIVE_ISO_SCRIPT) \
+	set --; \
+	if grep -q -e '--name)' $(LIVE_ISO_SCRIPT); then \
+		set -- --name "$(LIVE_NAME)"; \
+	else \
+		echo "Warning: $(LIVE_ISO_SCRIPT) has no --name; the ISO says Immutablue."; \
+	fi; \
+	bash $(LIVE_ISO_SCRIPT) "$$@" \
 		$(if $(ISO_AUTOINSTALL),--autoinstall "$(ISO_AUTOINSTALL)") \
 		$(if $(ISO_AUTOINSTALL_LAYOUT),--autoinstall-layout $(ISO_AUTOINSTALL_LAYOUT)) \
 		$(if $(ISO_AUTOINSTALL_PASSPHRASE),--autoinstall-passphrase "$(ISO_AUTOINSTALL_PASSPHRASE)") \

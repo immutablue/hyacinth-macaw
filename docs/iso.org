@@ -4,7 +4,7 @@
 #+categories: immutablue-custom building iso
 #+created: 2026-11-21T00:00:00-05:00
 #+updated: 2026-11-21T00:00:00-05:00
-#+version: 1.0
+#+version: 1.1
 
 * Overview
 
@@ -93,7 +93,16 @@ make LIVE=1 ISO_AUTOINSTALL=/dev/vda iso
 make LIVE=1 TRUEBLUE=1 ISO_AUTOINSTALL="/dev/vda /dev/vdb" ISO_AUTOINSTALL_LAYOUT=mirror iso
 #+end_src
 
+** Branding
+
+=LIVE_NAME= is the product name on the ISO: the volume label, the boot menu ("Start <name> <tag>"), Anaconda's product name and the ZFS installer's launcher and dialogs. It defaults to =IMAGE_BASE_TAG= and may hold letters, digits, spaces and =._+-=. Set it in the Makefile, or per build:
+
+#+begin_src bash
+make LIVE=1 LIVE_NAME="My Distro" iso
+#+end_src
+
+An Immutablue checkout older than the =--name= option (an old =IMMUTABLUE_REF= or =IMMUTABLUE_SRC=) still builds the ISO, with a warning, and the ISO then says "Immutablue".
+
 ** Limits
 
-- Branding inside the ISO is Immutablue's: the volume label, boot menu title, Anaconda product name and the ZFS launcher say "Immutablue". The image installed, and the registry it updates from, are yours.
 - =fedora-bootc= desktop images only.
